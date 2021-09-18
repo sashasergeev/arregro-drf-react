@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -10,6 +10,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import PostModal from "./PostModal";
 
 const useStyles = makeStyles({
   bdy: {
@@ -42,6 +43,19 @@ export const Cards = (props) => {
   const { huo, root, bdy, paper } = useStyles();
   const cards = props.cards;
 
+  // modal
+  const [isModal, setIsModal] = useState(false);
+  const [idForModal, setIdForModal] = useState(null);
+  const openModal = (id) => {
+    setIsModal(true);
+    setIdForModal(id);
+  };
+  const closeModal = () => {
+    setIsModal(false);
+    setIdForModal(null);
+  };
+  // endModal
+  
   return (
     <Grid container justifyContent="center">
       {cards &&
@@ -121,7 +135,7 @@ export const Cards = (props) => {
                     />
                   </a>
                   <InfoOutlinedIcon
-                    onClick={() => props.openModal(e.id)}
+                    onClick={() => openModal(e.id)}
                     style={{ width: 42, height: 42, cursor: "pointer" }}
                   >
                     info
@@ -139,6 +153,7 @@ export const Cards = (props) => {
             </Grid>
           );
         })}
+      <PostModal postId={idForModal} isOpen={isModal} close={closeModal} />
     </Grid>
   );
 };
