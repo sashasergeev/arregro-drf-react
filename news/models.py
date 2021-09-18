@@ -110,3 +110,11 @@ class PriceDynamic(models.Model):
 
     def __str__(self):
         return f"{self.coin.name} - {self.price}"
+
+
+class CoinSubmit(models.Model):
+    coin = models.CharField(max_length=90)
+    cg_link = models.URLField()
+
+    def __str__(self):
+        return self.coin

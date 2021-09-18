@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('price', models.CharField(max_length=50)),
-                ('coin', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='prices', to='posts.coin')),
+                ('coin', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='prices', to='news.coin')),
             ],
         ),
         migrations.CreateModel(
@@ -48,8 +48,8 @@ class Migration(migrations.Migration):
                 ('price', models.CharField(max_length=50)),
                 ('price1hr', models.CharField(blank=True, max_length=50)),
                 ('price2hr', models.CharField(blank=True, max_length=50)),
-                ('coin', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='posts.coin')),
-                ('tag', models.ManyToManyField(blank=True, to='posts.Tag')),
+                ('coin', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to='news.coin')),
+                ('tag', models.ManyToManyField(blank=True, to='news.Tag')),
             ],
         ),
     ]

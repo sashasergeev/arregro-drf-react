@@ -55,7 +55,6 @@ export const Cards = (props) => {
     setIdForModal(null);
   };
   // endModal
-  
   return (
     <Grid container justifyContent="center">
       {cards &&

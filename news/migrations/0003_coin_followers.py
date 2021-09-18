@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('posts', '0002_alter_post_options'),
+        ('news', '0002_alter_post_options'),
     ]
 
     operations = [

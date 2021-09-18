@@ -112,7 +112,7 @@ render(<App />, document.getElementById('app'))
 // TODO
 // +++ make follow unfollow functionality (upload state for detail page and make Coins state change when i follow on detail page)
 // search functionality
-// modal functionality
+// +++ modal functionality
 
 // django filter (to filter by tag on main page)
 // maybe make some kind of blog

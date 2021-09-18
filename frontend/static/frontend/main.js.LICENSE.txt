@@ -1,3 +1,1066 @@
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+/*!
+  Copyright (c) 2015 Jed Watson.
+  Based on code that is Copyright 2013-2015, Facebook, Inc.
+  All rights reserved.
+*/
+
+/*!
+ * Adapted from jQuery UI core
+ *
+ * http://jqueryui.com
+ *
+ * Copyright 2014 jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/category/ui-core/
+ */
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+
+/*! ../../../animation/utils/is-keyframes-target.js */
+
+/*! ../../../animation/utils/transitions.js */
+
+/*! ../../../components/AnimatePresence/use-presence.js */
+
+/*! ../../../components/AnimateSharedLayout/types.js */
+
+/*! ../../../context/SharedLayoutContext.js */
+
+/*! ../../../motion/features/layout/utils.js */
+
+/*! ../../../motion/utils/is-forced-motion-value.js */
+
+/*! ../../../motion/utils/valid-prop.js */
+
+/*! ../../../render/dom/projection/default-scale-correctors.js */
+
+/*! ../../../render/dom/projection/scale-correction.js */
+
+/*! ../../../render/dom/projection/utils.js */
+
+/*! ../../../render/dom/utils/batch-layout.js */
+
+/*! ../../../render/utils/compare-by-depth.js */
+
+/*! ../../../utils/each-axis.js */
+
+/*! ../../../utils/geometry/delta-apply.js */
+
+/*! ../../../utils/geometry/index.js */
+
+/*! ../../../value/utils/is-motion-value.js */
+
+/*! ../../animation/utils/is-animation-controls.js */
+
+/*! ../../animation/utils/is-keyframes-target.js */
+
+/*! ../../animation/utils/transitions.js */
+
+/*! ../../components/AnimatePresence/use-presence.js */
+
+/*! ../../context/LayoutGroupContext.js */
+
+/*! ../../context/LazyContext.js */
+
+/*! ../../context/MotionConfigContext.js */
+
+/*! ../../context/MotionContext/index.js */
+
+/*! ../../context/PresenceContext.js */
+
+/*! ../../context/SharedLayoutContext.js */
+
+/*! ../../dom/projection/scale-correction.js */
+
+/*! ../../dom/utils/camel-to-dash.js */
+
+/*! ../../dom/utils/is-css-variable.js */
+
+/*! ../../dom/value-types/get-as-type.js */
+
+/*! ../../dom/value-types/number.js */
+
+/*! ../../easing/index.js */
+
+/*! ../../events/event-info.js */
+
+/*! ../../events/use-dom-event.js */
+
+/*! ../../events/use-pointer-event.js */
+
+/*! ../../gestures/drag/use-drag.js */
+
+/*! ../../gestures/use-focus-gesture.js */
+
+/*! ../../gestures/use-hover-gesture.js */
+
+/*! ../../gestures/use-pan-gesture.js */
+
+/*! ../../gestures/use-tap-gesture.js */
+
+/*! ../../html/config-motion.js */
+
+/*! ../../html/utils/build-styles.js */
+
+/*! ../../html/utils/create-render-state.js */
+
+/*! ../../html/utils/render.js */
+
+/*! ../../html/utils/scrape-motion-values.js */
+
+/*! ../../html/utils/transform.js */
+
+/*! ../../motion/features/animations.js */
+
+/*! ../../motion/features/drag.js */
+
+/*! ../../motion/features/gestures.js */
+
+/*! ../../motion/features/layout/index.js */
+
+/*! ../../motion/features/layout/utils.js */
+
+/*! ../../motion/index.js */
+
+/*! ../../motion/utils/is-forced-motion-value.js */
+
+/*! ../../motion/utils/use-visual-state.js */
+
+/*! ../../render/dom/projection/convert-to-relative.js */
+
+/*! ../../render/dom/projection/measure.js */
+
+/*! ../../render/dom/projection/scale-correction.js */
+
+/*! ../../render/dom/projection/utils.js */
+
+/*! ../../render/dom/utils/batch-layout.js */
+
+/*! ../../render/dom/value-types/animatable-none.js */
+
+/*! ../../render/html/utils/transform.js */
+
+/*! ../../render/utils/animation-state.js */
+
+/*! ../../render/utils/is-draggable.js */
+
+/*! ../../render/utils/types.js */
+
+/*! ../../render/utils/variants.js */
+
+/*! ../../svg/config-motion.js */
+
+/*! ../../svg/lowercase-elements.js */
+
+/*! ../../utils/array.js */
+
+/*! ../../utils/clamp.js */
+
+/*! ../../utils/compare-by-depth.js */
+
+/*! ../../utils/createSvgIcon */
+
+/*! ../../utils/each-axis.js */
+
+/*! ../../utils/geometry/delta-apply.js */
+
+/*! ../../utils/geometry/delta-calc.js */
+
+/*! ../../utils/geometry/index.js */
+
+/*! ../../utils/interpolate.js */
+
+/*! ../../utils/is-numerical-string.js */
+
+/*! ../../utils/is-ref-object.js */
+
+/*! ../../utils/resolve-value.js */
+
+/*! ../../utils/shallow-compare.js */
+
+/*! ../../utils/state.js */
+
+/*! ../../utils/subscription-manager.js */
+
+/*! ../../utils/time-conversion.js */
+
+/*! ../../utils/use-constant.js */
+
+/*! ../../utils/use-force-update.js */
+
+/*! ../../utils/use-isomorphic-effect.js */
+
+/*! ../../value/index.js */
+
+/*! ../../value/utils/is-motion-value.js */
+
+/*! ../../value/utils/resolve-motion-value.js */
+
+/*! ../Button */
+
+/*! ../ButtonBase */
+
+/*! ../FilledInput */
+
+/*! ../FormControl */
+
+/*! ../FormControl/FormControlContext */
+
+/*! ../FormControl/formControlState */
+
+/*! ../FormControl/useFormControl */
+
+/*! ../FormHelperText */
+
+/*! ../FormLabel */
+
+/*! ../Grow */
+
+/*! ../Input */
+
+/*! ../InputBase */
+
+/*! ../InputBase/utils */
+
+/*! ../InputLabel */
+
+/*! ../List */
+
+/*! ../Menu/Menu */
+
+/*! ../MenuList */
+
+/*! ../Modal */
+
+/*! ../NativeSelect/NativeSelect */
+
+/*! ../NativeSelect/NativeSelectInput */
+
+/*! ../OutlinedInput */
+
+/*! ../PaginationItem */
+
+/*! ../PanSession.js */
+
+/*! ../Paper */
+
+/*! ../Popover */
+
+/*! ../Portal */
+
+/*! ../Select */
+
+/*! ../StylesProvider */
+
+/*! ../SvgIcon */
+
+/*! ../Table/TableContext */
+
+/*! ../Table/Tablelvl2Context */
+
+/*! ../TextareaAutosize */
+
+/*! ../ThemeProvider/nested */
+
+/*! ../Typography */
+
+/*! ../Unstable_TrapFocus */
+
+/*! ../animation/utils/is-keyframes-target.js */
+
+/*! ../cancel/isCancel */
+
+/*! ../color/index.js */
+
+/*! ../colors/blue */
+
+/*! ../colors/common */
+
+/*! ../colors/green */
+
+/*! ../colors/grey */
+
+/*! ../colors/indigo */
+
+/*! ../colors/orange */
+
+/*! ../colors/pink */
+
+/*! ../colors/red */
+
+/*! ../components/AnimateSharedLayout/types.js */
+
+/*! ../components/AnimateSharedLayout/utils/batcher.js */
+
+/*! ../context/MotionConfigContext.js */
+
+/*! ../context/MotionContext/create.js */
+
+/*! ../context/MotionContext/index.js */
+
+/*! ../core/buildFullPath */
+
+/*! ../core/createError */
+
+/*! ../createGenerateClassName */
+
+/*! ../defaults */
+
+/*! ../dom/projection/measure.js */
+
+/*! ../dom/utils/camel-to-dash.js */
+
+/*! ../dom/utils/is-css-variable.js */
+
+/*! ../dom/utils/parse-dom-variant.js */
+
+/*! ../dom/value-types/animatable-none.js */
+
+/*! ../dom/value-types/defaults.js */
+
+/*! ../dom/value-types/find.js */
+
+/*! ../events/event-info.js */
+
+/*! ../events/use-dom-event.js */
+
+/*! ../events/use-pointer-event.js */
+
+/*! ../generators/decay.js */
+
+/*! ../generators/keyframes.js */
+
+/*! ../generators/spring.js */
+
+/*! ../gestures/utils/event-type.js */
+
+/*! ../getStylesCreator */
+
+/*! ../getStylesCreator/noopTheme */
+
+/*! ../getThemeProps */
+
+/*! ../helpers/ariaAppHider */
+
+/*! ../helpers/bodyTrap */
+
+/*! ../helpers/buildURL */
+
+/*! ../helpers/classList */
+
+/*! ../helpers/combineURLs */
+
+/*! ../helpers/focusManager */
+
+/*! ../helpers/isAbsoluteURL */
+
+/*! ../helpers/portalOpenInstances */
+
+/*! ../helpers/safeHTMLElement */
+
+/*! ../helpers/scopeTab */
+
+/*! ../helpers/tabbable */
+
+/*! ../html/use-props.js */
+
+/*! ../html/utils/build-projection-transform.js */
+
+/*! ../html/utils/transform.js */
+
+/*! ../html/visual-element.js */
+
+/*! ../index.js */
+
+/*! ../internal/svg-icons/ArrowDropDown */
+
+/*! ../internal/svg-icons/FirstPage */
+
+/*! ../internal/svg-icons/LastPage */
+
+/*! ../internal/svg-icons/NavigateBefore */
+
+/*! ../internal/svg-icons/NavigateNext */
+
+/*! ../internal/svg-icons/Person */
+
+/*! ../jssPreset */
+
+/*! ../makeStyles */
+
+/*! ../mergeClasses */
+
+/*! ../noop.js */
+
+/*! ../numbers/index.js */
+
+/*! ../numbers/units.js */
+
+/*! ../render/utils/types.js */
+
+/*! ../styles/colorManipulator */
+
+/*! ../styles/styled */
+
+/*! ../styles/useTheme */
+
+/*! ../styles/withStyles */
+
+/*! ../styles/zIndex */
+
+/*! ../svg/use-props.js */
+
+/*! ../svg/visual-element.js */
+
+/*! ../transitions/utils */
+
+/*! ../types.js */
+
+/*! ../use-render.js */
+
+/*! ../useTheme */
+
+/*! ../utils */
+
+/*! ../utils.js */
+
+/*! ../utils/capitalize */
+
+/*! ../utils/createChainedFunction */
+
+/*! ../utils/css-variables-conversion.js */
+
+/*! ../utils/debounce */
+
+/*! ../utils/deprecatedPropType */
+
+/*! ../utils/each-axis.js */
+
+/*! ../utils/find-spring.js */
+
+/*! ../utils/geometry/delta-apply.js */
+
+/*! ../utils/geometry/delta-calc.js */
+
+/*! ../utils/geometry/index.js */
+
+/*! ../utils/getScrollbarSize */
+
+/*! ../utils/interpolate.js */
+
+/*! ../utils/is-browser.js */
+
+/*! ../utils/isMuiElement */
+
+/*! ../utils/make-renderless-component.js */
+
+/*! ../utils/ownerDocument */
+
+/*! ../utils/ownerWindow */
+
+/*! ../utils/requirePropFactory */
+
+/*! ../utils/setRef */
+
+/*! ../utils/setters.js */
+
+/*! ../utils/subscription-manager.js */
+
+/*! ../utils/time-conversion.js */
+
+/*! ../utils/use-unmount-effect.js */
+
+/*! ../utils/useControlled */
+
+/*! ../utils/useEventCallback */
+
+/*! ../utils/useForkRef */
+
+/*! ../utils/useIsFocusVisible */
+
+/*! ../utils/velocity-per-second.js */
+
+/*! ../value-types/dimensions.js */
+
+/*! ../value/index.js */
+
+/*! ../value/utils/is-motion-value.js */
+
+/*! ./../core/settle */
+
+/*! ./../helpers/buildURL */
+
+/*! ./../helpers/cookies */
+
+/*! ./../helpers/isURLSameOrigin */
+
+/*! ./../helpers/parseHeaders */
+
+/*! ./../utils */
+
+/*! ./Animate.js */
+
+/*! ./Cancel */
+
+/*! ./Cards */
+
+/*! ./Coins */
+
+/*! ./FormControlContext */
+
+/*! ./InterceptorManager */
+
+/*! ./Layout/Cards */
+
+/*! ./Layout/CoinDetail */
+
+/*! ./Layout/CoinList */
+
+/*! ./Layout/Header */
+
+/*! ./Layout/PageNav */
+
+/*! ./Layout/PostModal */
+
+/*! ./ListContext */
+
+/*! ./Measure.js */
+
+/*! ./ModalManager */
+
+/*! ./ModalPortal */
+
+/*! ./NativeSelectInput */
+
+/*! ./NotchedOutline */
+
+/*! ./PageNav */
+
+/*! ./PanSession.js */
+
+/*! ./PostModal */
+
+/*! ./Posts */
+
+/*! ./PostsByTag */
+
+/*! ./PresenceChild.js */
+
+/*! ./Ripple */
+
+/*! ./SelectInput */
+
+/*! ./SimpleBackdrop */
+
+/*! ./TableContext */
+
+/*! ./Tags */
+
+/*! ./ThemeContext */
+
+/*! ./TouchRipple */
+
+/*! ./TransitionGroupContext */
+
+/*! ./UserFeed */
+
+/*! ./VisualElementDragControls.js */
+
+/*! ./accounts/Login */
+
+/*! ./accounts/Register */
+
+/*! ./adapters/xhr */
+
+/*! ./animation.js */
+
+/*! ./array.js */
+
+/*! ./arrayLikeToArray.js */
+
+/*! ./arrayWithHoles.js */
+
+/*! ./arrayWithoutHoles.js */
+
+/*! ./breakpoints */
+
+/*! ./build-transform.js */
+
+/*! ./camel-case-attrs.js */
+
+/*! ./cancel/Cancel */
+
+/*! ./cancel/CancelToken */
+
+/*! ./cancel/isCancel */
+
+/*! ./capitalize */
+
+/*! ./chainPropTypes */
+
+/*! ./checkPropTypes */
+
+/*! ./cjs/react-dom.development.js */
+
+/*! ./cjs/react-is.development.js */
+
+/*! ./cjs/react.development.js */
+
+/*! ./cjs/scheduler-tracing.development.js */
+
+/*! ./cjs/scheduler.development.js */
+
+/*! ./clamp.js */
+
+/*! ./colorManipulator */
+
+/*! ./compare-by-depth.js */
+
+/*! ./components/App */
+
+/*! ./components/Modal */
+
+/*! ./compose */
+
+/*! ./config */
+
+/*! ./core/Axios */
+
+/*! ./core/mergeConfig */
+
+/*! ./create-render-step.js */
+
+/*! ./create-visual-element.js */
+
+/*! ./createBreakpoints */
+
+/*! ./createChainedFunction */
+
+/*! ./createError */
+
+/*! ./createMixins */
+
+/*! ./createPalette */
+
+/*! ./createSpacing */
+
+/*! ./createSvgIcon */
+
+/*! ./createTheme */
+
+/*! ./createTypography */
+
+/*! ./css-variables-conversion.js */
+
+/*! ./debounce */
+
+/*! ./default-transitions.js */
+
+/*! ./defaultTheme */
+
+/*! ./defaults */
+
+/*! ./defaults.js */
+
+/*! ./definitions.js */
+
+/*! ./deprecatedPropType */
+
+/*! ./dimensions.js */
+
+/*! ./dispatchRequest */
+
+/*! ./dom/projection/relative-set.js */
+
+/*! ./drag/utils/lock.js */
+
+/*! ./easing.js */
+
+/*! ./enhanceError */
+
+/*! ./event-info.js */
+
+/*! ./factoryWithTypeCheckers */
+
+/*! ./features/definitions.js */
+
+/*! ./features/use-features.js */
+
+/*! ./helpers/bind */
+
+/*! ./helpers/isAxiosError */
+
+/*! ./helpers/normalizeHeaderName */
+
+/*! ./helpers/spread */
+
+/*! ./hex.js */
+
+/*! ./hsla.js */
+
+/*! ./html/utils/build-projection-transform.js */
+
+/*! ./inc.js */
+
+/*! ./index.js */
+
+/*! ./indexCounter */
+
+/*! ./is-animatable.js */
+
+/*! ./is-browser.js */
+
+/*! ./is-keyframes-target.js */
+
+/*! ./is-motion-value.js */
+
+/*! ./is-point-3d.js */
+
+/*! ./is-point.js */
+
+/*! ./is-svg-component.js */
+
+/*! ./isMuiElement */
+
+/*! ./iterableToArray.js */
+
+/*! ./iterableToArrayLimit.js */
+
+/*! ./lib/ReactPropTypesSecret */
+
+/*! ./lib/axios */
+
+/*! ./memoize */
+
+/*! ./merge */
+
+/*! ./mergeConfig */
+
+/*! ./mix-color.js */
+
+/*! ./mix-complex.js */
+
+/*! ./mix.js */
+
+/*! ./motion-proxy.js */
+
+/*! ./multiKeyStore */
+
+/*! ./nonIterableRest.js */
+
+/*! ./nonIterableSpread.js */
+
+/*! ./noopTheme */
+
+/*! ./number.js */
+
+/*! ./objectWithoutPropertiesLoose.js */
+
+/*! ./on-next-frame.js */
+
+/*! ./ownerDocument */
+
+/*! ./ownerWindow */
+
+/*! ./path.js */
+
+/*! ./pipe.js */
+
+/*! ./portalOpenInstances */
+
+/*! ./progress.js */
+
+/*! ./requirePropFactory */
+
+/*! ./responsivePropType */
+
+/*! ./rgba.js */
+
+/*! ./safeHTMLElement */
+
+/*! ./setPrototypeOf.js */
+
+/*! ./setRef */
+
+/*! ./setters.js */
+
+/*! ./shadows */
+
+/*! ./shape */
+
+/*! ./style */
+
+/*! ./tabbable */
+
+/*! ./test.js */
+
+/*! ./transform-origin.js */
+
+/*! ./transform.js */
+
+/*! ./transformData */
+
+/*! ./transitions */
+
+/*! ./type-auto.js */
+
+/*! ./type-int.js */
+
+/*! ./types.js */
+
+/*! ./unit-conversion.js */
+
+/*! ./unstable_useId */
+
+/*! ./unsupportedIterableToArray.js */
+
+/*! ./unsupportedProp */
+
+/*! ./use-dom-event.js */
+
+/*! ./use-unmount-effect.js */
+
+/*! ./useControlled */
+
+/*! ./useEventCallback */
+
+/*! ./useForkRef */
+
+/*! ./useIsFocusVisible */
+
+/*! ./usePagination */
+
+/*! ./utils */
+
+/*! ./utils.js */
+
+/*! ./utils/ChildMapping */
+
+/*! ./utils/PropTypes */
+
+/*! ./utils/animation-state.js */
+
+/*! ./utils/build-attrs.js */
+
+/*! ./utils/build-projection-transform.js */
+
+/*! ./utils/build-styles.js */
+
+/*! ./utils/camel-case-attrs.js */
+
+/*! ./utils/constraints.js */
+
+/*! ./utils/create-config.js */
+
+/*! ./utils/create-render-state.js */
+
+/*! ./utils/createSvgIcon */
+
+/*! ./utils/detect-animation-from-options.js */
+
+/*! ./utils/elapsed.js */
+
+/*! ./utils/event-type.js */
+
+/*! ./utils/filter-props.js */
+
+/*! ./utils/flat-tree.js */
+
+/*! ./utils/is-draggable.js */
+
+/*! ./utils/is-node-or-child.js */
+
+/*! ./utils/is-svg-component.js */
+
+/*! ./utils/lifecycles.js */
+
+/*! ./utils/lock.js */
+
+/*! ./utils/motion-values.js */
+
+/*! ./utils/projection.js */
+
+/*! ./utils/render.js */
+
+/*! ./utils/scrape-motion-values.js */
+
+/*! ./utils/state.js */
+
+/*! ./utils/transform.js */
+
+/*! ./utils/use-motion-ref.js */
+
+/*! ./utils/use-visual-element.js */
+
+/*! ./utils/variants.js */
+
+/*! ./variants.js */
+
+/*! ./zIndex */
+
+/*! @babel/runtime/helpers/esm/assertThisInitialized */
+
+/*! @babel/runtime/helpers/esm/classCallCheck */
+
+/*! @babel/runtime/helpers/esm/createClass */
+
+/*! @babel/runtime/helpers/esm/defineProperty */
+
+/*! @babel/runtime/helpers/esm/extends */
+
+/*! @babel/runtime/helpers/esm/inheritsLoose */
+
+/*! @babel/runtime/helpers/esm/objectWithoutProperties */
+
+/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */
+
+/*! @babel/runtime/helpers/esm/slicedToArray */
+
+/*! @babel/runtime/helpers/esm/toConsumableArray */
+
+/*! @babel/runtime/helpers/esm/typeof */
+
+/*! @babel/runtime/helpers/interopRequireDefault */
+
+/*! @babel/runtime/helpers/interopRequireWildcard */
+
+/*! @babel/runtime/helpers/typeof */
+
+/*! @emotion/is-prop-valid */
+
+/*! @emotion/memoize */
+
+/*! @material-ui/core */
+
+/*! @material-ui/core/Button */
+
+/*! @material-ui/core/ButtonBase */
+
+/*! @material-ui/core/ButtonGroup */
+
+/*! @material-ui/core/styles */
+
+/*! @material-ui/core/utils */
+
+/*! @material-ui/icons/Cancel */
+
+/*! @material-ui/icons/InfoOutlined */
+
+/*! @material-ui/icons/LockOutlined */
+
+/*! @material-ui/lab/Pagination */
+
+/*! @material-ui/styles */
+
+/*! @material-ui/system */
+
+/*! @material-ui/utils */
+
+/*! axios */
+
+/*! clsx */
+
+/*! css-vendor */
+
+/*! exenv */
+
+/*! framer-motion */
+
+/*! framesync */
+
+/*! hey-listen */
+
+/*! history */
+
+/*! hoist-non-react-statics */
+
+/*! hyphenate-style-name */
+
+/*! is-in-browser */
+
+/*! isarray */
+
+/*! jss */
+
+/*! jss-plugin-camel-case */
+
+/*! jss-plugin-default-unit */
+
+/*! jss-plugin-global */
+
+/*! jss-plugin-nested */
+
+/*! jss-plugin-props-sort */
+
+/*! jss-plugin-rule-value-function */
+
+/*! jss-plugin-vendor-prefixer */
+
+/*! mini-create-react-context */
+
+/*! object-assign */
+
+/*! path-to-regexp */
+
+/*! popmotion */
+
+/*! prop-types */
+
+/*! react */
+
+/*! react-dom */
+
+/*! react-is */
+
+/*! react-lifecycles-compat */
+
+/*! react-modal */
+
+/*! react-router */
+
+/*! react-router-dom */
+
+/*! react-transition-group */
+
+/*! resolve-pathname */
+
+/*! scheduler */
+
+/*! scheduler/tracing */
+
+/*! style-value-types */
+
+/*! tiny-invariant */
+
+/*! tiny-warning */
+
+/*! tslib */
+
+/*! value-equal */
+
+/*! warning */
+
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
@@ -1809,3 +2872,79 @@
 /*!*************************************************************************************************!*\
   !*** ./node_modules/@material-ui/styles/esm/createGenerateClassName/createGenerateClassName.js ***!
   \*************************************************************************************************/
+
+/**
+ * A better abstraction over CSS.
+ *
+ * @copyright Oleg Isonen (Slobodskoi) / Isonen 2014-present
+ * @website https://github.com/cssinjs/jss
+ * @license MIT
+ */
+
+/**
+ * Checks if an event is supported in the current execution environment.
+ *
+ * NOTE: This will not work correctly for non-generic events such as `change`,
+ * `reset`, `load`, `error`, and `select`.
+ *
+ * Borrows from Modernizr.
+ *
+ * @param {string} eventNameSuffix Event name, e.g. "click".
+ * @return {boolean} True if the event is supported.
+ * @internal
+ * @license Modernizr 3.0.0pre (Custom Build) | MIT
+ */
+
+/** @license React v0.20.2
+ * scheduler-tracing.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v0.20.2
+ * scheduler.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.13.1
+ * react-is.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.2
+ * react-dom.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.2
+ * react-is.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v17.0.2
+ * react.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
