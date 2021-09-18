@@ -38,7 +38,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("coin", "message", "date_added", "price", "tag")
+        fields = ("id" , "coin", "message", "date_added", "price", "price1hr", "price2hr", "tag")
 
 
 class CoinDetailSerializer(serializers.ModelSerializer):

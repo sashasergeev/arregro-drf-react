@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Cards } from './Layout/Cards'
 import axios from 'axios';
-
-import {PageNav} from './Layout/PageNav'
+import PostModal from './Layout/PostModal';
+import {PageNav} from './Layout/PageNav';
 
 function truncate(str, max=50) {
     return str.length > max ? str.substr(0, max-1) + '…' : str;
@@ -15,12 +15,15 @@ export class Posts extends Component {
 
         this.getCardsData = this.getCardsData.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
 
         this.state = {
             posts: [],
             page: 1,
             numOfPages: null,
-            
+            isModal: false,
+            idForModal: null
         };
 
     };
@@ -38,6 +41,7 @@ export class Posts extends Component {
             numOfPages = Math.ceil(res.data.count / 8);
 
             cardData = res.data.results.map(e => ({
+                id: e.id,
                 coinName: e.coin.name,
                 tg_link: e.coin.tg_link,
                 cg_link: e.coin.cg_link,
@@ -65,18 +69,29 @@ export class Posts extends Component {
             this.getCardsData();
           }
         );
-      };
+    };
     
+    openModal (id) {
+        this.setState({isModal: true, idForModal: id})
+    };
+    closeModal () {
+        this.setState({isModal: false, idForModal: null})
+    };
 
     render() {
-        const {posts, page, numOfPages} = this.state;
+        const {posts, page, numOfPages, idForModal, isModal} = this.state;
         return (
             <div >
-                <Cards cards={posts}/>
+                <Cards openModal={this.openModal} cards={posts}/>
                 <PageNav page={page} numOfPages={numOfPages} onChange={this.handlePageChange}/>
+                <PostModal 
+                    postId={idForModal}
+                    isOpen={isModal}
+                    close={this.closeModal}
+                />
             </div>
         )
     };
 };
 
-export default Posts
+export default Posts;
