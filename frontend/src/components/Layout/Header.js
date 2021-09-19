@@ -11,6 +11,8 @@ import {
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
+import NavIsAuth from "../accounts/NavIsAuth";
+import NavNotAuth from "../accounts/NavNotAuth";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -52,61 +54,6 @@ export default function Header(props) {
   const { header, logo, menuButton, toolbar, active } = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const notAuthenticated = (
-    <ButtonGroup aria-label="Nav buttons if user is not authenticated">
-      <Button>
-        <NavLink
-          key="3"
-          to="/login"
-          className={menuButton}
-          activeClassName={active}
-          style={{ fontSize: "15px" }}
-        >
-          Sign In
-        </NavLink>
-      </Button>
-      <Button>
-        <NavLink
-          key="4"
-          to="/register"
-          className={menuButton}
-          activeClassName={active}
-          style={{ fontSize: "15px" }}
-        >
-          Register
-        </NavLink>
-      </Button>
-    </ButtonGroup>
-  );
-  const isAuthenticated = (
-    <ButtonGroup aria-label="Nav buttons if user is authenticated">
-      <Button
-        disabled
-        style={{
-          boxShadow: "rgb(46 205 45 / 32%) 5px -5px 0px 0px inset",
-          fontSize: "15px",
-        }}
-      >
-        <NavLink
-          key="3"
-          to="/user"
-          className={menuButton}
-          activeClassName={active}
-          style={{ fontSize: "15px" }}
-        >
-          {props.user}
-        </NavLink>
-      </Button>
-      <Button
-        style={{ fontSize: "15px" }}
-        className={menuButton}
-        onClick={() => logout()}
-      >
-        Logout
-      </Button>
-    </ButtonGroup>
-  );
-
   const logout = (e) => {
     props.handleLogout();
   };
@@ -143,7 +90,13 @@ export default function Header(props) {
             )}
           </Box>
           {isMobile ? (
-            <NavDrawer />
+            <NavDrawer
+              menuButton={menuButton}
+              active={active}
+              logout={logout}
+							isAuth={props.isAuth}
+              user={props.user}
+            />
           ) : (
             <>
               <NavLink
@@ -152,7 +105,7 @@ export default function Header(props) {
                 style={{}}
                 activeClassName={active}
               >
-                coins
+                Coins
               </NavLink>
               <NavLink
                 to="/tags"
@@ -162,7 +115,16 @@ export default function Header(props) {
               >
                 Tags
               </NavLink>
-              {props.isAuth ? isAuthenticated : notAuthenticated}
+              {props.isAuth ? (
+                <NavIsAuth
+                  menuButton={menuButton}
+                  active={active}
+                  logout={logout}
+                  user={props.user}
+                />
+              ) : (
+                <NavNotAuth menuButton={menuButton} active={active} />
+              )}
             </>
           )}
         </Toolbar>

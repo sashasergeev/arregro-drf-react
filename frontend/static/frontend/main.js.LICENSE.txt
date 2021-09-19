@@ -295,6 +295,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../Unstable_TrapFocus */
 
+/*! ../accounts/NavIsAuth */
+
+/*! ../accounts/NavNotAuth */
+
 /*! ../animation/utils/is-keyframes-target.js */
 
 /*! ../cancel/isCancel */
@@ -1215,12 +1219,20 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./node_modules/path-to-regexp/index.js ***!
   \**********************************************/
 
+/*!**********************************************!*\
+  !*** ./src/components/accounts/NavIsAuth.js ***!
+  \**********************************************/
+
 /*!***********************************************!*\
   !*** ./node_modules/axios/lib/core/settle.js ***!
   \***********************************************/
 
 /*!***********************************************!*\
   !*** ./node_modules/react-modal/lib/index.js ***!
+  \***********************************************/
+
+/*!***********************************************!*\
+  !*** ./src/components/accounts/NavNotAuth.js ***!
   \***********************************************/
 
 /*!************************************************!*\

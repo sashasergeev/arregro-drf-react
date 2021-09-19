@@ -8,6 +8,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import NavIsAuth from "../accounts/NavIsAuth";
+import NavNotAuth from "../accounts/NavNotAuth";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import { mergeClasses } from "@material-ui/styles";
@@ -23,7 +25,8 @@ const useStyles = makeStyles(() => ({
     color: "white",
   },
   paper: {
-    backgroundColor: "#17222b",
+    background:
+      "linear-gradient(0deg, rgb(34 114 44) 50%, rgba(23,34,43,1) 50%)",
     width: "40vw",
   },
   listItemText: {
@@ -37,7 +40,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const NavDrawer = () => {
+const NavDrawer = (props) => {
   const classes = useStyles();
   const [openDrawer, setOpenDrawer] = useState(false);
   return (
@@ -73,13 +76,23 @@ const NavDrawer = () => {
           </ListItem>
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText className={classes.listItemText}>
-              <NavLink
-                to="/"
-                className={classes.link}
-                activeClassName={classes.active}
-              >
-                Account
-              </NavLink>
+              {props.isAuth ? (
+                <>
+                  <NavIsAuth
+                    menuButton={props.menuButton}
+                    active={props.active}
+                    logout={props.logout}
+                    user={props.user}
+                  />
+                </>
+              ) : (
+                <>
+                  <NavNotAuth
+                    menuButton={props.menuButton}
+                    active={props.active}
+                  />
+                </>
+              )}
             </ListItemText>
           </ListItem>
         </List>

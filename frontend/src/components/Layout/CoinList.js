@@ -94,8 +94,10 @@ export class CoinList extends Component {
       background: "#c21d5112",
       color: "#c21d51",
       border: "1px solid #c21d51",
+      padding: "2px 4px",
     };
     const followStyles = {
+      padding: "2px 4px",
       background: "#32cd3212",
       color: "#32cd32",
       border: "1px solid #52b788",
@@ -122,9 +124,10 @@ export class CoinList extends Component {
                 <Grid key={inx} item>
                   <Card
                     style={{
-                      width: 400,
+                      width: 350,
                       backgroundColor: "#040d1b6b",
                       color: "white",
+                      padding: "13px",
                     }}
                     elevation={0}
                   >
@@ -136,9 +139,9 @@ export class CoinList extends Component {
                     >
                       <Link
                         to={`coins/coin?id=${e.id}`}
-                        style={{ color: "white" }}
+                        style={{ color: "white", textDecoration: "none" }}
                       >
-                        <Box component="div" display="inline" p={1} m={1}>
+                        <Box component="div" display="inline">
                           <Typography
                             variant="h6"
                             style={{
@@ -148,12 +151,20 @@ export class CoinList extends Component {
                           >
                             {e.name}
                           </Typography>
+                          <div
+                            style={{
+                              color: "#95969a",
+                              fontWeight: "600",
+                              fontSize: "13px",
+                            }}
+                          >
+                            {e.ticker}
+                          </div>
                         </Box>
                       </Link>
                       {isAuth && (
                         <Button
                           variant="outlined"
-                          sx={{ padding: 2 }}
                           style={
                             e.doesUserFollow ? unFollowStyles : followStyles
                           }
@@ -162,7 +173,7 @@ export class CoinList extends Component {
                           {e.doesUserFollow ? "Unfollow" : "Follow"}
                         </Button>
                       )}
-                      <Box component="div" display="inline" p={1} m={1}>
+                      <Box component="div" display="inline">
                         <img src={e.img_link} alt={e.name} />
                       </Box>
                     </Grid>

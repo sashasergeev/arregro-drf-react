@@ -28,6 +28,9 @@ const StyledTableCell = withStyles(() => ({
     fontSize: 16,
     color: "#fff",
   },
+  sizeSmall: {
+    padding: "6px 6px 6px 6px",
+  },
 }))(TableCell);
 
 // styles
@@ -64,6 +67,8 @@ const customStyles = {
     fontSize: "18px",
     mb: "10px",
     wordBreak: "break-word",
+    maxHeight: "200px",
+    overflow: "auto",
   },
   mainBlock: {
     display: "flex",
@@ -74,7 +79,7 @@ const customStyles = {
   },
   nameLogoBlock: {
     bgcolor: "#683bc1",
-    p: "5px",
+    p: "5px 10px",
     borderRadius: "10px",
     boxShadow: "7px 7px 11px 5px #181b2247",
     display: "flex",
@@ -88,6 +93,11 @@ const customStyles = {
     gap: "20px",
     justifyContent: "center",
     mb: "10px",
+  },
+  ticker: {
+    color: "#95969a",
+    fontWeight: "600",
+    fontSize: "15px",
   },
 };
 
@@ -128,6 +138,7 @@ export const PostModal = (props) => {
                     <Typography variant="h4" style={customStyles.text}>
                       {data.coin.name}
                     </Typography>
+                    <div style={customStyles.ticker}>{data.coin.ticker}</div>
                   </Box>
                   <Box sx={{ display: "flex" }}>
                     <img src={data.coin.img_link} alt={data.coin.name} />

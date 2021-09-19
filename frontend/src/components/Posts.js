@@ -36,6 +36,7 @@ export class Posts extends Component {
       cardData = res.data.results.map((e) => ({
         id: e.id,
         coinName: e.coin.name,
+        ticker: e.coin.ticker,
         tg_link: e.coin.tg_link,
         cg_link: e.coin.cg_link,
         img_link: e.coin.img_link,

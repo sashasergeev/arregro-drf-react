@@ -21,6 +21,7 @@ class CoinSerializer(serializers.ModelSerializer):
         model = Coin
         fields = (
             "id",
+            "ticker",
             "name",
             "currPrice",
             "tg_link",
@@ -60,6 +61,7 @@ class CoinDetailSerializer(serializers.ModelSerializer):
         model = Coin
         fields = (
             "id",
+            "ticker",
             "name",
             "currPrice",
             "tg_link",

@@ -39,6 +39,7 @@ export class Tags extends Component {
     axios.get(`api/tags/${id}`).then((res) => {
       cardData = res.data.post_set.map((e) => ({
         id: e.id,
+        ticker: e.coin.ticker,
         coinName: e.coin.name,
         tg_link: e.coin.tg_link,
         cg_link: e.coin.cg_link,

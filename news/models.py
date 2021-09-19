@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 class Coin(models.Model):
     name = models.CharField(max_length=50)
+    ticker = models.CharField(max_length=10, blank=True)
     tg_link = models.URLField()
     tg_id = models.CharField(max_length=20)
     tg_pure_id = models.CharField(max_length=20)

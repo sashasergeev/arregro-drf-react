@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
   huo: {
     fontFamily: "Quicksand, sans-serif",
-    padding: "20px",
+    padding: "15px 10px",
   },
   root: {
     minWidth: 350,
@@ -37,10 +37,15 @@ const useStyles = makeStyles({
     padding: 2,
     borderRadius: 5,
   },
+  ticker: {
+    color: "#95969a",
+    fontWeight: "600",
+    fontSize: "13px",
+  },
 });
 
 export const Cards = (props) => {
-  const { huo, root, bdy, paper } = useStyles();
+  const { huo, root, bdy, paper, ticker } = useStyles();
   const cards = props.cards;
 
   // modal
@@ -72,12 +77,12 @@ export const Cards = (props) => {
                     <Typography
                       variant="h6"
                       style={{
-                        display: "inline-block",
                         fontFamily: "Quicksand, sans-serif",
                       }}
                     >
                       {e.coinName}
                     </Typography>
+                    <div className={ticker}>{e.ticker}</div>
                   </Box>
                   <Box component="div" display="inline" p={1} m={1}>
                     <img src={e.img_link} alt={e.name} />
@@ -114,7 +119,7 @@ export const Cards = (props) => {
                   </Grid>
                   <Grid item xs={4}>
                     <Paper className={paper} elevation={0} square>
-                      after: {e.currPrice}$
+                      after: {e.currPrice || cards.currPrice}$
                     </Paper>
                   </Grid>
                 </Grid>

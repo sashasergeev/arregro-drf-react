@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import { Redirect } from "react-router-dom";
 import { PageNav } from "./Layout/PageNav";
 import { Cards } from "./Layout/Cards";
 
@@ -38,6 +38,7 @@ export class UserFeed extends Component {
         cardData = res.data.results.map((e) => ({
           id: e.id,
           coinName: e.coin.name,
+          ticker: e.coin.ticker,
           tg_link: e.coin.tg_link,
           cg_link: e.coin.cg_link,
           img_link: e.coin.img_link,
@@ -71,6 +72,7 @@ export class UserFeed extends Component {
 
     return (
       <div>
+        {!this.props.isAuth && <Redirect to="/" />}
         <Cards cards={posts} />
         <PageNav
           page={page}

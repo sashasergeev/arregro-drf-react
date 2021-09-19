@@ -113,3 +113,5 @@ export const Login = (props) => {
             </Container>
     );
 };
+
+export default Login;
