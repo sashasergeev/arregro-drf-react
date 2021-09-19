@@ -117,5 +117,5 @@ render(<App />, document.getElementById('app'))
 // django filter (to filter by tag on main page)
 // maybe make some kind of blog
 // make background tasks for updating price
-// go to mysql db
+// +++ go to mysql db
 //
