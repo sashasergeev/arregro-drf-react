@@ -31,11 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # my apps
     "news",
     "frontend",
     "accounts",
+
+    # 3rd party apps
     "rest_framework",
     "knox",
+    "channels",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -75,10 +80,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "arregro.wsgi.application"
+ASGI_APPLICATION = "arregro.asgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+CELERY_BROKER_URL = "redis://localhost:6379"
+
 
 DATABASES = {
     "default": {
@@ -91,9 +97,15 @@ DATABASES = {
     }
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)]
+        }
+    }
+}
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {

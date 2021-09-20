@@ -108,6 +108,7 @@ class Post(models.Model):
 class PriceDynamic(models.Model):
     coin = models.OneToOneField(Coin, related_name="prices", on_delete=models.CASCADE)
     price = models.CharField(max_length=50)
+    cg_id = models.CharField(max_length=60, blank=True)
 
     def __str__(self):
         return f"{self.coin.name} - {self.price}"
