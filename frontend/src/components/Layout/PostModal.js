@@ -11,6 +11,7 @@ import {
   TableCell,
   TableBody,
 } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 import CancelIcon from "@material-ui/icons/Cancel";
 import axios from "axios";
 Modal.setAppElement("#app");
@@ -114,6 +115,7 @@ export const PostModal = (props) => {
       });
     }
   }, [props.postId]);
+
   const closeModal = () => {
     setData({});
     props.close();
@@ -127,25 +129,40 @@ export const PostModal = (props) => {
         style={customStyles}
         contentLabel="Post Information"
       >
-        {Object.keys(data).length !== 0 && (
-          <div style={customStyles.text}>
-            <Box sx={customStyles.mainBlock}>
-              {/* Container for general info */}
-              <Box style={{ maxWidth: "400px" }}>
-                {/* coin name and logo */}
-                <Box sx={customStyles.nameLogoBlock}>
-                  <Box>
-                    <Typography variant="h4" style={customStyles.text}>
-                      {data.coin.name}
-                    </Typography>
-                    <div style={customStyles.ticker}>{data.coin.ticker}</div>
-                  </Box>
-                  <Box sx={{ display: "flex" }}>
-                    <img src={data.coin.img_link} alt={data.coin.name} />
-                  </Box>
+        <div style={customStyles.text}>
+          <Box sx={customStyles.mainBlock}>
+            {/* Container for general info */}
+            <Box style={{ maxWidth: "400px" }}>
+              {/* coin name and logo */}
+              <Box sx={customStyles.nameLogoBlock}>
+                <Box>
+                  <Typography variant="h4" style={customStyles.text}>
+                    {(data.coin && data.coin.name) || (
+                      <Skeleton variant="rect" width={225} height={25} />
+                    )}
+                  </Typography>
+                  <div style={customStyles.ticker}>
+                    {(data.coin && data.coin.ticker) || (
+                      <Skeleton
+                        variant="rect"
+                        style={{ marginTop: "5px" }}
+                        width={50}
+                        height={20}
+                      />
+                    )}
+                  </div>
                 </Box>
-                {/* link to socials */}
-                <Box sx={customStyles.linksBlock}>
+                <Box sx={{ display: "flex" }}>
+                  {data.coin && data.coin.img_link ? (
+                    <img src={data.coin.img_link} alt={data.coin.name} />
+                  ) : (
+                    <Skeleton variant="circle" width={50} height={50} />
+                  )}
+                </Box>
+              </Box>
+              {/* link to socials */}
+              <Box sx={customStyles.linksBlock}>
+                {data.coin && data.coin.cg_link ? (
                   <a href={data.coin.cg_link}>
                     <img
                       style={{ width: 40 }}
@@ -153,6 +170,10 @@ export const PostModal = (props) => {
                       src="https://static.coingecko.com/s/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png"
                     />
                   </a>
+                ) : (
+                  <Skeleton variant="circle" width={40} height={40} />
+                )}
+                {data.coin && data.coin.tg_link ? (
                   <a href={data.coin.tg_link}>
                     <img
                       style={{ width: 40 }}
@@ -160,10 +181,14 @@ export const PostModal = (props) => {
                       src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/240px-Telegram_logo.svg.png"
                     />
                   </a>
-                </Box>
-                {/* price table */}
-                <Box sx={{ mb: "10px" }}>
-                  <TableContainer>
+                ) : (
+                  <Skeleton variant="circle" width={40} height={40} />
+                )}
+              </Box>
+              {/* price table */}
+              <Box sx={{ mb: "10px" }}>
+                <TableContainer>
+                  {data.price ? (
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -239,19 +264,27 @@ export const PostModal = (props) => {
                         </TableRow>
                       </TableBody>
                     </Table>
-                  </TableContainer>
-                </Box>
-              </Box>
-              {/* Container for text and tags */}
-              <Box style={{ maxWidth: "400px" }}>
-                <Box sx={customStyles.titleField}>Tags</Box>
-                <Box sx={customStyles.textField}>{data.tag.join(",")}</Box>
-                <Box sx={customStyles.titleField}>Message</Box>
-                <Box sx={customStyles.textField}>{data.message}</Box>
+                  ) : (
+                    <Skeleton variant="rect" width={340} height={110} />
+                  )}
+                </TableContainer>
               </Box>
             </Box>
-          </div>
-        )}
+            {/* Container for text and tags */}
+            <Box style={{ maxWidth: "400px" }}>
+              <Box sx={customStyles.titleField}>Tags</Box>
+              <Box sx={customStyles.textField}>
+                {data.tag ? data.tag.join(",") : <Skeleton figure="text" />}
+              </Box>
+              <Box sx={customStyles.titleField}>Message</Box>
+              <Box sx={customStyles.textField}>
+                {data.message || (
+                  <Skeleton figure="rect" width={340} height={60} />
+                )}
+              </Box>
+            </Box>
+          </Box>
+        </div>
         <CancelIcon
           style={{ cursor: "pointer" }}
           fontSize="large"

@@ -63,6 +63,7 @@ export class UserFeed extends Component {
       },
       () => {
         this.getCardsData();
+        window.scrollTo(0, 0);
       }
     );
   }

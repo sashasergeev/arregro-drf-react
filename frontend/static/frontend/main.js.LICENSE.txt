@@ -985,6 +985,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @material-ui/lab/Pagination */
 
+/*! @material-ui/lab/Skeleton */
+
 /*! @material-ui/styles */
 
 /*! @material-ui/system */
@@ -1833,6 +1835,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!****************************************************************!*\
   !*** ./node_modules/@material-ui/icons/utils/createSvgIcon.js ***!
+  \****************************************************************/
+
+/*!****************************************************************!*\
+  !*** ./node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js ***!
   \****************************************************************/
 
 /*!****************************************************************!*\

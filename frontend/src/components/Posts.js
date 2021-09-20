@@ -61,12 +61,13 @@ export class Posts extends Component {
       },
       () => {
         this.getCardsData();
+        window.scrollTo(0, 0);
       }
     );
   }
 
   render() {
-    const { posts, page, numOfPages, idForModal, isModal } = this.state;
+    const { posts, page, numOfPages } = this.state;
     return (
       <div>
         <Cards cards={posts} />

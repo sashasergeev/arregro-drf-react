@@ -113,9 +113,11 @@ export class Tags extends Component {
             );
           })}
         </Grid>
-        <div style={{ paddingTop: 30 }}>
-          <PostsByTag cards={posts} />
-        </div>
+        {currentTag && (
+          <div style={{ paddingTop: 30 }}>
+            <PostsByTag cards={posts} />
+          </div>
+        )}
       </div>
     );
   }
