@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { PageNav } from "./Layout/PageNav";
-import { Cards } from "./Layout/Cards";
+import { PageNav } from "../Layout/PageNav";
+import { Cards } from "./Cards";
 
 function truncate(str, max = 50) {
   return str.length > max ? str.substr(0, max - 1) + "…" : str;

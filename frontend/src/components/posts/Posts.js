@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Cards } from "./Layout/Cards";
+import { Cards } from "../posts/Cards";
 import axios from "axios";
-import PostModal from "./Layout/PostModal";
-import { PageNav } from "./Layout/PageNav";
+import PostModal from "../posts/PostModal";
+import { PageNav } from "../Layout/PageNav";
 
 function truncate(str, max = 50) {
   return str.length > max ? str.substr(0, max - 1) + "…" : str;

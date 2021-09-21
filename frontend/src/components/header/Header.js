@@ -11,8 +11,8 @@ import {
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
-import NavIsAuth from "../accounts/NavIsAuth";
-import NavNotAuth from "../accounts/NavNotAuth";
+import NavIsAuth from "./NavIsAuth";
+import NavNotAuth from "./NavNotAuth";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -94,7 +94,7 @@ export default function Header(props) {
               menuButton={menuButton}
               active={active}
               logout={logout}
-							isAuth={props.isAuth}
+              isAuth={props.isAuth}
               user={props.user}
             />
           ) : (

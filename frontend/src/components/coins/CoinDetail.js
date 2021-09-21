@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Grid, Box, Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Cards } from "./Cards";
+import { Cards } from "../posts/Cards";
 import { motion } from "framer-motion";
 
 export class CoinDetail extends Component {

@@ -2,13 +2,13 @@ import React, { Component, Fragment } from "react";
 import { render } from "react-dom";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
-import Header from "./Layout/Header";
+import Header from "./header/Header";
 import Login from "./accounts/Login";
 import Register from "./accounts/Register";
-import Coins from "./Coins";
-import Tags from "./Tags";
-import Posts from "./Posts";
-import UserFeed from "./UserFeed";
+import Coins from "./coins/Coins";
+import Tags from "./tags/Tags";
+import Posts from "./posts/Posts";
+import UserFeed from "./posts/UserFeed";
 
 import axios from "axios";
 
@@ -113,3 +113,15 @@ export class App extends Component {
 }
 
 render(<App />, document.getElementById("app"));
+// TODO
+// +++ make follow unfollow functionality (upload state for detail page and make Coins state change when i follow on detail page)
+// search functionality
+// +++ modal functionality
+
+// django filter (to filter by tag on main page)
+// maybe make some kind of blog
+// +++ make background tasks for updating price
+//    make it show new prices on front
+// +++ go to mysql db
+// refactor components
+// proptypes

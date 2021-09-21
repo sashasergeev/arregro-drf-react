@@ -8,8 +8,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-import NavIsAuth from "../accounts/NavIsAuth";
-import NavNotAuth from "../accounts/NavNotAuth";
+import NavIsAuth from "./NavIsAuth";
+import NavNotAuth from "./NavNotAuth";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import { mergeClasses } from "@material-ui/styles";

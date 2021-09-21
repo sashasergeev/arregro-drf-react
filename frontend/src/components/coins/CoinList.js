@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 
-import { PageNav } from "./PageNav";
+import { PageNav } from "../Layout/PageNav";
 
 export class CoinList extends Component {
   constructor(props) {

@@ -249,6 +249,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../InputLabel */
 
+/*! ../Layout/PageNav */
+
 /*! ../List */
 
 /*! ../List/ListContext */
@@ -294,10 +296,6 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ../Typography */
 
 /*! ../Unstable_TrapFocus */
-
-/*! ../accounts/NavIsAuth */
-
-/*! ../accounts/NavNotAuth */
 
 /*! ../animation/utils/is-keyframes-target.js */
 
@@ -429,6 +427,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../numbers/units.js */
 
+/*! ../posts/Cards */
+
+/*! ../posts/PostModal */
+
 /*! ../render/utils/types.js */
 
 /*! ../styles/colorManipulator */
@@ -541,23 +543,13 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./Cards */
 
-/*! ./Coins */
+/*! ./CoinDetail */
+
+/*! ./CoinList */
 
 /*! ./FormControlContext */
 
 /*! ./InterceptorManager */
-
-/*! ./Layout/Cards */
-
-/*! ./Layout/CoinDetail */
-
-/*! ./Layout/CoinList */
-
-/*! ./Layout/Header */
-
-/*! ./Layout/PageNav */
-
-/*! ./Layout/PostModal */
 
 /*! ./ListContext */
 
@@ -571,15 +563,15 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./NavDrawer */
 
-/*! ./NotchedOutline */
+/*! ./NavIsAuth */
 
-/*! ./PageNav */
+/*! ./NavNotAuth */
+
+/*! ./NotchedOutline */
 
 /*! ./PanSession.js */
 
 /*! ./PostModal */
-
-/*! ./Posts */
 
 /*! ./PostsByTag */
 
@@ -593,15 +585,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./TableContext */
 
-/*! ./Tags */
-
 /*! ./ThemeContext */
 
 /*! ./TouchRipple */
 
 /*! ./TransitionGroupContext */
-
-/*! ./UserFeed */
 
 /*! ./VisualElementDragControls.js */
 
@@ -650,6 +638,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ./cjs/scheduler.development.js */
 
 /*! ./clamp.js */
+
+/*! ./coins/Coins */
 
 /*! ./colorManipulator */
 
@@ -724,6 +714,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ./features/definitions.js */
 
 /*! ./features/use-features.js */
+
+/*! ./header/Header */
 
 /*! ./helpers/bind */
 
@@ -807,6 +799,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./portalOpenInstances */
 
+/*! ./posts/Posts */
+
+/*! ./posts/UserFeed */
+
 /*! ./progress.js */
 
 /*! ./requirePropFactory */
@@ -830,6 +826,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ./style */
 
 /*! ./tabbable */
+
+/*! ./tags/Tags */
 
 /*! ./test.js */
 
@@ -1087,22 +1085,6 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./src/components/App.js ***!
   \*******************************/
 
-/*!********************************!*\
-  !*** ./src/components/Tags.js ***!
-  \********************************/
-
-/*!*********************************!*\
-  !*** ./src/components/Coins.js ***!
-  \*********************************/
-
-/*!*********************************!*\
-  !*** ./src/components/Posts.js ***!
-  \*********************************/
-
-/*!************************************!*\
-  !*** ./src/components/UserFeed.js ***!
-  \************************************/
-
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
   \*************************************/
@@ -1115,20 +1097,28 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./node_modules/react/index.js ***!
   \*************************************/
 
-/*!**************************************!*\
-  !*** ./src/components/PostsByTag.js ***!
-  \**************************************/
+/*!*************************************!*\
+  !*** ./src/components/tags/Tags.js ***!
+  \*************************************/
 
 /*!***************************************!*\
   !*** ./node_modules/isarray/index.js ***!
   \***************************************/
 
-/*!****************************************!*\
-  !*** ./node_modules/react-is/index.js ***!
-  \****************************************/
+/*!***************************************!*\
+  !*** ./src/components/coins/Coins.js ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./src/components/posts/Cards.js ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./src/components/posts/Posts.js ***!
+  \***************************************/
 
 /*!****************************************!*\
-  !*** ./src/components/Layout/Cards.js ***!
+  !*** ./node_modules/react-is/index.js ***!
   \****************************************/
 
 /*!*****************************************!*\
@@ -1156,7 +1146,7 @@ PERFORMANCE OF THIS SOFTWARE.
   \*****************************************/
 
 /*!*****************************************!*\
-  !*** ./src/components/Layout/Header.js ***!
+  !*** ./src/components/header/Header.js ***!
   \*****************************************/
 
 /*!******************************************!*\
@@ -1179,16 +1169,28 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./src/components/accounts/Login.js ***!
   \******************************************/
 
+/*!******************************************!*\
+  !*** ./src/components/coins/CoinList.js ***!
+  \******************************************/
+
+/*!******************************************!*\
+  !*** ./src/components/posts/CardElem.js ***!
+  \******************************************/
+
+/*!******************************************!*\
+  !*** ./src/components/posts/UserFeed.js ***!
+  \******************************************/
+
 /*!*******************************************!*\
   !*** ./node_modules/scheduler/tracing.js ***!
   \*******************************************/
 
 /*!*******************************************!*\
-  !*** ./src/components/Layout/CardElem.js ***!
+  !*** ./src/components/posts/PostModal.js ***!
   \*******************************************/
 
 /*!*******************************************!*\
-  !*** ./src/components/Layout/CoinList.js ***!
+  !*** ./src/components/tags/PostsByTag.js ***!
   \*******************************************/
 
 /*!********************************************!*\
@@ -1196,11 +1198,15 @@ PERFORMANCE OF THIS SOFTWARE.
   \********************************************/
 
 /*!********************************************!*\
-  !*** ./src/components/Layout/NavDrawer.js ***!
+  !*** ./src/components/coins/CoinDetail.js ***!
   \********************************************/
 
 /*!********************************************!*\
-  !*** ./src/components/Layout/PostModal.js ***!
+  !*** ./src/components/header/NavDrawer.js ***!
+  \********************************************/
+
+/*!********************************************!*\
+  !*** ./src/components/header/NavIsAuth.js ***!
   \********************************************/
 
 /*!*********************************************!*\
@@ -1212,11 +1218,11 @@ PERFORMANCE OF THIS SOFTWARE.
   \*********************************************/
 
 /*!*********************************************!*\
-  !*** ./src/components/Layout/CoinDetail.js ***!
+  !*** ./src/components/accounts/Register.js ***!
   \*********************************************/
 
 /*!*********************************************!*\
-  !*** ./src/components/accounts/Register.js ***!
+  !*** ./src/components/header/NavNotAuth.js ***!
   \*********************************************/
 
 /*!**********************************************!*\
@@ -1227,20 +1233,12 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./node_modules/path-to-regexp/index.js ***!
   \**********************************************/
 
-/*!**********************************************!*\
-  !*** ./src/components/accounts/NavIsAuth.js ***!
-  \**********************************************/
-
 /*!***********************************************!*\
   !*** ./node_modules/axios/lib/core/settle.js ***!
   \***********************************************/
 
 /*!***********************************************!*\
   !*** ./node_modules/react-modal/lib/index.js ***!
-  \***********************************************/
-
-/*!***********************************************!*\
-  !*** ./src/components/accounts/NavNotAuth.js ***!
   \***********************************************/
 
 /*!************************************************!*\
