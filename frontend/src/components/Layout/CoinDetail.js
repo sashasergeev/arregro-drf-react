@@ -18,13 +18,7 @@ export class CoinDetail extends Component {
   componentDidMount() {
     this.getCoinDetails();
   }
-  /*     shouldComponentUpdate(nextProps, nextState) {
-        return nextState.idOfCoin !== this.state.idOfCoin ? true
-             : nextState.coinInfo !== this.state.coinInfo ? true
-             : nextState.follow !== this.state.follow ? true
-             : nextProps.isAuth !== this.props.isAuth ? true
-             : false;
-    }; */
+
   getCoinDetails() {
     if (this.props.isAuth) {
       let token = this.props.token;
@@ -35,7 +29,7 @@ export class CoinDetail extends Component {
           follow: res.data.doesUserFollow,
         });
       });
-      return true;
+      return;
     }
 
     axios.get(`api/coins/${this.state.idOfCoin}`).then((res) => {
@@ -84,9 +78,6 @@ export class CoinDetail extends Component {
     };
     const { coinInfo, follow } = this.state;
     const { isAuth } = this.props;
-    if (coinInfo) {
-      coinInfo.posts["currPrice"] = coinInfo.currPrice;
-    }
 
     return (
       <motion.div
@@ -170,9 +161,11 @@ export class CoinDetail extends Component {
                 />
               </a>
             </Grid>
-            <Box m={5} bgcolor="#8894afbd">
-              <Cards cards={coinInfo.posts} />
-            </Box>
+            {coinInfo.posts.length > 0 && (
+              <Box m={5} bgcolor="#8894afbd">
+                <Cards cards={coinInfo.posts} />
+              </Box>
+            )}
           </Grid>
         )}
       </motion.div>

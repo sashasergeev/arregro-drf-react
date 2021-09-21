@@ -16,7 +16,7 @@ export class Posts extends Component {
     this.handlePageChange = this.handlePageChange.bind(this);
 
     this.state = {
-      posts: [],
+      posts: new Array(8).fill("skelet"),
       page: 1,
       numOfPages: null,
     };

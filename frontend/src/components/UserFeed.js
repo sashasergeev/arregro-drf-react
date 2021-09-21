@@ -13,7 +13,7 @@ export class UserFeed extends Component {
     super(props);
 
     this.state = {
-      posts: [],
+      posts: new Array(8).fill("skelet"),
       page: 1,
       numOfPages: null,
     };
