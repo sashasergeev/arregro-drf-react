@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { Link } from "react-router-dom";
-
-import { motion } from "framer-motion";
-import axios from "axios";
-
 import { PageNav } from "../Layout/PageNav";
+import { FetchCoinData } from "../other/FetchCoinData";
+import axios from "axios";
 
 export class CoinList extends Component {
   constructor(props) {
@@ -29,22 +29,14 @@ export class CoinList extends Component {
   }
 
   getCoinData() {
-    // IF USER IS AUTH< THEN TAKE TOKEN
-    if (this.props.isAuth) {
-      let token = this.props.token;
-      let headers = { headers: { Authorization: `Token ${token}` } };
-      axios.get(`api/coins/?page=${this.state.page}`, headers).then((res) => {
-        this.setState({
-          coins: res.data.results,
-          numOfPages: Math.ceil(res.data.count / 8),
-        });
-      });
-      return true;
-    }
-    axios.get(`api/coins/?page=${this.state.page}`).then((res) => {
+    FetchCoinData(
+      `api/coins/?page=${this.state.page}`,
+      this.props.isAuth,
+      this.props.token
+    ).then((res) => {
       this.setState({
-        coins: res.data.results,
-        numOfPages: Math.ceil(res.data.count / 8),
+        coins: res.coins,
+        numOfPages: res.numOfPages,
       });
     });
   }

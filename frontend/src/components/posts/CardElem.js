@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -152,7 +152,7 @@ const CardElem = (props) => {
           <Grid item xs={4}>
             <Paper className={paper} elevation={0} square>
               {isLoaded ? (
-                <>after: {data.currPrice || data.coin.currPrice}$</> //{/* change the 2nd with cards.currPrice */}
+                <>after: {data.currPrice || data.coin.currPrice}$</>
               ) : (
                 <Skeleton
                   style={{ background: "#ffeddb14" }}
@@ -214,7 +214,7 @@ const CardElem = (props) => {
         <Box className={bdy} style={{ padding: 10 }}>
           <Typography style={{ fontFamily: "Quicksand, sans-serif" }}>
             {isLoaded ? (
-              data.date
+              data.date || data.date_added
             ) : (
               <Skeleton
                 style={{ background: "#ffeddb14" }}
@@ -225,7 +225,7 @@ const CardElem = (props) => {
           </Typography>
           <Typography style={{ fontFamily: "Quicksand, sans-serif" }}>
             {isLoaded ? (
-              data.tags
+              data.tags || data.tag.join(", ")
             ) : (
               <Skeleton
                 style={{ background: "#ffeddb14" }}

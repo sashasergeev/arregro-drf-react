@@ -123,5 +123,5 @@ render(<App />, document.getElementById("app"));
 // +++ make background tasks for updating price
 //    make it show new prices on front
 // +++ go to mysql db
-// refactor components
+// +++ refactor components
 // proptypes

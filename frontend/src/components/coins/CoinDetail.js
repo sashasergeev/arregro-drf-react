@@ -4,6 +4,7 @@ import { Grid, Box, Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { Cards } from "../posts/Cards";
 import { motion } from "framer-motion";
+import { FetchCoinData } from "../other/FetchCoinData";
 
 export class CoinDetail extends Component {
   constructor(props) {
@@ -20,23 +21,16 @@ export class CoinDetail extends Component {
   }
 
   getCoinDetails() {
-    if (this.props.isAuth) {
-      let token = this.props.token;
-      let headers = { headers: { Authorization: `Token ${token}` } };
-      axios.get(`api/coins/${this.state.idOfCoin}`, headers).then((res) => {
+    let idOfCoin = this.state.idOfCoin;
+    const { isAuth, token } = this.props;
+    FetchCoinData(`api/coins/${idOfCoin}`, isAuth, token, idOfCoin).then(
+      (res) => {
         this.setState({
-          coinInfo: res.data,
-          follow: res.data.doesUserFollow,
+          coinInfo: res.coinInfo,
+          follow: isAuth ? res.follow : undefined,
         });
-      });
-      return;
-    }
-
-    axios.get(`api/coins/${this.state.idOfCoin}`).then((res) => {
-      this.setState({
-        coinInfo: res.data,
-      });
-    });
+      }
+    );
   }
 
   followUnfollow() {
