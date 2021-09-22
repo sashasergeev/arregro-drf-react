@@ -1407,6 +1407,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./Ripple */
 
+/*! ./Search */
+
 /*! ./SelectInput */
 
 /*! ./SimpleBackdrop */
@@ -1799,6 +1801,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @material-ui/core/ButtonBase */
 
+/*! @material-ui/core/TextField */
+
 /*! @material-ui/core/styles */
 
 /*! @material-ui/core/utils */
@@ -1951,6 +1955,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!****************************************!*\
   !*** ./node_modules/react-is/index.js ***!
+  \****************************************/
+
+/*!****************************************!*\
+  !*** ./src/components/coins/Search.js ***!
   \****************************************/
 
 /*!*****************************************!*\

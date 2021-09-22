@@ -23,6 +23,9 @@ export class Coins extends Component {
               exact
               path={this.props.match.url + "/"}
               component={() => <CoinList isAuth={isAuth} token={token} />}
+              // render={(props) => (
+              //   <CoinList {...props} isAuth={isAuth} token={token} />
+              // )}
             />
           </Switch>
         </AnimatePresence>

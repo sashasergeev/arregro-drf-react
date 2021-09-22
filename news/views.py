@@ -13,6 +13,7 @@ from .serializers import (
     PostSerializer,
     PostsByTagSerializer,
     TagSerializer,
+    CoinSearchSerializer,
 )
 from .models import Coin, Post, Tag
 
@@ -94,3 +95,8 @@ class PostFeedViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
             return self.get_paginated_response(serializer.data)
         serializer = PostSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class CoinSearchViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = Coin.objects.only("id", "name", "ticker", "img_link")
+    serializer_class = CoinSearchSerializer

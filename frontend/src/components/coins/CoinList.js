@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import { PageNav } from "../Layout/PageNav";
+import Search from "./Search";
 import { FetchCoinData } from "../other/FetchCoinData";
 import axios from "axios";
 
@@ -29,16 +30,15 @@ export class CoinList extends Component {
   }
 
   getCoinData() {
-    FetchCoinData(
-      `api/coins/?page=${this.state.page}`,
-      this.props.isAuth,
-      this.props.token
-    ).then((res) => {
-      this.setState({
-        coins: res.coins,
-        numOfPages: res.numOfPages,
-      });
-    });
+    const { isAuth, token } = this.props;
+    FetchCoinData(`api/coins/?page=${this.state.page}`, isAuth, token).then(
+      (res) => {
+        this.setState({
+          coins: res.coins,
+          numOfPages: res.numOfPages,
+        });
+      }
+    );
   }
 
   followUnfollowMain(coin_id, e) {
@@ -67,6 +67,9 @@ export class CoinList extends Component {
       },
       () => {
         this.getCoinData();
+        this.setState({
+          coins: [],
+        });
         window.scrollTo(0, 0);
       }
     );
@@ -108,6 +111,7 @@ export class CoinList extends Component {
         animate="visible"
         exit="exit"
       >
+        <Search />
         <Grid
           container
           justifyContent="center"

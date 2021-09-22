@@ -41,6 +41,9 @@ export class Posts extends Component {
       },
       () => {
         this.getCardsData();
+        this.setState({
+          posts: new Array(8).fill("skelet"),
+        });
         window.scrollTo(0, 0);
       }
     );

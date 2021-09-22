@@ -31,6 +31,12 @@ class CoinSerializer(serializers.ModelSerializer):
         )
 
 
+class CoinSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Coin
+        fields = ("id", "name", "ticker", "img_link")
+
+
 class PostSerializer(serializers.ModelSerializer):
     coin = CoinSerializer(many=False)
     tag = serializers.StringRelatedField(many=True)
@@ -39,7 +45,16 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("id" , "coin", "message", "date_added", "price", "price1hr", "price2hr", "tag")
+        fields = (
+            "id",
+            "coin",
+            "message",
+            "date_added",
+            "price",
+            "price1hr",
+            "price2hr",
+            "tag",
+        )
 
 
 class CoinDetailSerializer(serializers.ModelSerializer):
