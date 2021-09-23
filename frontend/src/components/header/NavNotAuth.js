@@ -1,6 +1,7 @@
 import React from "react";
 import { ButtonGroup, Button } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const NavNotAuth = (props) => {
   return (
@@ -31,6 +32,11 @@ const NavNotAuth = (props) => {
       </ButtonGroup>
     </>
   );
+};
+
+NavNotAuth.propTypes = {
+  menuButton: PropTypes.string,
+  active: PropTypes.string,
 };
 
 export default NavNotAuth;

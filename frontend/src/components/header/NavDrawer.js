@@ -12,7 +12,7 @@ import NavIsAuth from "./NavIsAuth";
 import NavNotAuth from "./NavNotAuth";
 
 import MenuIcon from "@material-ui/icons/Menu";
-import { mergeClasses } from "@material-ui/styles";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
   link: {
@@ -105,6 +105,14 @@ const NavDrawer = (props) => {
       </IconButton>
     </>
   );
+};
+
+NavDrawer.propTypes = {
+  menuButton: PropTypes.string,
+  user: PropTypes.string,
+  active: PropTypes.string,
+  isAuth: PropTypes.bool,
+  logout: PropTypes.func,
 };
 
 export default NavDrawer;

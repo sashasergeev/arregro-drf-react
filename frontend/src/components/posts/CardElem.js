@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
   bdy: {
@@ -238,6 +239,11 @@ const CardElem = (props) => {
       </Card>
     </Grid>
   );
+};
+
+CardElem.propTypes = {
+  isLoaded: PropTypes.bool,
+  openModal: PropTypes.func.isRequired,
 };
 
 export default CardElem;

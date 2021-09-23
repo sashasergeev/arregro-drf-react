@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
 import NavIsAuth from "./NavIsAuth";
 import NavNotAuth from "./NavNotAuth";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -48,14 +49,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function Header(props) {
+const Header = (props) => {
   const { header, logo, menuButton, toolbar, active } = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const logout = (e) => {
     props.handleLogout();
   };
-
   return (
     <div>
       <AppBar className={header}>
@@ -130,4 +130,12 @@ export default function Header(props) {
       <Toolbar />
     </div>
   );
-}
+};
+
+Header.propTypes = {
+  user: PropTypes.string,
+  isAuth: PropTypes.bool,
+  handleLogout: PropTypes.func,
+};
+
+export default Header;

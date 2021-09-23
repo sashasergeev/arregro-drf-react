@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import PropTypes from "prop-types";
+
 import { motion } from "framer-motion";
-
 import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
-
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { PageNav } from "../Layout/PageNav";
+import PageNav from "../Layout/PageNav";
 import Search from "./Search";
 import { FetchCoinData } from "../other/FetchCoinData";
-import axios from "axios";
 
 export class CoinList extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ export class CoinList extends Component {
     this.state = {
       coins: [],
       page: 1,
-      numOfPages: null,
+      numOfPages: 1,
     };
 
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -243,5 +243,10 @@ export class CoinList extends Component {
     );
   }
 }
+
+CoinList.propTypes = {
+  isAuth: PropTypes.bool,
+  token: PropTypes.string,
+};
 
 export default CoinList;

@@ -3,11 +3,11 @@ import { CoinList } from "./CoinList";
 import { CoinDetail } from "./CoinDetail";
 import { Route, Switch } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import PropTypes from "prop-types";
 
 export class Coins extends Component {
   render() {
     const { location, token, isAuth } = this.props;
-
     return (
       <div>
         <AnimatePresence exitBeforeEnter>
@@ -33,5 +33,10 @@ export class Coins extends Component {
     );
   }
 }
+
+Coins.propTypes = {
+  isAuth: PropTypes.bool,
+  token: PropTypes.string,
+};
 
 export default Coins;

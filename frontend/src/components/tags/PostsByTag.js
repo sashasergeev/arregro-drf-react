@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Box } from "@material-ui/core";
-import { Cards } from "../posts/Cards";
+import Cards from "../posts/Cards";
+import PropTypes from "prop-types";
 
 export class PostsByTag extends Component {
   render() {
@@ -17,5 +18,8 @@ export class PostsByTag extends Component {
     );
   }
 }
+PostsByTag.propTypes = {
+  cards: PropTypes.array,
+};
 
 export default PostsByTag;

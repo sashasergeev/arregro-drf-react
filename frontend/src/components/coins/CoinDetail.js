@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Grid, Box, Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Cards } from "../posts/Cards";
+import Cards from "../posts/Cards";
 import { motion } from "framer-motion";
 import { FetchCoinData } from "../other/FetchCoinData";
+import PropTypes from "prop-types";
 
 export class CoinDetail extends Component {
   constructor(props) {
@@ -72,7 +73,6 @@ export class CoinDetail extends Component {
     };
     const { coinInfo, follow } = this.state;
     const { isAuth } = this.props;
-
     return (
       <motion.div
         variants={containerVariants}
@@ -166,5 +166,10 @@ export class CoinDetail extends Component {
     );
   }
 }
+
+CoinDetail.propTypes = {
+  isAuth: PropTypes.bool,
+  token: PropTypes.string,
+};
 
 export default CoinDetail;

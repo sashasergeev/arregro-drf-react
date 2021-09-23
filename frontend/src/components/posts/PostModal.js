@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import {
   withStyles,
@@ -14,6 +14,8 @@ import {
 import Skeleton from "@material-ui/lab/Skeleton";
 import CancelIcon from "@material-ui/icons/Cancel";
 import axios from "axios";
+import PropTypes from "prop-types";
+
 Modal.setAppElement("#app");
 
 // overriding classic TableCell component
@@ -293,6 +295,12 @@ export const PostModal = (props) => {
       </Modal>
     </div>
   );
+};
+
+PostModal.propTypes = {
+  postId: PropTypes.number,
+  isOpen: PropTypes.bool,
+  close: PropTypes.func.isRequired,
 };
 
 export default PostModal;

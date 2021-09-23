@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import PostModal from "./PostModal";
 import CardElem from "./CardElem";
+import PropTypes from "prop-types";
 
-export const Cards = (props) => {
+const Cards = (props) => {
   const cards = props.cards;
   // modal
   const [isModal, setIsModal] = useState(false);
@@ -18,6 +19,7 @@ export const Cards = (props) => {
   };
   // endModal
   const isLoaded = cards[0].id ? true : false;
+
   return (
     <Grid container justifyContent="center">
       {cards.map((e, inx) => {
@@ -34,3 +36,9 @@ export const Cards = (props) => {
     </Grid>
   );
 };
+
+Cards.propTypes = {
+  cards: PropTypes.array,
+};
+
+export default Cards;

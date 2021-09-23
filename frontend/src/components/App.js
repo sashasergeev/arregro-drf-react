@@ -16,7 +16,7 @@ export class App extends Component {
   state = {
     token: localStorage.getItem("token") || null,
     isAuth: false,
-    username: null,
+    username: "",
   };
 
   componentDidMount() {
@@ -115,7 +115,7 @@ export class App extends Component {
 render(<App />, document.getElementById("app"));
 // TODO
 // +++ make follow unfollow functionality (upload state for detail page and make Coins state change when i follow on detail page)
-// search functionality
+// +++ search functionality
 // +++ modal functionality
 
 // django filter (to filter by tag on main page)
@@ -124,4 +124,4 @@ render(<App />, document.getElementById("app"));
 //    make it show new prices on front
 // +++ go to mysql db
 // +++ refactor components
-// proptypes
+// +++ proptypes

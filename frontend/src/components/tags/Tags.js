@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import axios from "axios";
 import { Grid, Typography, Card, Box } from "@material-ui/core";
 import PostsByTag from "./PostsByTag";
@@ -122,4 +122,5 @@ export class Tags extends Component {
     );
   }
 }
+
 export default Tags;

@@ -25,7 +25,13 @@ class CustomPagination(PageNumberPagination):
 class PostViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = CustomPagination
     serializer_class = PostSerializer
-    queryset = Post.objects.all()
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        filter_value = self.request.query_params.get("tag", None)
+        if filter_value is not None:
+            queryset = queryset.filter(tag__tag=filter_value)
+        return queryset
 
 
 class CoinViewSet(viewsets.ReadOnlyModelViewSet):
