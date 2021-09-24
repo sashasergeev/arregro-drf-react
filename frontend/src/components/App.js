@@ -118,7 +118,7 @@ render(<App />, document.getElementById("app"));
 // +++ search functionality
 // +++ modal functionality
 
-// django filter (to filter by tag on main page)
+// +++ django filter (to filter by tag on main page)
 // maybe make some kind of blog
 // +++ make background tasks for updating price
 //    make it show new prices on front

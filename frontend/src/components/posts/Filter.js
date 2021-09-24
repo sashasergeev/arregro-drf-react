@@ -10,6 +10,7 @@ import {
   Select,
   MenuItem,
   Button,
+  Box,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -22,11 +23,22 @@ const useStyles = makeStyles((theme) => ({
     left: "25px",
   },
   cancelIcon: {
+    width: "48px",
+    height: "48px",
+  },
+  filterBtns: {
     position: "sticky",
-    bottom: "25px",
-    left: "50px",
+    bottom: "10px",
+    "& .MuiFab-root": {
+      fontFamily: "Quicksand, sans-serif",
+      background: "#e6e5e6",
+      color: "#0c1018",
+    },
   },
   main: {
+    "& .MuiInputBase-root": {
+      fontFamily: "Quicksand, sans-serif",
+    },
     "& .MuiInputBase-root": {
       width: "50%",
       fontFamily: "Quicksand, sans-serif",
@@ -47,8 +59,9 @@ const useStyles = makeStyles((theme) => ({
 const Filter = (props) => {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState(false);
   const [tags, setTags] = useState(null);
+  const [clear, setClear] = useState(false);
 
   useEffect(() => {
     axios.get("api/tags/").then((res) => setTags(res.data));
@@ -58,20 +71,39 @@ const Filter = (props) => {
   const closeDialog = () => {
     setIsOpen(false);
     props.handleFilter(filter);
+    if (filter !== false) {
+      setClear(true);
+    }
   };
   const handleFilterChange = (e) => setFilter(e.target.value);
+  const clearFilter = () => {
+    setFilter(false);
+    setClear(false);
+    props.handleFilter(false);
+  };
 
   return (
     <>
-      <Fab
-        variant="extended"
-        onClick={openDialog}
-        className={classes.filterIcon}
-      >
-        <SearchIcon />
-        Filter
-      </Fab>
-
+      <Box className={classes.filterBtns}>
+        <Fab
+          variant="extended"
+          onClick={openDialog}
+          className={classes.filterIcon}
+          style={{ marginRight: "22px" }}
+        >
+          <SearchIcon />
+          {!clear && "Filter"}
+        </Fab>
+        {clear && (
+          <Fab
+            onClick={clearFilter}
+            variant="extended"
+            className={classes.cancelIcon}
+          >
+            <ClearIcon />
+          </Fab>
+        )}
+      </Box>
       <Dialog
         fullWidth={true}
         maxWidth="sm"
@@ -85,7 +117,7 @@ const Filter = (props) => {
             In the menu below choose filter by which you want to filter posts.
           </DialogContentText>
           <Select autoFocus value={filter} onChange={handleFilterChange}>
-            <MenuItem value={null}>Choose Tag</MenuItem>
+            <MenuItem value={false}>Choose Tag</MenuItem>
             {tags &&
               tags.map((e) => (
                 <MenuItem key={e.id} value={e.tag}>

@@ -1813,6 +1813,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @material-ui/icons/Cancel */
 
+/*! @material-ui/icons/Clear */
+
 /*! @material-ui/icons/InfoOutlined */
 
 /*! @material-ui/icons/LockOutlined */
@@ -2154,6 +2156,10 @@ PERFORMANCE OF THIS SOFTWARE.
 /*!*************************************************!*\
   !*** ./node_modules/framesync/dist/es/index.js ***!
   \*************************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/@material-ui/icons/Clear.js ***!
+  \**************************************************/
 
 /*!**************************************************!*\
   !*** ./node_modules/axios/lib/helpers/spread.js ***!

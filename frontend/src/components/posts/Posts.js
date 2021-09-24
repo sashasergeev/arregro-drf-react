@@ -17,7 +17,7 @@ export class Posts extends Component {
       posts: new Array(8).fill("skelet"),
       page: 1,
       numOfPages: 1,
-      filter: null,
+      filter: false,
     };
   }
   componentDidMount() {
@@ -53,6 +53,7 @@ export class Posts extends Component {
       this.setState(
         {
           filter: filter,
+          page: 1,
         },
         () => {
           this.getCardsData();
