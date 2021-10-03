@@ -78,7 +78,6 @@ export const Register = (props) => {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            {" "}
             {/* form inside */}
             <Grid item xs={12}>
               <TextField

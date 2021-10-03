@@ -1,5 +1,13 @@
-from .views import CoinViewSet, PostViewSet, TagViewSet, PostFeedViewList, CoinSearchViewList
+from .views import (
+    CoinViewSet,
+    PostViewSet,
+    TagViewSet,
+    PostFeedViewList,
+    CoinSearchViewList,
+    CoinSubmitCreate,
+)
 from rest_framework.routers import DefaultRouter
+from django.urls import path
 
 router = DefaultRouter()
 router.register(r"posts", PostViewSet, basename="posts")
@@ -9,3 +17,5 @@ router.register(r"feed", PostFeedViewList, basename="feed")
 router.register(r"coinsearch", CoinSearchViewList, basename="coin_search")
 
 urlpatterns = router.urls
+
+urlpatterns += [path("submit-coin/", CoinSubmitCreate.as_view())]

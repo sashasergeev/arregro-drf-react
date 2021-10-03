@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Coin, Post, Tag
+from .models import Coin, CoinSubmit, Post, Tag
 from django.db.models import Exists
 
 
@@ -101,3 +101,9 @@ class PostsByTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ("id", "tag", "post_set")
+
+
+class CoinSubmitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CoinSubmit
+        fields = "__all__"

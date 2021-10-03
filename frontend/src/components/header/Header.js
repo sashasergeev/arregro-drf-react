@@ -18,7 +18,6 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "#181b22",
   },
   logo: {
-    fontFamily: "Quicksand, sans-serif",
     fontWeight: 700,
     fontSize: 20,
     color: "#FFFEFE",
@@ -28,7 +27,6 @@ const useStyles = makeStyles(() => ({
     paddingTop: 5,
   },
   menuButton: {
-    fontFamily: "Quicksand, sans-serif",
     fontWeight: 700,
     fontSize: 18,
     margin: 0,

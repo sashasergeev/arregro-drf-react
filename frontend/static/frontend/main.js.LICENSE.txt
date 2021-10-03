@@ -1287,6 +1287,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../useTheme */
 
+/*! ../useTheme/ThemeContext */
+
 /*! ../utils */
 
 /*! ../utils.js */
@@ -1376,6 +1378,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ./CoinDetail */
 
 /*! ./CoinList */
+
+/*! ./CoinSubmitModal */
 
 /*! ./Filter */
 
@@ -1611,6 +1615,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./multiKeyStore */
 
+/*! ./nested */
+
 /*! ./nonIterableRest.js */
 
 /*! ./nonIterableSpread.js */
@@ -1810,6 +1816,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! @material-ui/core/styles */
 
 /*! @material-ui/core/utils */
+
+/*! @material-ui/icons/Add */
 
 /*! @material-ui/icons/Cancel */
 
@@ -2110,6 +2118,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \***********************************************/
 
 /*!************************************************!*\
+  !*** ./node_modules/@material-ui/icons/Add.js ***!
+  \************************************************/
+
+/*!************************************************!*\
   !*** ./node_modules/axios/lib/adapters/xhr.js ***!
   \************************************************/
 
@@ -2155,6 +2167,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!*************************************************!*\
   !*** ./node_modules/framesync/dist/es/index.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./src/components/coins/CoinSubmitModal.js ***!
   \*************************************************/
 
 /*!**************************************************!*\
@@ -5151,6 +5167,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!*****************************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/TableContainer/TableContainer.js ***!
+  \*****************************************************************************/
+
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@material-ui/styles/esm/ThemeProvider/ThemeProvider.js ***!
   \*****************************************************************************/
 
 /*!*****************************************************************************!*\

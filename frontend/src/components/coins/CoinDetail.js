@@ -98,7 +98,6 @@ export class CoinDetail extends Component {
                   style={{
                     color: "black",
                     fontWeight: 600,
-                    fontFamily: "Quicksand, sans-serif",
                   }}
                 >
                   Back
@@ -111,7 +110,6 @@ export class CoinDetail extends Component {
                 variant="h5"
                 style={{
                   display: "inline-block",
-                  fontFamily: "Quicksand, sans-serif",
                 }}
               >
                 {coinInfo.name}

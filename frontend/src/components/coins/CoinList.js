@@ -6,9 +6,11 @@ import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
+import AddIcon from "@material-ui/icons/Add";
 
 import PageNav from "../Layout/PageNav";
 import Search from "./Search";
+import CoinSubmitModal from "./CoinSubmitModal";
 import { FetchCoinData } from "../other/FetchCoinData";
 
 export class CoinList extends Component {
@@ -18,17 +20,18 @@ export class CoinList extends Component {
       coins: [],
       page: 1,
       numOfPages: 1,
+      coinSubmitModal: false,
     };
 
     this.handlePageChange = this.handlePageChange.bind(this);
     this.getCoinData = this.getCoinData.bind(this);
     this.followUnfollowMain = this.followUnfollowMain.bind(this);
+    this.handleModal = this.handleModal.bind(this);
   }
 
   componentDidMount() {
     this.getCoinData();
   }
-
   getCoinData() {
     const { isAuth, token } = this.props;
     FetchCoinData(`api/coins/?page=${this.state.page}`, isAuth, token).then(
@@ -40,7 +43,6 @@ export class CoinList extends Component {
       }
     );
   }
-
   followUnfollowMain(coin_id, e) {
     let items = [...this.state.coins];
     let item = { ...items[e] };
@@ -59,7 +61,6 @@ export class CoinList extends Component {
       })
       .catch((err) => console.log(err));
   }
-
   handlePageChange(event, value) {
     this.setState(
       {
@@ -73,6 +74,13 @@ export class CoinList extends Component {
         window.scrollTo(0, 0);
       }
     );
+  }
+
+  handleModal() {
+    this.setState({
+      coinSubmitModal: !this.state.coinSubmitModal,
+    });
+    console.log("hello");
   }
 
   render() {
@@ -111,7 +119,22 @@ export class CoinList extends Component {
         animate="visible"
         exit="exit"
       >
-        <Search />
+        <CoinSubmitModal
+          isOpen={this.state.coinSubmitModal}
+          handleModal={this.handleModal}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <AddIcon
+            style={{ width: "50px", height: "auto", cursor: "pointer" }}
+            onClick={this.handleModal}
+          />
+          <Search />
+        </Box>
         <Grid
           container
           justifyContent="center"
@@ -146,7 +169,6 @@ export class CoinList extends Component {
                               variant="h6"
                               style={{
                                 display: "inline-block",
-                                fontFamily: "Quicksand, sans-serif",
                               }}
                             >
                               {e.name}
@@ -204,7 +226,6 @@ export class CoinList extends Component {
                             variant="h6"
                             style={{
                               display: "inline-block",
-                              fontFamily: "Quicksand, sans-serif",
                             }}
                           >
                             <Skeleton variant="rect" width={120} height={32} />

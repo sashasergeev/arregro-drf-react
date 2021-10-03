@@ -8,25 +8,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiOutlinedInput-root": {
       margin: theme.spacing(1),
-      width: "40vw",
+      width: "250px",
     },
     "& .MuiInputBase-input": {
       color: "#dadada",
-      fontFamily: "Quicksand, sans-serif",
     },
-    "& .MuiInputBase-root": {
-      fontFamily: "Quicksand, sans-serif",
-    },
+    "& .MuiInputBase-root": {},
     "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "rgb(139 0 239 / 33%)",
+      borderColor: "#ffffff30",
     },
     "& .MuiFormLabel-root": {
       color: "rgb(91 117 128)",
-      fontFamily: "Quicksand, sans-serif",
     },
-    display: "block",
-    margin: "0 auto",
-    fontFamily: "Quicksand, sans-serif",
+    display: "flex",
+    justifyContent: "center",
     position: "relative",
   },
   dropdown: {
@@ -88,7 +83,7 @@ const Search = () => {
   };
 
   return (
-    <div className={classes.root} style={{ width: "40vw" }}>
+    <div className={classes.root}>
       <TextField
         onFocus={inputOnFocus}
         label="search"

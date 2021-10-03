@@ -23,11 +23,9 @@ const StyledTableCell = withStyles(() => ({
   head: {
     backgroundColor: "#6547a1",
     color: "#fff",
-    fontFamily: "Quicksand, sans-serif",
   },
   body: {
     backgroundColor: "#6547a1",
-    fontFamily: "Quicksand, sans-serif",
     fontSize: 16,
     color: "#fff",
   },
@@ -47,7 +45,6 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     backgroundColor: "#8d77b7",
     border: "none",
-    fontFamily: "Quicksand, sans-serif",
     borderRadius: "7px",
   },
   overlay: {
@@ -55,7 +52,6 @@ const customStyles = {
   },
   text: {
     color: "#e6e6e6",
-    fontFamily: "Quicksand, sans-serif",
   },
   titleField: {
     bgcolor: "#3f51b5",

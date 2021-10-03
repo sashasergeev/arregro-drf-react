@@ -30,26 +30,18 @@ const useStyles = makeStyles((theme) => ({
     position: "sticky",
     bottom: "10px",
     "& .MuiFab-root": {
-      fontFamily: "Quicksand, sans-serif",
       background: "#e6e5e6",
       color: "#0c1018",
     },
   },
   main: {
     "& .MuiInputBase-root": {
-      fontFamily: "Quicksand, sans-serif",
-    },
-    "& .MuiInputBase-root": {
       width: "50%",
-      fontFamily: "Quicksand, sans-serif",
       display: "block",
       margin: "0 auto",
     },
-    "& .MuiTypography-h6": {
-      fontFamily: "Quicksand, sans-serif",
-    },
+
     "& .MuiButtonBase-root": {
-      fontFamily: "Quicksand, sans-serif",
       background: "#9ea5d0",
       color: "#0c1018",
     },

@@ -11,6 +11,8 @@ import Posts from "./posts/Posts";
 import UserFeed from "./posts/UserFeed";
 
 import axios from "axios";
+import { createTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/core/styles";
 
 export class App extends Component {
   state = {
@@ -112,7 +114,18 @@ export class App extends Component {
   }
 }
 
-render(<App />, document.getElementById("app"));
+const theme = createTheme({
+  typography: {
+    fontFamily: "Quicksand, sans-serif",
+  },
+});
+
+render(
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>,
+  document.getElementById("app")
+);
 // TODO
 // +++ make follow unfollow functionality (upload state for detail page and make Coins state change when i follow on detail page)
 // +++ search functionality

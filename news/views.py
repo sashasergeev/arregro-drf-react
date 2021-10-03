@@ -1,7 +1,8 @@
+from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
-from rest_framework import viewsets, mixins, permissions
+from rest_framework import serializers, viewsets, mixins, permissions, generics
 
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -10,6 +11,7 @@ from rest_framework.decorators import action
 from .serializers import (
     CoinDetailSerializer,
     CoinSerializer,
+    CoinSubmitSerializer,
     PostSerializer,
     PostsByTagSerializer,
     TagSerializer,
@@ -106,3 +108,13 @@ class PostFeedViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
 class CoinSearchViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Coin.objects.only("id", "name", "ticker", "img_link")
     serializer_class = CoinSearchSerializer
+
+
+class CoinSubmitCreate(generics.GenericAPIView):
+    serializer_class = CoinSubmitSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return JsonResponse({"status": "submitted"})

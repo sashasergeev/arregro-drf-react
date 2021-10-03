@@ -21,7 +21,6 @@ const useStyles = makeStyles({
     background: "#06070a40",
   },
   huo: {
-    fontFamily: "Quicksand, sans-serif",
     padding: "15px 10px",
   },
   root: {
@@ -53,12 +52,7 @@ const CardElem = (props) => {
       <Card className={root} style={{ position: "relative" }}>
         <Box className={bdy} justifyContent="center" style={{}}>
           <Box component="div" display="inline" p={1} m={1}>
-            <Typography
-              variant="h6"
-              style={{
-                fontFamily: "Quicksand, sans-serif",
-              }}
-            >
+            <Typography variant="h6">
               {isLoaded ? (
                 data.coinName
               ) : (
@@ -97,11 +91,7 @@ const CardElem = (props) => {
           </Box>
         </Box>
         <CardContent>
-          <Typography
-            variant="body1"
-            component="p"
-            style={{ fontFamily: "Quicksand, sans-serif" }}
-          >
+          <Typography variant="body1" component="p">
             {isLoaded ? (
               data.message
             ) : (
@@ -213,7 +203,7 @@ const CardElem = (props) => {
           )}
         </CardActions>
         <Box className={bdy} style={{ padding: 10 }}>
-          <Typography style={{ fontFamily: "Quicksand, sans-serif" }}>
+          <Typography>
             {isLoaded ? (
               data.date || data.date_added
             ) : (
@@ -224,7 +214,7 @@ const CardElem = (props) => {
               />
             )}
           </Typography>
-          <Typography style={{ fontFamily: "Quicksand, sans-serif" }}>
+          <Typography>
             {isLoaded ? (
               data.tags || data.tag.join(", ")
             ) : (

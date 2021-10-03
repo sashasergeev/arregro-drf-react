@@ -19,7 +19,6 @@ const useStyles = makeStyles(() => ({
     textDecoration: "none",
     color: "white",
     fontSize: "20px",
-    fontFamily: "Quicksand, sans-serif",
   },
   icon: {
     color: "white",
