@@ -6,10 +6,9 @@ app = Celery("arregro")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
 app.conf.beat_schedule = {
-    'get_coins_price_10s': {
-        'task': 'news.tasks.get_coins_price',
-        'schedule': 10.0,
+    "get_coins_price_60s": {
+        "task": "news.tasks.get_coins_price",
+        "schedule": 60.0,
     }
-
 }
 app.autodiscover_tasks()

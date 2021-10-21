@@ -104,6 +104,14 @@ const Header = (props) => {
                 Coins
               </NavLink>
               <NavLink
+                to="/trending"
+                className={menuButton}
+                style={{}}
+                activeClassName={active}
+              >
+                Trending
+              </NavLink>
+              <NavLink
                 to="/tags"
                 className={menuButton}
                 style={{}}

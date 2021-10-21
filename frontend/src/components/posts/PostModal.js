@@ -135,12 +135,12 @@ export const PostModal = (props) => {
               <Box sx={customStyles.nameLogoBlock}>
                 <Box>
                   <Typography variant="h4" style={customStyles.text}>
-                    {(data.coin && data.coin.name) || (
+                    {data.coin?.name || (
                       <Skeleton variant="rect" width={225} height={25} />
                     )}
                   </Typography>
                   <div style={customStyles.ticker}>
-                    {(data.coin && data.coin.ticker) || (
+                    {data.coin?.ticker || (
                       <Skeleton
                         variant="rect"
                         style={{ marginTop: "5px" }}
@@ -151,7 +151,7 @@ export const PostModal = (props) => {
                   </div>
                 </Box>
                 <Box sx={{ display: "flex" }}>
-                  {data.coin && data.coin.img_link ? (
+                  {data.coin?.img_link ? (
                     <img src={data.coin.img_link} alt={data.coin.name} />
                   ) : (
                     <Skeleton variant="circle" width={50} height={50} />
@@ -160,7 +160,7 @@ export const PostModal = (props) => {
               </Box>
               {/* link to socials */}
               <Box sx={customStyles.linksBlock}>
-                {data.coin && data.coin.cg_link ? (
+                {data.coin?.cg_link ? (
                   <a href={data.coin.cg_link}>
                     <img
                       style={{ width: 40 }}
@@ -171,7 +171,7 @@ export const PostModal = (props) => {
                 ) : (
                   <Skeleton variant="circle" width={40} height={40} />
                 )}
-                {data.coin && data.coin.tg_link ? (
+                {data.coin?.tg_link ? (
                   <a href={data.coin.tg_link}>
                     <img
                       style={{ width: 40 }}

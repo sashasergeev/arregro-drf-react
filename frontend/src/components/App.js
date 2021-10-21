@@ -9,6 +9,7 @@ import Coins from "./coins/Coins";
 import Tags from "./tags/Tags";
 import Posts from "./posts/Posts";
 import UserFeed from "./posts/UserFeed";
+import Movers from "./trending/Movers";
 
 import axios from "axios";
 import { createTheme } from "@material-ui/core";
@@ -80,6 +81,7 @@ export class App extends Component {
                   <Coins {...props} isAuth={isAuth} token={token} />
                 )}
               />
+              <Route path="/trending" component={Movers} />
               <Route path="/tags" component={Tags} />
 
               {/* AUTH AND FEED */}

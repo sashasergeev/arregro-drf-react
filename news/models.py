@@ -108,6 +108,7 @@ class Post(models.Model):
 class PriceDynamic(models.Model):
     coin = models.OneToOneField(Coin, related_name="prices", on_delete=models.CASCADE)
     price = models.CharField(max_length=50)
+    price_change24h = models.DecimalField(max_digits=5, decimal_places=2)
     cg_id = models.CharField(max_length=60, blank=True)
 
     def __str__(self):

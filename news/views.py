@@ -2,7 +2,7 @@ from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
-from rest_framework import serializers, viewsets, mixins, permissions, generics
+from rest_framework import viewsets, mixins, permissions, generics
 
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -12,6 +12,7 @@ from .serializers import (
     CoinDetailSerializer,
     CoinSerializer,
     CoinSubmitSerializer,
+    CoinTrendingSerializer,
     PostSerializer,
     PostsByTagSerializer,
     TagSerializer,
@@ -44,11 +45,10 @@ class CoinViewSet(viewsets.ReadOnlyModelViewSet):
     def list(self, request):
         queryset = Coin.objects.all()
         page = self.paginate_queryset(queryset)
+        serializer = CoinSerializer(page, many=True)
         if page is not None:
-            serializer = CoinSerializer(page, many=True)
             serializer.context["request"] = self.request
             return self.get_paginated_response(serializer.data)
-        serializer = CoinSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
@@ -106,7 +106,7 @@ class PostFeedViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 
 class CoinSearchViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
-    queryset = Coin.objects.only("id", "name", "ticker", "img_link")
+    queryset = Coin.objects.all()
     serializer_class = CoinSearchSerializer
 
 
@@ -118,3 +118,13 @@ class CoinSubmitCreate(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return JsonResponse({"status": "submitted"})
+
+
+class TrendingViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
+    def list(self, request):
+        queryset = Coin.objects.order_by("-prices__price_change24h")
+
+        gainers = CoinTrendingSerializer(queryset[:10], many=True)
+
+        losers = CoinTrendingSerializer(queryset.reverse()[:10], many=True)
+        return Response({"gainers": gainers.data, "losers": losers.data})

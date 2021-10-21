@@ -65,6 +65,17 @@ const NavDrawer = (props) => {
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText className={classes.listItemText}>
               <NavLink
+                to="/trending"
+                className={classes.link}
+                activeClassName={classes.active}
+              >
+                Trending
+              </NavLink>
+            </ListItemText>
+          </ListItem>
+          <ListItem onClick={() => setOpenDrawer(false)}>
+            <ListItemText className={classes.listItemText}>
+              <NavLink
                 to="/tags"
                 className={classes.link}
                 activeClassName={classes.active}

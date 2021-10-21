@@ -62,6 +62,9 @@ class CoinDetailSerializer(serializers.ModelSerializer):
     currPrice = serializers.SlugRelatedField(
         many=False, source="prices", slug_field="price", read_only="True"
     )
+    price_change24h = serializers.SlugRelatedField(
+        many=False, source="prices", slug_field="price_change24h", read_only="True"
+    )
     doesUserFollow = serializers.SerializerMethodField("_isFollow")
 
     def _isFollow(self, obj):
@@ -79,6 +82,7 @@ class CoinDetailSerializer(serializers.ModelSerializer):
             "ticker",
             "name",
             "currPrice",
+            "price_change24h",
             "tg_link",
             "cg_link",
             "img_link",
@@ -107,3 +111,23 @@ class CoinSubmitSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoinSubmit
         fields = "__all__"
+
+
+class CoinTrendingSerializer(serializers.ModelSerializer):
+    currPrice = serializers.SlugRelatedField(
+        many=False, source="prices", slug_field="price", read_only="True"
+    )
+    price_change24h = serializers.SlugRelatedField(
+        many=False, source="prices", slug_field="price_change24h", read_only="True"
+    )
+
+    class Meta:
+        model = Coin
+        fields = (
+            "id",
+            "ticker",
+            "name",
+            "img_link",
+            "currPrice",
+            "price_change24h",
+        )
