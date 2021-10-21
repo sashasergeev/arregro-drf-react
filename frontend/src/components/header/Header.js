@@ -12,6 +12,9 @@ import NavDrawer from "./NavDrawer";
 import NavIsAuth from "./NavIsAuth";
 import NavNotAuth from "./NavNotAuth";
 import PropTypes from "prop-types";
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import MoneyIcon from "@material-ui/icons/Money";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -45,10 +48,29 @@ const useStyles = makeStyles(() => ({
     boxShadow: "0px 7px 1px -2px #2ecd2d78",
     paddingBottom: 5,
   },
+  menuContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "7px",
+    alignItems: "center",
+  },
+  menuItemIcon: {
+    padding: "4px",
+    background: "#8980f5",
+    borderRadius: "50%",
+  },
 }));
 
 const Header = (props) => {
-  const { header, logo, menuButton, toolbar, active } = useStyles();
+  const {
+    header,
+    logo,
+    menuButton,
+    menuContainer,
+    menuItemIcon,
+    toolbar,
+    active,
+  } = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const logout = (e) => {
@@ -81,7 +103,7 @@ const Header = (props) => {
                 className={menuButton}
                 activeClassName={active}
               >
-                feed{" "}
+                feed
               </NavLink>
             )}
           </Box>
@@ -101,7 +123,10 @@ const Header = (props) => {
                 style={{}}
                 activeClassName={active}
               >
-                Coins
+                <Box className={menuContainer}>
+                  <MoneyIcon className={menuItemIcon} />
+                  Coins
+                </Box>
               </NavLink>
               <NavLink
                 to="/trending"
@@ -109,7 +134,10 @@ const Header = (props) => {
                 style={{}}
                 activeClassName={active}
               >
-                Trending
+                <Box className={menuContainer}>
+                  <TrendingUpIcon className={menuItemIcon} />
+                  Trending
+                </Box>
               </NavLink>
               <NavLink
                 to="/tags"
@@ -117,10 +145,14 @@ const Header = (props) => {
                 style={{}}
                 activeClassName={active}
               >
-                Tags
+                <Box className={menuContainer}>
+                  <LocalOfferIcon className={menuItemIcon} />
+                  Tags
+                </Box>
               </NavLink>
               {props.isAuth ? (
                 <NavIsAuth
+                  isMobile={isMobile}
                   menuButton={menuButton}
                   active={active}
                   logout={logout}

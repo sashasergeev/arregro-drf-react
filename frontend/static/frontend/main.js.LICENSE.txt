@@ -1831,9 +1831,13 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @material-ui/icons/InfoOutlined */
 
+/*! @material-ui/icons/LocalOffer */
+
 /*! @material-ui/icons/LockOutlined */
 
 /*! @material-ui/icons/Menu */
+
+/*! @material-ui/icons/Money */
 
 /*! @material-ui/icons/Search */
 
@@ -2196,6 +2200,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \**************************************************/
 
 /*!**************************************************!*\
+  !*** ./node_modules/@material-ui/icons/Money.js ***!
+  \**************************************************/
+
+/*!**************************************************!*\
   !*** ./node_modules/axios/lib/helpers/spread.js ***!
   \**************************************************/
 
@@ -2541,6 +2549,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!*******************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/Fab/Fab.js ***!
+  \*******************************************************/
+
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/icons/LocalOffer.js ***!
   \*******************************************************/
 
 /*!*******************************************************!*\

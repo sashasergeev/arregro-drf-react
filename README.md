@@ -47,8 +47,8 @@ Libraries:
 7. Run ```python manage.py runserver``` in your shell.
 8. To run celery, you need to run these two commands:
 ```
-celery -A cna beat -l INFO
-celery -A cna worker --loglevel=INFO --concurrency 1 -P solo
+celery -A arregro beat -l INFO
+celery -A arregro worker --loglevel=INFO --concurrency 1 -P solo
 ```
 
 ### If you want to change anything on frontend you need to

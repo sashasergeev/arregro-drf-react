@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Drawer,
   List,
+  Box,
   ListItem,
   IconButton,
   ListItemText,
@@ -12,6 +13,11 @@ import NavIsAuth from "./NavIsAuth";
 import NavNotAuth from "./NavNotAuth";
 
 import MenuIcon from "@material-ui/icons/Menu";
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import MoneyIcon from "@material-ui/icons/Money";
+import MoreIcon from "@material-ui/icons/More";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({
@@ -19,6 +25,7 @@ const useStyles = makeStyles(() => ({
     textDecoration: "none",
     color: "white",
     fontSize: "20px",
+    display: "block",
   },
   icon: {
     color: "white",
@@ -37,11 +44,22 @@ const useStyles = makeStyles(() => ({
     boxShadow: "0px 7px 1px -2px #2ecd2d78",
     paddingBottom: 5,
   },
+  menuContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "7px",
+  },
+  menuItemIcon: {
+    padding: "4px",
+    background: "#8980f5",
+    borderRadius: "50%",
+  },
 }));
 
 const NavDrawer = (props) => {
-  const classes = useStyles();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const classes = useStyles();
+
   return (
     <>
       <Drawer
@@ -54,33 +72,45 @@ const NavDrawer = (props) => {
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText className={classes.listItemText}>
               <NavLink
+                exact
                 to="/coins"
                 className={classes.link}
                 activeClassName={classes.active}
               >
-                Coins
+                <Box className={classes.menuContainer}>
+                  <MoneyIcon className={classes.menuItemIcon} />
+                  Coins
+                </Box>
               </NavLink>
             </ListItemText>
           </ListItem>
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText className={classes.listItemText}>
               <NavLink
+                exact
                 to="/trending"
                 className={classes.link}
                 activeClassName={classes.active}
               >
-                Trending
+                <Box className={classes.menuContainer}>
+                  <TrendingUpIcon className={classes.menuItemIcon} />
+                  Trending
+                </Box>
               </NavLink>
             </ListItemText>
           </ListItem>
           <ListItem onClick={() => setOpenDrawer(false)}>
             <ListItemText className={classes.listItemText}>
               <NavLink
+                exact
                 to="/tags"
                 className={classes.link}
                 activeClassName={classes.active}
               >
-                Tags
+                <Box className={classes.menuContainer}>
+                  <LocalOfferIcon className={classes.menuItemIcon} />
+                  Tags
+                </Box>
               </NavLink>
             </ListItemText>
           </ListItem>
@@ -93,6 +123,7 @@ const NavDrawer = (props) => {
                     active={props.active}
                     logout={props.logout}
                     user={props.user}
+                    isMobile={props.isMobile}
                   />
                 </>
               ) : (

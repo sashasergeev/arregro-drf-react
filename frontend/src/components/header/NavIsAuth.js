@@ -1,12 +1,27 @@
 import React from "react";
-import { ButtonGroup, Button } from "@material-ui/core";
+import {
+  ButtonGroup,
+  Button,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const NavIsAuth = (props) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <>
-      <ButtonGroup aria-label="Nav buttons if user is authenticated">
+      <ButtonGroup
+        style={
+          isMobile
+            ? { flexWrap: "wrap", flexDirection: "column" }
+            : { flexWrap: "nowrap" }
+        }
+        aria-label="Nav buttons if user is authenticated"
+      >
         <Button
           disabled
           style={{
