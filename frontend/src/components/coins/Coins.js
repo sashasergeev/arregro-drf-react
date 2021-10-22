@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 export class Coins extends Component {
   render() {
-    const { location, token, isAuth } = this.props;
+    const { location, token, isAuth, ...rest } = this.props;
     return (
       <div>
         <AnimatePresence exitBeforeEnter>
@@ -16,7 +16,7 @@ export class Coins extends Component {
               exact
               path={this.props.match.url + "/coin"}
               component={(props) => (
-                <CoinDetail {...props} token={token} isAuth={isAuth} />
+                <CoinDetail {...rest} token={token} isAuth={isAuth} />
               )}
             />
             <Route
@@ -31,9 +31,9 @@ export class Coins extends Component {
   }
 }
 
-Coins.propTypes = {
-  isAuth: PropTypes.bool,
-  token: PropTypes.string,
-};
+// Coins.propTypes = {
+//   isAuth: PropTypes.bool,
+//   token: PropTypes.string,
+// };
 
 export default Coins;
