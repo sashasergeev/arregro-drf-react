@@ -21,11 +21,11 @@ const useStyles = makeStyles({
     background: "#06070a40",
   },
   huo: {
-    padding: "15px 10px",
+    padding: "10px 8px",
   },
   root: {
-    minWidth: 350,
-    maxWidth: 400,
+    minWidth: 340,
+    maxWidth: 350,
     backgroundColor: "#040d1b6b",
     color: "white",
   },

@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { Grid, Box, Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Cards from "../posts/Cards";
-import { motion } from "framer-motion";
-import { FetchCoinData } from "../other/FetchCoinData";
 import PropTypes from "prop-types";
+import axios from "axios";
+
+// style related
+import { motion } from "framer-motion";
+import { Grid, Box, Typography, Button } from "@material-ui/core";
+
+import Cards from "../posts/Cards";
+import { FetchCoinData } from "../other/FetchCoinData";
 
 export class CoinDetail extends Component {
   constructor(props) {
@@ -49,6 +52,7 @@ export class CoinDetail extends Component {
   }
 
   render() {
+    // animation and style
     const containerVariants = {
       hidden: {
         opacity: 0,
@@ -71,8 +75,17 @@ export class CoinDetail extends Component {
       color: "#32cd32",
       border: "1px solid #52b788",
     };
+    const headerElements = {
+      flexBasis: "100%",
+      display: "flex",
+      justifyContent: "center",
+      margin: "10px 0",
+    };
+
+    // deconstructing things
     const { coinInfo, follow } = this.state;
     const { isAuth } = this.props;
+
     return (
       <motion.div
         variants={containerVariants}
@@ -81,54 +94,74 @@ export class CoinDetail extends Component {
         exit="exit"
       >
         {coinInfo && (
-          <Grid
-            container
-            justifyContent="space-evenly"
-            direction="row"
-            alignItems="center"
+          <Box
+            justifyContent="center"
             style={{
               background:
                 "linear-gradient(90deg, rgba(21,24,29,1) 22%, rgba(12,15,17,1) 100%)",
             }}
           >
-            <Box xs={4} p={2} m={1}>
-              <Link to="/coins" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
+            {/* CONTAINER WITH BACK BTN< NAME AND TICKER OF THE COIN AND AN IMG */}
+            <Box display="flex" alignItems="center">
+              <Box style={headerElements}>
+                <Link to="/coins" style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    style={{
+                      color: "black",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Back
+                  </Button>
+                </Link>
+              </Box>
+              <Box
+                style={{
+                  ...headerElements,
+                  ...{ flexDirection: "column", alignItems: "center" },
+                }}
+                component="div"
+                display="inline"
+              >
+                <Typography
+                  variant="h5"
                   style={{
-                    color: "black",
-                    fontWeight: 600,
+                    display: "inline-block",
                   }}
                 >
-                  Back
-                </Button>
-              </Link>
+                  {coinInfo.name}
+                </Typography>
+                <div
+                  style={{
+                    color: "#95969a",
+                    fontWeight: "600",
+                    fontSize: "13px",
+                  }}
+                >
+                  {coinInfo.ticker}
+                </div>
+                <div
+                  style={{
+                    color: "#95969a",
+                    fontWeight: "600",
+                    fontSize: "13px",
+                  }}
+                >
+                  {coinInfo.currPrice} ({coinInfo.price_change24h}%)
+                </div>
+              </Box>
+              <Box style={headerElements} component="div" display="inline">
+                <img src={coinInfo.img_link} alt={coinInfo.name} />
+              </Box>
             </Box>
-
-            <Box xs={8} component="div" display="inline" p={2} m={1}>
-              <Typography
-                variant="h5"
-                style={{
-                  display: "inline-block",
-                }}
-              >
-                {coinInfo.name}
-              </Typography>
-              <div
-                style={{
-                  color: "#95969a",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                }}
-              >
-                {coinInfo.ticker}
-              </div>
-            </Box>
-            <Box xs={4} component="div" display="inline" p={2} m={1}>
-              <img src={coinInfo.img_link} alt={coinInfo.name} />
-            </Box>
-
-            <Grid container justifyContent="space-evenly">
+            {/* links and follow/unfollow btn */}
+            <Box
+              container
+              display="flex"
+              style={{ marginTop: "20px" }}
+              justifyContent="space-evenly"
+            >
               <a href={coinInfo.cg_link}>
                 <img
                   style={{ width: 40 }}
@@ -152,13 +185,15 @@ export class CoinDetail extends Component {
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/240px-Telegram_logo.svg.png"
                 />
               </a>
-            </Grid>
+            </Box>
+
+            {/* POSTS */}
             {coinInfo.posts.length > 0 && (
-              <Box m={5} bgcolor="#8894afbd">
+              <Box bgcolor="#8894afbd">
                 <Cards cards={coinInfo.posts} />
               </Box>
             )}
-          </Grid>
+          </Box>
         )}
       </motion.div>
     );

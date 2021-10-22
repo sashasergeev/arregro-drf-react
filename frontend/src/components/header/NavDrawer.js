@@ -123,7 +123,6 @@ const NavDrawer = (props) => {
                     active={props.active}
                     logout={props.logout}
                     user={props.user}
-                    isMobile={props.isMobile}
                   />
                 </>
               ) : (

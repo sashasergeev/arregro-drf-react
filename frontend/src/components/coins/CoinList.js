@@ -138,7 +138,7 @@ export class CoinList extends Component {
         <Grid
           container
           justifyContent="center"
-          spacing={2}
+          spacing={1}
           style={{ paddingTop: 25, paddingBottom: 15 }}
         >
           {coins.length > 0
@@ -147,10 +147,10 @@ export class CoinList extends Component {
                   <Grid key={inx} item>
                     <Card
                       style={{
-                        width: 350,
+                        width: 335,
                         backgroundColor: "#040d1b6b",
                         color: "white",
-                        padding: "13px",
+                        padding: "11px",
                       }}
                       elevation={0}
                     >
