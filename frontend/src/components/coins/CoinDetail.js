@@ -2,6 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { useStateValue } from "../../context";
 
 // style related
 import { motion } from "framer-motion";
@@ -40,7 +41,7 @@ const headerElements = {
   margin: "10px 0",
 };
 
-export const CoinDetail = ({ isAuth, token }) => {
+export const CoinDetail = () => {
   // getting param from url
   const search = useLocation().search;
 
@@ -50,6 +51,9 @@ export const CoinDetail = ({ isAuth, token }) => {
   );
   const [coinInfo, setCoinInfo] = useState(null);
   const [follow, setFollow] = useState(false);
+
+  // auth context
+  const [{ token, isAuth }] = useStateValue();
 
   // obtaining data related functions
   useEffect(() => {

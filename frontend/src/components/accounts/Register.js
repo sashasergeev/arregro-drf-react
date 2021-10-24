@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
+import { useMutation } from "react-query";
+import { registerUser } from "./authAxios";
 
 import {
   Container,
@@ -12,8 +14,8 @@ import {
   Button,
   Avatar,
 } from "@material-ui/core";
+import { actionTypes, useStateValue } from "../../context";
 
-import axios from "axios";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,35 +42,34 @@ const useStyles = makeStyles((theme) => ({
 
 export const Register = (props) => {
   const classes = useStyles();
+  const [{ isAuth }, dispatch] = useStateValue();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-
-  const handleSubmit = (e) => {
+  const { mutateAsync } = useMutation("register", registerUser, {
+    onSuccess: (data) => {
+      dispatch({
+        type: actionTypes.SET_TOKEN,
+        token: data.token,
+        username: data.user.username,
+      });
+      localStorage.setItem("token", data.token);
+    },
+  });
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const elements = e.target.elements;
+    const username = elements.username.value;
+    const email = elements.email.value;
+    const password = elements.password.value;
+    const password2 = elements.password2.value;
     if (password != password2) {
       return null;
     }
-    const newUser = {
-      username,
-      email,
-      password,
-    };
-    axios
-      .post("api/auth/register", newUser)
-      .then((res) => {
-        let token = res.data.token;
-        localStorage.setItem("token", token);
-        props.handleRegistration(token, newUser.username);
-      })
-      .catch((err) => console.log(err));
+    await mutateAsync({ username, email, password });
   };
 
   return (
     <Container maxWidth="xs" style={{ backgroundColor: "#a2a2a2" }}>
-      {props.isAuth && <Redirect to="/" />}
+      {isAuth && <Redirect to="/" />}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -87,8 +88,6 @@ export const Register = (props) => {
                 id="username"
                 label="Username"
                 name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -99,8 +98,6 @@ export const Register = (props) => {
                 id="email"
                 label="Email Address"
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -112,8 +109,6 @@ export const Register = (props) => {
                 id="password"
                 label="Password"
                 name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -125,8 +120,6 @@ export const Register = (props) => {
                 id="password2"
                 label="Confirm Password"
                 name="password2"
-                value={password2}
-                onChange={(e) => setPassword2(e.target.value)}
               />
             </Grid>
           </Grid>

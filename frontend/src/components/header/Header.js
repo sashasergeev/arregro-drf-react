@@ -15,6 +15,9 @@ import PropTypes from "prop-types";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import MoneyIcon from "@material-ui/icons/Money";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import { actionTypes, useStateValue } from "../../context";
+import { logoutUser } from "../accounts/authAxios";
+import { useMutation } from "react-query";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -62,6 +65,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Header = (props) => {
+  // styles
   const {
     header,
     logo,
@@ -73,9 +77,21 @@ const Header = (props) => {
   } = useStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const logout = (e) => {
-    props.handleLogout();
+
+  // auth
+  const [{ token, isAuth, username }, dispatch] = useStateValue();
+  const { mutateAsync } = useMutation("logout", logoutUser, {
+    onSuccess: () => {
+      dispatch({
+        type: actionTypes.LOGOUT,
+      });
+      localStorage.removeItem("token", token);
+    },
+  });
+  const logout = async (e) => {
+    await mutateAsync({ token });
   };
+
   return (
     <div>
       <AppBar className={header}>
@@ -90,7 +106,7 @@ const Header = (props) => {
             >
               Arregro
             </NavLink>
-            {props.isAuth && (
+            {isAuth && (
               <NavLink
                 exact
                 to="/feed"
@@ -112,8 +128,8 @@ const Header = (props) => {
               menuButton={menuButton}
               active={active}
               logout={logout}
-              isAuth={props.isAuth}
-              user={props.user}
+              isAuth={isAuth}
+              user={username}
             />
           ) : (
             <>
@@ -142,7 +158,6 @@ const Header = (props) => {
               <NavLink
                 to="/tags"
                 className={menuButton}
-                style={{}}
                 activeClassName={active}
               >
                 <Box className={menuContainer}>
@@ -150,13 +165,13 @@ const Header = (props) => {
                   Tags
                 </Box>
               </NavLink>
-              {props.isAuth ? (
+              {isAuth ? (
                 <NavIsAuth
                   isMobile={isMobile}
                   menuButton={menuButton}
                   active={active}
                   logout={logout}
-                  user={props.user}
+                  user={username}
                 />
               ) : (
                 <NavNotAuth menuButton={menuButton} active={active} />

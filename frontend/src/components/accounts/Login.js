@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import { useMutation } from "react-query";
 
 import { Redirect } from "react-router-dom";
 import {
@@ -14,8 +15,8 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import axios from "axios";
-
+import { loginUser } from "./authAxios";
+import { actionTypes, useStateValue } from "../../context";
 const useStyles = makeStyles((theme) => ({
   paper: {
     margin: theme.spacing(8),
@@ -38,22 +39,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Login = (props) => {
+const Login = (props) => {
+  // styles
   const classes = useStyles();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleLoginSubmit = (e) => {
+  // auth
+  const [{ isAuth }, dispatch] = useStateValue();
+  const loginMutate = useMutation("login", loginUser, {
+    onSuccess: (data) => {
+      dispatch({
+        type: actionTypes.SET_TOKEN,
+        token: data.token,
+        username: data.user.username,
+      });
+      localStorage.setItem("token", data.token);
+    },
+  });
+
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("api/auth/login", { username: username, password: password })
-      .then((res) => props.handleLogin(res.data.token))
-      .catch((err) => console.log(err));
+    let username = e.target.elements.username.value;
+    let password = e.target.elements.password.value;
+    await loginMutate.mutateAsync({ username, password });
   };
 
   return (
     <Container maxWidth="xs" style={{ backgroundColor: "#a2a2a2" }}>
-      {props.isAuth && <Redirect to="/" />}
+      {isAuth && <Redirect to="/" />}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -72,7 +84,6 @@ export const Login = (props) => {
             name="username"
             autoComplete="username"
             autoFocus
-            onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -84,7 +95,6 @@ export const Login = (props) => {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
           />
           <Button
             type="submit"

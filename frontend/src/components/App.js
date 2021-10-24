@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from "react";
+import React, { useEffect } from "react";
 import { render } from "react-dom";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { useMutation } from "react-query";
 
 import Header from "./header/Header";
 import Login from "./accounts/Login";
@@ -11,110 +12,62 @@ import Posts from "./posts/Posts";
 import UserFeed from "./posts/UserFeed";
 import Movers from "./trending/Movers";
 
-import axios from "axios";
 import { createTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { actionTypes, useStateValue } from "../context";
+import { getUser } from "./accounts/authAxios";
 
-export class App extends Component {
-  state = {
-    token: localStorage.getItem("token") || null,
-    isAuth: false,
-    username: "",
-  };
-
-  componentDidMount() {
-    if (this.state.token) {
-      this.getUser(this.state.token);
-    }
-  }
-  getUser(token) {
-    let headers = { Authorization: `Token ${token}` };
-    axios.get("api/auth/user", { headers: headers }).then((res) => {
-      localStorage.setItem("token", token);
-      this.setState({
-        isAuth: true,
-        username: res.data.username,
-        token: token,
+export const App = () => {
+  // auth states
+  const [{ token, isAuth, username }, dispatch] = useStateValue();
+  const { mutateAsync } = useMutation("getUser", getUser, {
+    onSuccess: (data) => {
+      dispatch({
+        type: actionTypes.SET_TOKEN,
+        token: localStorage.getItem("token"),
+        username: data.username,
       });
-    });
-  }
+    },
+  });
 
-  handleRegistration(token, username) {
-    this.setState({
-      token: token,
-      isAuth: true,
-      username: username,
-    });
-  }
-  handleLogout() {
-    axios
-      .post("api/auth/logout", null, {
-        headers: { Authorization: `Token ${this.state.token}` },
-      })
-      .then((res) => {
-        localStorage.removeItem("token");
-        this.setState({
-          token: null,
-          isAuth: false,
-          username: null,
-        });
-      })
-      .catch((err) => console.log(err));
-  }
+  // auth related functions
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (token && !isAuth) {
+      mutateAsync({ token });
+    }
+  }, []);
 
-  render() {
-    const { username, isAuth, token } = this.state;
-    return (
-      <Fragment>
-        <Router>
-          <Header
-            user={username}
-            isAuth={isAuth}
-            handleLogout={this.handleLogout.bind(this)}
-          />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component={Posts} />
-              <Route
-                path="/coins"
-                component={(props) => (
-                  <Coins {...props} isAuth={isAuth} token={token} />
-                )}
-              />
-              <Route path="/trending" component={Movers} />
-              <Route path="/tags" component={Tags} />
+  return (
+    <>
+      <Router>
+        <Header />
+        <div className="container">
+          <Switch>
+            {/* PAGES */}
+            <Route exact path="/" component={Posts} />
+            <Route path="/coins" component={Coins} />
+            <Route path="/trending" component={Movers} />
+            <Route path="/tags" component={Tags} />
 
-              {/* AUTH AND FEED */}
-              <Route
-                path="/login"
-                component={() => (
-                  <Login
-                    isAuth={isAuth}
-                    token={token}
-                    handleLogin={this.getUser.bind(this)}
-                  />
-                )}
-              />
-              <Route
-                path="/register"
-                component={() => (
-                  <Register
-                    isAuth={isAuth}
-                    handleRegistration={this.handleRegistration.bind(this)}
-                  />
-                )}
-              />
-              <Route
-                path="/feed"
-                component={() => <UserFeed isAuth={isAuth} token={token} />}
-              />
-            </Switch>
-          </div>
-        </Router>
-      </Fragment>
-    );
-  }
-}
+            {/* AUTH AND FEED */}
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route
+              path="/feed"
+              component={() => <UserFeed isAuth={isAuth} token={token} />}
+            />
+          </Switch>
+        </div>
+      </Router>
+    </>
+  );
+};
+
+import { QueryClient, QueryClientProvider } from "react-query";
+import { StateProvider } from "../context/StateProvider";
+import reducer, { initialState } from "../context/reducer";
+const queryClient = new QueryClient();
 
 const theme = createTheme({
   typography: {
@@ -124,7 +77,11 @@ const theme = createTheme({
 
 render(
   <ThemeProvider theme={theme}>
-    <App />
+    <StateProvider initialState={initialState} reducer={reducer}>
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
+    </StateProvider>
   </ThemeProvider>,
   document.getElementById("app")
 );
