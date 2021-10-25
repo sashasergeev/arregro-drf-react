@@ -6,7 +6,6 @@ import {
   ListItem,
   IconButton,
   ListItemText,
-  makeStyles,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import NavIsAuth from "./NavIsAuth";
@@ -15,51 +14,14 @@ import NavNotAuth from "./NavNotAuth";
 import MenuIcon from "@material-ui/icons/Menu";
 import TrendingUpIcon from "@material-ui/icons/TrendingUp";
 import MoneyIcon from "@material-ui/icons/Money";
-import MoreIcon from "@material-ui/icons/More";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import { useDrawerStyles } from "./styles";
 
 import PropTypes from "prop-types";
 
-const useStyles = makeStyles(() => ({
-  link: {
-    textDecoration: "none",
-    color: "white",
-    fontSize: "20px",
-    display: "block",
-  },
-  icon: {
-    color: "white",
-  },
-  paper: {
-    background:
-      "linear-gradient(0deg, rgb(34 114 44) 50%, rgba(23,34,43,1) 50%)",
-    width: "40vw",
-  },
-  listItemText: {
-    textAlign: "center",
-    padding: "10px 0px",
-  },
-  active: {
-    borderWidth: 2,
-    boxShadow: "0px 7px 1px -2px #2ecd2d78",
-    paddingBottom: 5,
-  },
-  menuContainer: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "7px",
-  },
-  menuItemIcon: {
-    padding: "4px",
-    background: "#8980f5",
-    borderRadius: "50%",
-  },
-}));
-
 const NavDrawer = (props) => {
   const [openDrawer, setOpenDrawer] = useState(false);
-  const classes = useStyles();
-
+  const classes = useDrawerStyles();
   return (
     <>
       <Drawer
@@ -118,30 +80,19 @@ const NavDrawer = (props) => {
             <ListItemText className={classes.listItemText}>
               {props.isAuth ? (
                 <>
-                  <NavIsAuth
-                    menuButton={props.menuButton}
-                    active={props.active}
-                    logout={props.logout}
-                    user={props.user}
-                  />
+                  <NavIsAuth logout={props.logout} user={props.user} />
                 </>
               ) : (
                 <>
-                  <NavNotAuth
-                    menuButton={props.menuButton}
-                    active={props.active}
-                  />
+                  <NavNotAuth />
                 </>
               )}
             </ListItemText>
           </ListItem>
         </List>
       </Drawer>
-      <IconButton
-        onClick={() => setOpenDrawer(!openDrawer)}
-        className={classes.icon}
-      >
-        <MenuIcon />
+      <IconButton onClick={() => setOpenDrawer(!openDrawer)}>
+        <MenuIcon className={classes.icon} />
       </IconButton>
     </>
   );

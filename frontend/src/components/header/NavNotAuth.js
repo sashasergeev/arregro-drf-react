@@ -7,10 +7,13 @@ import {
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useHeaderStyles } from "./styles";
 
 const NavNotAuth = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const classes = useHeaderStyles();
+
   return (
     <>
       <ButtonGroup
@@ -25,9 +28,8 @@ const NavNotAuth = (props) => {
           <NavLink
             key="3"
             to="/login"
-            className={props.menuButton}
-            activeClassName={props.active}
-            style={{ fontSize: "15px" }}
+            className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}
+            activeClassName={classes.active}
           >
             Sign In
           </NavLink>
@@ -36,9 +38,8 @@ const NavNotAuth = (props) => {
           <NavLink
             key="4"
             to="/register"
-            className={props.menuButton}
-            activeClassName={props.active}
-            style={{ fontSize: "15px" }}
+            className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}
+            activeClassName={classes.active}
           >
             Register
           </NavLink>

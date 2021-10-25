@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
 import { useMutation } from "react-query";
 import { registerUser } from "./authAxios";
+import { useAuthStyles } from "../accounts/styles";
 
 import {
   Container,
@@ -18,32 +18,11 @@ import { actionTypes, useStateValue } from "../../context";
 
 import PropTypes from "prop-types";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    margin: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    borderRadius: "20%",
-    padding: 20,
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "150%",
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
-export const Register = (props) => {
-  const classes = useStyles();
+export const Register = () => {
+  const classes = useAuthStyles();
   const [{ isAuth }, dispatch] = useStateValue();
 
+  // signing up
   const { mutateAsync } = useMutation("register", registerUser, {
     onSuccess: (data) => {
       dispatch({
@@ -68,7 +47,7 @@ export const Register = (props) => {
   };
 
   return (
-    <Container maxWidth="xs" style={{ backgroundColor: "#a2a2a2" }}>
+    <Container maxWidth="xs" className={classes.window}>
       {isAuth && <Redirect to="/" />}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -109,6 +88,7 @@ export const Register = (props) => {
                 id="password"
                 label="Password"
                 name="password"
+                autoComplete="off"
               />
             </Grid>
             <Grid item xs={12}>
@@ -120,6 +100,7 @@ export const Register = (props) => {
                 id="password2"
                 label="Confirm Password"
                 name="password2"
+                autoComplete="off"
               />
             </Grid>
           </Grid>

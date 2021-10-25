@@ -1,47 +1,21 @@
-import React, { Component, useState, useEffect } from "react";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useStateValue } from "../../context";
 
 // style related
 import { motion } from "framer-motion";
 import { Box, Typography, Button } from "@material-ui/core";
+import { useCoinStyles, containerVariants } from "./styles";
 
 import Cards from "../posts/Cards";
 import { FetchCoinData } from "../other/FetchCoinData";
-
-// animation and styles
-const containerVariants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-  },
-  exit: {
-    x: "100vh",
-    transition: { ease: "easeInOut" },
-  },
-};
-const unFollowStyles = {
-  background: "#c21d5112",
-  color: "#c21d51",
-  border: "1px solid #c21d51",
-};
-const followStyles = {
-  background: "#32cd3212",
-  color: "#32cd32",
-  border: "1px solid #52b788",
-};
-const headerElements = {
-  flexBasis: "100%",
-  display: "flex",
-  justifyContent: "center",
-  margin: "10px 0",
-};
+import { useStateValue } from "../../context";
 
 export const CoinDetail = () => {
+  // style
+  const classes = useCoinStyles();
+
   // getting param from url
   const search = useLocation().search;
 
@@ -78,7 +52,7 @@ export const CoinDetail = () => {
       .post("api/coins/following/", data, {
         headers: { Authorization: `Token ${token}` },
       })
-      .then((res) => setFollow(!follow))
+      .then(() => setFollow(!follow))
       .catch((err) => console.log(err));
   };
 
@@ -95,75 +69,38 @@ export const CoinDetail = () => {
       exit="exit"
     >
       {coinInfo && (
-        <Box
-          justifyContent="center"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(21,24,29,1) 22%, rgba(12,15,17,1) 100%)",
-          }}
-        >
+        <Box justifyContent="center">
           {/* CONTAINER WITH BACK BTN< NAME AND TICKER OF THE COIN AND AN IMG */}
           <Box display="flex" alignItems="center">
-            <Box style={headerElements}>
+            <Box className={classes.headerElements}>
               <Button
                 variant="contained"
                 onClick={handleBack}
-                style={{
-                  color: "black",
-                  fontWeight: 600,
-                }}
+                className={classes.backBtn}
               >
                 Back
               </Button>
             </Box>
             <Box
-              style={{
-                ...headerElements,
-                ...{ flexDirection: "column", alignItems: "center" },
-              }}
-              component="div"
-              display="inline"
+              className={classes.headerElements}
+              flexDirection="column"
+              alignItems="center"
             >
-              <Typography
-                variant="h5"
-                style={{
-                  display: "inline-block",
-                }}
-              >
-                {coinInfo.name}
-              </Typography>
-              <div
-                style={{
-                  color: "#95969a",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                }}
-              >
-                {coinInfo.ticker}
-              </div>
-              <div
-                style={{
-                  color: "#95969a",
-                  fontWeight: "600",
-                  fontSize: "13px",
-                }}
-              >
+              <Typography variant="h5">{coinInfo.name}</Typography>
+              <Box className={classes.secondaryDetails}>{coinInfo.ticker}</Box>
+              <Box className={classes.secondaryDetails}>
                 {coinInfo.currPrice} ({coinInfo.price_change24h}%)
-              </div>
+              </Box>
             </Box>
-            <Box style={headerElements} component="div" display="inline">
+            <Box className={classes.headerElements}>
               <img src={coinInfo.img_link} alt={coinInfo.name} />
             </Box>
           </Box>
           {/* links and follow/unfollow btn */}
-          <Box
-            display="flex"
-            style={{ marginTop: "20px" }}
-            justifyContent="space-evenly"
-          >
+          <Box display="flex" mt="20px" justifyContent="space-evenly">
             <a href={coinInfo.cg_link}>
               <img
-                style={{ width: 40 }}
+                className={classes.socialImg}
                 alt="Qries"
                 src="https://static.coingecko.com/s/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png"
               />
@@ -171,7 +108,7 @@ export const CoinDetail = () => {
             {isAuth && (
               <Button
                 variant="outlined"
-                style={follow ? unFollowStyles : followStyles}
+                className={follow ? classes.unFollow : classes.follow}
                 onClick={followUnfollow}
               >
                 {follow ? "Unfollow" : "Follow"}
@@ -179,7 +116,7 @@ export const CoinDetail = () => {
             )}
             <a href={coinInfo.tg_link}>
               <img
-                style={{ width: 40 }}
+                className={classes.socialImg}
                 alt="Qries"
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/240px-Telegram_logo.svg.png"
               />

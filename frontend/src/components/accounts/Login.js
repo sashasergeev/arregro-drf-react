@@ -12,36 +12,15 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { useAuthStyles } from "../accounts/styles";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { loginUser } from "./authAxios";
 import { actionTypes, useStateValue } from "../../context";
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    margin: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    borderRadius: "20%",
-    padding: 20,
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "150%",
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 
-const Login = (props) => {
+const Login = () => {
   // styles
-  const classes = useStyles();
+  const classes = useAuthStyles();
 
   // auth
   const [{ isAuth }, dispatch] = useStateValue();
@@ -64,7 +43,7 @@ const Login = (props) => {
   };
 
   return (
-    <Container maxWidth="xs" style={{ backgroundColor: "#a2a2a2" }}>
+    <Container maxWidth="xs" className={classes.window}>
       {isAuth && <Redirect to="/" />}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>

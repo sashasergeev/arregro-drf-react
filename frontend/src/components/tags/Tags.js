@@ -88,13 +88,7 @@ export class Tags extends Component {
                     style={{ color: "gray" }}
                   >
                     <Box component="div" display="inline" p={1} m={1}>
-                      <Typography
-                        variant="body1"
-                        style={{
-                          display: "inline-block",
-                          fontFamily: "Quicksand, sans-serif",
-                        }}
-                      >
+                      <Typography variant="body1" display="inline">
                         {e.tag}
                       </Typography>
                     </Box>

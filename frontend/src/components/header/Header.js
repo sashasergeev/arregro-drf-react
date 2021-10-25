@@ -2,11 +2,11 @@ import React from "react";
 import {
   AppBar,
   Toolbar,
-  makeStyles,
   Box,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { useHeaderStyles } from "./styles";
 import { NavLink } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
 import NavIsAuth from "./NavIsAuth";
@@ -19,62 +19,9 @@ import { actionTypes, useStateValue } from "../../context";
 import { logoutUser } from "../accounts/authAxios";
 import { useMutation } from "react-query";
 
-const useStyles = makeStyles(() => ({
-  header: {
-    backgroundColor: "#181b22",
-  },
-  logo: {
-    fontWeight: 700,
-    fontSize: 20,
-    color: "#FFFEFE",
-    textAlign: "left",
-    border: "1px solid transparent",
-    paddingBottom: 5,
-    paddingTop: 5,
-  },
-  menuButton: {
-    fontWeight: 700,
-    fontSize: 18,
-    margin: 0,
-    textDecoration: "none",
-    color: "white",
-    border: "1px solid transparent",
-    paddingBottom: 5,
-    paddingTop: 5,
-  },
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-evenly",
-  },
-  active: {
-    borderWidth: 2,
-    boxShadow: "0px 7px 1px -2px #2ecd2d78",
-    paddingBottom: 5,
-  },
-  menuContainer: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "7px",
-    alignItems: "center",
-  },
-  menuItemIcon: {
-    padding: "4px",
-    background: "#8980f5",
-    borderRadius: "50%",
-  },
-}));
-
 const Header = (props) => {
   // styles
-  const {
-    header,
-    logo,
-    menuButton,
-    menuContainer,
-    menuItemIcon,
-    toolbar,
-    active,
-  } = useStyles();
+  const classes = useHeaderStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -94,15 +41,14 @@ const Header = (props) => {
 
   return (
     <div>
-      <AppBar className={header}>
-        <Toolbar className={toolbar}>
+      <AppBar className={classes.header}>
+        <Toolbar className={classes.toolbar}>
           <Box>
             <NavLink
               exact
               to="/"
-              style={{ textDecoration: "none" }}
-              className={logo}
-              activeClassName={active}
+              className={classes.logo}
+              activeClassName={classes.active}
             >
               Arregro
             </NavLink>
@@ -110,71 +56,57 @@ const Header = (props) => {
               <NavLink
                 exact
                 to="/feed"
-                style={{
-                  textDecoration: "none",
-                  color: "gray",
-                  paddingLeft: 20,
-                  paddingRight: 20,
-                }}
-                className={menuButton}
-                activeClassName={active}
+                className={`${classes.menuButton} ${classes.menuBtnSecondary}`}
+                activeClassName={classes.active}
               >
                 feed
               </NavLink>
             )}
           </Box>
           {isMobile ? (
-            <NavDrawer
-              menuButton={menuButton}
-              active={active}
-              logout={logout}
-              isAuth={isAuth}
-              user={username}
-            />
+            <NavDrawer logout={logout} isAuth={isAuth} user={username} />
           ) : (
             <>
               <NavLink
                 to="/coins"
-                className={menuButton}
+                className={classes.menuButton}
                 style={{}}
-                activeClassName={active}
+                activeClassName={classes.active}
               >
-                <Box className={menuContainer}>
-                  <MoneyIcon className={menuItemIcon} />
+                <Box className={classes.menuContainer}>
+                  <MoneyIcon className={classes.menuItemIcon} />
                   Coins
                 </Box>
               </NavLink>
               <NavLink
                 to="/trending"
-                className={menuButton}
+                className={classes.menuButton}
                 style={{}}
-                activeClassName={active}
+                activeClassName={classes.active}
               >
-                <Box className={menuContainer}>
-                  <TrendingUpIcon className={menuItemIcon} />
+                <Box className={classes.menuContainer}>
+                  <TrendingUpIcon className={classes.menuItemIcon} />
                   Trending
                 </Box>
               </NavLink>
               <NavLink
                 to="/tags"
-                className={menuButton}
-                activeClassName={active}
+                className={classes.menuButton}
+                activeClassName={classes.active}
               >
-                <Box className={menuContainer}>
-                  <LocalOfferIcon className={menuItemIcon} />
+                <Box className={classes.menuContainer}>
+                  <LocalOfferIcon className={classes.menuItemIcon} />
                   Tags
                 </Box>
               </NavLink>
               {isAuth ? (
                 <NavIsAuth
                   isMobile={isMobile}
-                  menuButton={menuButton}
-                  active={active}
                   logout={logout}
                   user={username}
                 />
               ) : (
-                <NavNotAuth menuButton={menuButton} active={active} />
+                <NavNotAuth />
               )}
             </>
           )}

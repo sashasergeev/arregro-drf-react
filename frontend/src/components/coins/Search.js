@@ -1,53 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiOutlinedInput-root": {
-      margin: theme.spacing(1),
-      width: "250px",
-    },
-    "& .MuiInputBase-input": {
-      color: "#dadada",
-    },
-    "& .MuiInputBase-root": {},
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#ffffff30",
-    },
-    "& .MuiFormLabel-root": {
-      color: "rgb(91 117 128)",
-    },
-    display: "flex",
-    justifyContent: "center",
-    position: "relative",
-  },
-  dropdown: {
-    "& a": {
-      color: "white",
-      display: "block",
-      textDecoration: "none",
-      padding: "5px 5px",
-      "&:hover": {
-        backgroundColor: "#a7a7a72e",
-      },
-    },
-    position: "absolute",
-    width: "100%",
-    maxHeight: "200px",
-    background: "#0e131c",
-    zIndex: 100,
-    top: "79px",
-    right: "-9px",
-    border: "1px solid rgb(139 0 239 / 33%)",
-    overflow: "auto",
-  },
-}));
+import TextField from "@material-ui/core/TextField";
+import { useSearchStyles } from "./styles";
 
 const Search = () => {
-  const classes = useStyles();
+  const classes = useSearchStyles();
   const [input, setInput] = useState("");
   const [show, setShow] = useState(false);
 
@@ -66,9 +25,7 @@ const Search = () => {
     }
   }, [input]);
 
-  const inputOnChange = (e) => {
-    setInput(e.target.value);
-  };
+  const inputOnChange = (e) => setInput(e.target.value);
   const inputOnFocus = () => {
     if (coins.length === 0) {
       axios.get("api/coinsearch/").then((res) => {

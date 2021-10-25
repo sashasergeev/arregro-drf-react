@@ -1,23 +1,12 @@
 import React from "react";
-import { Box, Card, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
-import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-
-const useStyles = makeStyles({
-  row: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-    padding: "5px 10px",
-  },
-  coinLogo: {},
-  change: { marginLeft: "auto" },
-});
+import { useColumnStyles } from "./styles";
 
 const Column = (props) => {
   const { trendData } = props;
-  const { row, change } = useStyles();
+  const classes = useColumnStyles();
 
   return (
     <Box>
@@ -26,16 +15,16 @@ const Column = (props) => {
             <Link
               to={`/coins/coin?id=${e.id}`}
               key={e.id}
-              style={{ textDecoration: "none", color: "inherit" }}
+              className={classes.coinLink}
             >
-              <Box className={row}>
+              <Box className={classes.row}>
                 <Box display="inline">
-                  <img style={{}} src={e.img_link} alt={e.name} />
+                  <img src={e.img_link} alt={e.name} />
                 </Box>
                 <Typography display="inline">{e.name} &nbsp;· </Typography>
                 <Typography display="inline">{e.currPrice}$</Typography>
                 <Typography
-                  className={change}
+                  className={classes.change}
                   style={
                     e.price_change24h > 0
                       ? { color: "#0f6" }
@@ -49,14 +38,11 @@ const Column = (props) => {
             </Link>
           ))
         : trendData.map((e, inx) => (
-            <Box key={inx} className={row}>
+            <Box key={inx} className={classes.row}>
               <Skeleton
                 variant="rect"
-                style={{
-                  width: "-webkit-fill-available",
-                  background: "#ffeddb14",
-                }}
-                height={31}
+                className={classes.skeleton}
+                height={45}
               />
             </Box>
           ))}

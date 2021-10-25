@@ -73,6 +73,13 @@ const theme = createTheme({
   typography: {
     fontFamily: "Quicksand, sans-serif",
   },
+  overrides: {
+    MuiSkeleton: {
+      root: {
+        backgroundColor: "#ffeddb14",
+      },
+    },
+  },
 });
 
 render(

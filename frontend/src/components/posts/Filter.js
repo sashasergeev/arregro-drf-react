@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Fab,
   Dialog,
@@ -15,41 +14,10 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import axios from "axios";
-
-const useStyles = makeStyles((theme) => ({
-  filterIcon: {
-    position: "sticky",
-    bottom: "25px",
-    left: "25px",
-  },
-  cancelIcon: {
-    width: "48px",
-    height: "48px",
-  },
-  filterBtns: {
-    position: "sticky",
-    bottom: "10px",
-    "& .MuiFab-root": {
-      background: "#e6e5e6",
-      color: "#0c1018",
-    },
-  },
-  main: {
-    "& .MuiInputBase-root": {
-      width: "50%",
-      display: "block",
-      margin: "0 auto",
-    },
-
-    "& .MuiButtonBase-root": {
-      background: "#9ea5d0",
-      color: "#0c1018",
-    },
-  },
-}));
+import { useFilterStyles } from "./styles";
 
 const Filter = (props) => {
-  const classes = useStyles();
+  const classes = useFilterStyles();
   const [isOpen, setIsOpen] = useState(false);
   const [filter, setFilter] = useState(false);
   const [tags, setTags] = useState(null);
@@ -81,7 +49,6 @@ const Filter = (props) => {
           variant="extended"
           onClick={openDialog}
           className={classes.filterIcon}
-          style={{ marginRight: "22px" }}
         >
           <SearchIcon />
           {!clear && "Filter"}

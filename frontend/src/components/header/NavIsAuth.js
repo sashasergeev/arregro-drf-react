@@ -5,13 +5,14 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { useHeaderStyles } from "./styles";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const NavIsAuth = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
+  const classes = useHeaderStyles();
   return (
     <>
       <ButtonGroup
@@ -26,25 +27,21 @@ const NavIsAuth = (props) => {
           disabled
           style={{
             boxShadow: "rgb(46 205 45 / 32%) 5px -5px 0px 0px inset",
-            fontSize: "15px",
           }}
         >
           <NavLink
             key="3"
             to="/user"
-            className={props.menuButton}
-            activeClassName={props.active}
-            style={{ fontSize: "15px" }}
+            className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}
+            activeClassName={classes.active}
           >
             {props.user}
           </NavLink>
         </Button>
-        <Button
-          style={{ fontSize: "15px" }}
-          className={props.menuButton}
-          onClick={() => props.logout()}
-        >
-          Logout
+        <Button onClick={() => props.logout()}>
+          <span className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}>
+            Logout
+          </span>
         </Button>
       </ButtonGroup>
     </>
