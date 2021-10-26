@@ -64,9 +64,15 @@ export const App = () => {
   );
 };
 
+// auth context related import
 import { QueryClient, QueryClientProvider } from "react-query";
 import { StateProvider } from "../context/StateProvider";
 import reducer, { initialState } from "../context/reducer";
+
+// alert related imports
+import { SnackbarProvider } from "material-ui-snackbar-provider";
+import SnackbarAlert from "./other/SnackbarAlert";
+
 const queryClient = new QueryClient();
 
 const theme = createTheme({
@@ -83,12 +89,21 @@ const theme = createTheme({
 });
 
 render(
+  // overriding global styles
   <ThemeProvider theme={theme}>
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
-    </StateProvider>
+    // alerts
+    <SnackbarProvider
+      SnackbarProps={{ autoHideDuration: 4000 }}
+      SnackbarComponent={SnackbarAlert}
+    >
+      // context data
+      <StateProvider initialState={initialState} reducer={reducer}>
+        // React query
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </StateProvider>
+    </SnackbarProvider>
   </ThemeProvider>,
   document.getElementById("app")
 );

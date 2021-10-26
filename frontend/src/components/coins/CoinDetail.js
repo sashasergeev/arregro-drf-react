@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
+import useSnackbarAlert from "../other/useSnackbarAlert";
 
 // style related
 import { motion } from "framer-motion";
@@ -15,7 +16,8 @@ import { useStateValue } from "../../context";
 export const CoinDetail = () => {
   // style
   const classes = useCoinStyles();
-
+  // alert
+  const snackbar = useSnackbarAlert();
   // getting param from url
   const search = useLocation().search;
 
@@ -52,8 +54,13 @@ export const CoinDetail = () => {
       .post("api/coins/following/", data, {
         headers: { Authorization: `Token ${token}` },
       })
-      .then(() => setFollow(!follow))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setFollow(!follow);
+        snackbar.showSuccess(`You've ${res.data.status} the coin!`);
+      })
+      .catch((err) =>
+        snackbar.showError("Some error has happend. Reload the page!")
+      );
   };
 
   // BACK BTN FUNCTIONALITY

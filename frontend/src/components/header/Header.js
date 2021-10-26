@@ -18,13 +18,15 @@ import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import { actionTypes, useStateValue } from "../../context";
 import { logoutUser } from "../accounts/authAxios";
 import { useMutation } from "react-query";
+import useSnackbarAlert from "../other/useSnackbarAlert";
 
 const Header = (props) => {
   // styles
   const classes = useHeaderStyles();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
+  // alert
+  const snackbar = useSnackbarAlert();
   // auth
   const [{ token, isAuth, username }, dispatch] = useStateValue();
   const { mutateAsync } = useMutation("logout", logoutUser, {
@@ -33,6 +35,10 @@ const Header = (props) => {
         type: actionTypes.LOGOUT,
       });
       localStorage.removeItem("token", token);
+      snackbar.showMessage("You've logged out!");
+    },
+    onError: () => {
+      snackbar.showError("Something went wrong! Reload the page and retry.");
     },
   });
   const logout = async (e) => {

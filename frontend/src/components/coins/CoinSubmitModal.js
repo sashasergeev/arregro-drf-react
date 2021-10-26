@@ -4,19 +4,23 @@ import { TextField, Button, Typography } from "@material-ui/core";
 Modal.setAppElement("#app");
 import axios from "axios";
 import { modalStyles } from "./styles";
+import useSnackbarAlert from "../other/useSnackbarAlert";
 
 const CoinSubmitModal = (props) => {
   const [coin, setCoin] = useState("");
   const [cgLink, setCgLink] = useState("");
+  const snackbar = useSnackbarAlert();
 
   const handleSubmit = () => {
     axios
       .post("api/submit-coin/", { coin: coin, cg_link: cgLink })
-      .then((res) => console.log(res));
+      .then(() => snackbar.showMessage("Coin has been submitted!"))
+      .catch(() =>
+        snackbar.showError("Something went wrong! Reload the page and retry.")
+      );
     props.handleModal();
     setCoin("");
     setCgLink("");
-    console.log("submitted");
   };
 
   return (

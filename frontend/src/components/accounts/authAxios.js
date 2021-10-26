@@ -9,7 +9,7 @@ export const loginUser = async ({ username, password }) => {
     const { data } = await api.post("/login", { username, password });
     return data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    throw Error(error.response);
   }
 };
 
@@ -18,7 +18,7 @@ export const registerUser = async ({ username, email, password }) => {
     const { data } = await api.post("/register", { username, email, password });
     return data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    throw Error(error.response);
   }
 };
 
@@ -29,7 +29,7 @@ export const logoutUser = async ({ token }) => {
     });
     return data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    throw Error(error.response);
   }
 };
 export const getUser = async ({ token }) => {
@@ -39,6 +39,6 @@ export const getUser = async ({ token }) => {
     });
     return data;
   } catch (error) {
-    throw Error(error.response.data.message);
+    throw Error(error.response);
   }
 };

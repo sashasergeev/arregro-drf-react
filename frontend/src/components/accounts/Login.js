@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useMutation } from "react-query";
+import useSnackbarAlert from "../other/useSnackbarAlert";
 
 import { Redirect } from "react-router-dom";
 import {
@@ -22,6 +23,9 @@ const Login = () => {
   // styles
   const classes = useAuthStyles();
 
+  // alert
+  const snackbar = useSnackbarAlert();
+
   // auth
   const [{ isAuth }, dispatch] = useStateValue();
   const loginMutate = useMutation("login", loginUser, {
@@ -32,6 +36,11 @@ const Login = () => {
         username: data.user.username,
       });
       localStorage.setItem("token", data.token);
+      snackbar.showSuccess("You've logged in successfuly.");
+    },
+    onError: (data) => {
+      console.log(data);
+      snackbar.showError("Sorry, login or password is incorrect.");
     },
   });
 

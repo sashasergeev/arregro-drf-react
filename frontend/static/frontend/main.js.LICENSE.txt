@@ -225,6 +225,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../ButtonBase */
 
+/*! ../ClickAwayListener */
+
 /*! ../Fade */
 
 /*! ../FilledInput */
@@ -284,6 +286,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ../Select */
 
 /*! ../Slide */
+
+/*! ../SnackbarContent */
 
 /*! ../StylesProvider */
 
@@ -433,7 +437,13 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../internal/svg-icons/ArrowDropDown */
 
+/*! ../internal/svg-icons/Close */
+
+/*! ../internal/svg-icons/ErrorOutline */
+
 /*! ../internal/svg-icons/FirstPage */
+
+/*! ../internal/svg-icons/InfoOutlined */
 
 /*! ../internal/svg-icons/LastPage */
 
@@ -442,6 +452,10 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ../internal/svg-icons/NavigateNext */
 
 /*! ../internal/svg-icons/Person */
+
+/*! ../internal/svg-icons/ReportProblemOutlined */
+
+/*! ../internal/svg-icons/SuccessOutlined */
 
 /*! ../internals/a-callable */
 
@@ -1285,6 +1299,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../other/FetchDataForCards */
 
+/*! ../other/useSnackbarAlert */
+
 /*! ../posts/Cards */
 
 /*! ../render/utils/types.js */
@@ -1399,6 +1415,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./Animate.js */
 
+/*! ./Button */
+
 /*! ./Cancel */
 
 /*! ./CardElem */
@@ -1458,6 +1476,12 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ./SelectInput */
 
 /*! ./SimpleBackdrop */
+
+/*! ./Snackbar */
+
+/*! ./SnackbarContext */
+
+/*! ./SnackbarProvider */
 
 /*! ./StateProvider */
 
@@ -1697,6 +1721,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./onlineManager */
 
+/*! ./other/SnackbarAlert */
+
 /*! ./ownerDocument */
 
 /*! ./ownerWindow */
@@ -1819,6 +1845,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./useQuery */
 
+/*! ./useSnackbar */
+
 /*! ./utils */
 
 /*! ./utils.js */
@@ -1885,6 +1913,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./variants.js */
 
+/*! ./withSnackbar */
+
 /*! ./zIndex */
 
 /*! @babel/runtime/helpers/esm/assertThisInitialized */
@@ -1921,7 +1951,15 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @material-ui/core */
 
+/*! @material-ui/core/Button */
+
 /*! @material-ui/core/ButtonBase */
+
+/*! @material-ui/core/IconButton */
+
+/*! @material-ui/core/Paper */
+
+/*! @material-ui/core/Snackbar */
 
 /*! @material-ui/core/TextField */
 
@@ -1952,6 +1990,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! @material-ui/icons/TrendingDown */
 
 /*! @material-ui/icons/TrendingUp */
+
+/*! @material-ui/lab */
 
 /*! @material-ui/lab/Pagination */
 
@@ -2004,6 +2044,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! jss-plugin-rule-value-function */
 
 /*! jss-plugin-vendor-prefixer */
+
+/*! material-ui-snackbar-provider */
 
 /*! mini-create-react-context */
 
@@ -2293,6 +2335,10 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./src/components/other/FetchCoinData.js ***!
   \***********************************************/
 
+/*!***********************************************!*\
+  !*** ./src/components/other/SnackbarAlert.js ***!
+  \***********************************************/
+
 /*!************************************************!*\
   !*** ./node_modules/@material-ui/icons/Add.js ***!
   \************************************************/
@@ -2371,6 +2417,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!**************************************************!*\
   !*** ./node_modules/core-js/internals/shared.js ***!
+  \**************************************************/
+
+/*!**************************************************!*\
+  !*** ./src/components/other/useSnackbarAlert.js ***!
   \**************************************************/
 
 /*!***************************************************!*\
@@ -3266,6 +3316,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \**********************************************************/
 
 /*!**********************************************************!*\
+  !*** ./node_modules/@material-ui/lab/esm/Alert/Alert.js ***!
+  \**********************************************************/
+
+/*!**********************************************************!*\
   !*** ./node_modules/@material-ui/utils/esm/deepmerge.js ***!
   \**********************************************************/
 
@@ -3642,6 +3696,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \************************************************************/
 
 /*!************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/Button/index.js ***!
+  \************************************************************/
+
+/*!************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/colors/green.js ***!
   \************************************************************/
 
@@ -3972,6 +4030,10 @@ PERFORMANCE OF THIS SOFTWARE.
 /*!*************************************************************!*\
   !*** ./node_modules/style-value-types/dist/es/color/hex.js ***!
   \*************************************************************/
+
+/*!**************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/Snackbar/index.js ***!
+  \**************************************************************/
 
 /*!**************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/styles/shadows.js ***!
@@ -4350,6 +4412,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \*****************************************************************/
 
 /*!*****************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/Snackbar/Snackbar.js ***!
+  \*****************************************************************/
+
+/*!*****************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/TableRow/TableRow.js ***!
   \*****************************************************************/
 
@@ -4455,6 +4521,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!*****************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/render/dom/motion.js ***!
+  \*****************************************************************/
+
+/*!*****************************************************************!*\
+  !*** ./node_modules/material-ui-snackbar-provider/lib/index.js ***!
   \*****************************************************************/
 
 /*!*****************************************************************!*\
@@ -5110,6 +5180,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \***********************************************************************/
 
 /*!***********************************************************************!*\
+  !*** ./node_modules/@material-ui/lab/esm/internal/svg-icons/Close.js ***!
+  \***********************************************************************/
+
+/*!***********************************************************************!*\
   !*** ./node_modules/@material-ui/styles/esm/makeStyles/makeStyles.js ***!
   \***********************************************************************/
 
@@ -5159,6 +5233,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!***********************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/render/utils/projection.js ***!
+  \***********************************************************************/
+
+/*!***********************************************************************!*\
+  !*** ./node_modules/material-ui-snackbar-provider/lib/useSnackbar.js ***!
   \***********************************************************************/
 
 /*!***********************************************************************!*\
@@ -5219,6 +5297,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!************************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/utils/use-unmount-effect.js ***!
+  \************************************************************************/
+
+/*!************************************************************************!*\
+  !*** ./node_modules/material-ui-snackbar-provider/lib/withSnackbar.js ***!
   \************************************************************************/
 
 /*!************************************************************************!*\
@@ -5438,6 +5520,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \***************************************************************************/
 
 /*!***************************************************************************!*\
+  !*** ./node_modules/material-ui-snackbar-provider/lib/SnackbarContext.js ***!
+  \***************************************************************************/
+
+/*!***************************************************************************!*\
   !*** ./node_modules/popmotion/dist/es/animations/generators/keyframes.js ***!
   \***************************************************************************/
 
@@ -5499,6 +5585,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!****************************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/render/utils/animation-state.js ***!
+  \****************************************************************************/
+
+/*!****************************************************************************!*\
+  !*** ./node_modules/material-ui-snackbar-provider/lib/SnackbarProvider.js ***!
   \****************************************************************************/
 
 /*!****************************************************************************!*\
@@ -5574,6 +5664,14 @@ PERFORMANCE OF THIS SOFTWARE.
   \******************************************************************************/
 
 /*!******************************************************************************!*\
+  !*** ./node_modules/@material-ui/lab/esm/internal/svg-icons/ErrorOutline.js ***!
+  \******************************************************************************/
+
+/*!******************************************************************************!*\
+  !*** ./node_modules/@material-ui/lab/esm/internal/svg-icons/InfoOutlined.js ***!
+  \******************************************************************************/
+
+/*!******************************************************************************!*\
   !*** ./node_modules/@material-ui/lab/esm/internal/svg-icons/NavigateNext.js ***!
   \******************************************************************************/
 
@@ -5619,6 +5717,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!*******************************************************************************!*\
   !*** ./node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js ***!
+  \*******************************************************************************/
+
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/SnackbarContent/SnackbarContent.js ***!
   \*******************************************************************************/
 
 /*!*******************************************************************************!*\
@@ -5698,6 +5800,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \*********************************************************************************/
 
 /*!*********************************************************************************!*\
+  !*** ./node_modules/@material-ui/lab/esm/internal/svg-icons/SuccessOutlined.js ***!
+  \*********************************************************************************/
+
+/*!*********************************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/render/dom/utils/is-svg-component.js ***!
   \*********************************************************************************/
 
@@ -5740,6 +5846,10 @@ PERFORMANCE OF THIS SOFTWARE.
 /*!**********************************************************************************!*\
   !*** ./node_modules/jss-plugin-default-unit/dist/jss-plugin-default-unit.esm.js ***!
   \**********************************************************************************/
+
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@material-ui/core/esm/ClickAwayListener/ClickAwayListener.js ***!
+  \***********************************************************************************/
 
 /*!***********************************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/DialogContentText/DialogContentText.js ***!
@@ -5812,6 +5922,10 @@ PERFORMANCE OF THIS SOFTWARE.
 /*!**************************************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/render/html/utils/scrape-motion-values.js ***!
   \**************************************************************************************/
+
+/*!***************************************************************************************!*\
+  !*** ./node_modules/@material-ui/lab/esm/internal/svg-icons/ReportProblemOutlined.js ***!
+  \***************************************************************************************/
 
 /*!***************************************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.js ***!

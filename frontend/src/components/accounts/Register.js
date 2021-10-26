@@ -15,12 +15,16 @@ import {
   Avatar,
 } from "@material-ui/core";
 import { actionTypes, useStateValue } from "../../context";
+import useSnackbarAlert from "../other/useSnackbarAlert";
 
 import PropTypes from "prop-types";
 
 export const Register = () => {
   const classes = useAuthStyles();
   const [{ isAuth }, dispatch] = useStateValue();
+
+  // alert
+  const snackbar = useSnackbarAlert();
 
   // signing up
   const { mutateAsync } = useMutation("register", registerUser, {
@@ -30,7 +34,11 @@ export const Register = () => {
         token: data.token,
         username: data.user.username,
       });
+      snackbar.showSuccess("Account has been created.");
       localStorage.setItem("token", data.token);
+    },
+    onError: (err) => {
+      snackbar.showError("Somthing is wrong.");
     },
   });
   const handleSubmit = async (e) => {
@@ -41,6 +49,7 @@ export const Register = () => {
     const password = elements.password.value;
     const password2 = elements.password2.value;
     if (password != password2) {
+      snackbar.showWarning("Passwords does not match. Please try again.");
       return null;
     }
     await mutateAsync({ username, email, password });

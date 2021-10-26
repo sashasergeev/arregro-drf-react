@@ -13,6 +13,7 @@ import CoinSubmitModal from "./CoinSubmitModal";
 import PageNav from "../Layout/PageNav";
 import Search from "./Search";
 
+import useSnackbarAlert from "../other/useSnackbarAlert";
 import { FetchCoinData } from "../other/FetchCoinData";
 import { useStateValue } from "../../context";
 
@@ -21,6 +22,7 @@ const skeletonArr = new Array(8).fill("skelet");
 export const CoinList = () => {
   // styles
   const classes = useCoinStyles();
+  const snackbar = useSnackbarAlert();
 
   // states
   const [coins, setCoins] = useState([]);
@@ -54,12 +56,17 @@ export const CoinList = () => {
     };
     item.doesUserFollow = !item.doesUserFollow;
     items[e] = item;
-    setCoins(items);
     axios
       .post("api/coins/following/", data, {
         headers: { Authorization: `Token ${token}` },
       })
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setCoins(items);
+        snackbar.showSuccess(`You've ${res.data.status} the coin!`);
+      })
+      .catch((err) =>
+        snackbar.showError("Some error has happend. Reload the page!")
+      );
   };
   const handleModal = () => setCoinSubmitModal(!coinSubmitModal);
 
