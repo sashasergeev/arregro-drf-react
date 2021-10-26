@@ -29,12 +29,14 @@ export const CoinDetail = () => {
   const [follow, setFollow] = useState(false);
 
   // auth context
-  const [{ token, isAuth }] = useStateValue();
+  const [{ token, isAuth, isLoaded }] = useStateValue();
 
   // obtaining data related functions
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (isLoaded) {
+      fetchData();
+    }
+  }, [isLoaded]);
   const fetchData = () => {
     FetchCoinData(`api/coins/${idOfCoin}`, isAuth, token, idOfCoin).then(
       (res) => {

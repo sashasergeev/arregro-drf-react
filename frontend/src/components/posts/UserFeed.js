@@ -1,72 +1,48 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { FetchDataForCards } from "../other/FetchDataForCards";
 
 import { Redirect } from "react-router-dom";
 import PageNav from "../Layout/PageNav";
 import Cards from "./Cards";
-import PropTypes from "prop-types";
+import { useStateValue } from "../../context";
 
-export class UserFeed extends Component {
-  constructor(props) {
-    super(props);
+const skelet = new Array(8).fill("skelet");
 
-    this.state = {
-      posts: new Array(8).fill("skelet"),
-      page: 1,
-      numOfPages: 1,
-    };
+const UserFeed = () => {
+  const [posts, setPosts] = useState(skelet);
+  const [page, setPage] = useState(1);
+  const [numOfPages, setNumOfPages] = useState(1);
 
-    this.getCardsData = this.getCardsData.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-  }
-  componentDidMount() {
-    this.getCardsData();
-  }
-  getCardsData() {
-    FetchDataForCards(
-      `api/feed/?page=${this.state.page}`,
-      this.props.token
-    ).then((res) =>
-      this.setState({
-        posts: res.cards,
-        numOfPages: res.numOfPages,
-      })
-    );
-  }
-  handlePageChange(event, value) {
-    this.setState(
-      {
-        page: value,
-      },
-      () => {
-        this.getCardsData();
-        this.setState({
-          posts: new Array(8).fill("skelet"),
-        });
-        window.scrollTo(0, 0);
-      }
-    );
-  }
+  // get auth data
+  const [{ token, isAuth, isLoaded }] = useStateValue();
 
-  render() {
-    const { posts, page, numOfPages } = this.state;
-    return (
-      <div>
-        {!this.props.isAuth && <Redirect to="/" />}
-        <Cards cards={posts} />
-        <PageNav
-          page={page}
-          numOfPages={numOfPages}
-          onChange={this.handlePageChange}
-        />
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    console.log("mount");
+    if (isLoaded) {
+      setPosts(skelet);
+      getCardsData();
+      window.scrollTo(0, 0);
+    }
+  }, [page, isLoaded]);
+  const getCardsData = () => {
+    FetchDataForCards(`api/feed/?page=${page}`, token).then((res) => {
+      setPosts(res.cards);
+      setNumOfPages(res.numOfPages);
+    });
+  };
+  const handlePageChange = (e, val) => setPage(val);
 
-UserFeed.propTypes = {
-  isAuth: PropTypes.bool.isRequired,
-  token: PropTypes.string.isRequired,
+  return (
+    <div>
+      {!isAuth && isLoaded && <Redirect to="/" />}
+      <Cards cards={posts} />
+      <PageNav
+        page={page}
+        numOfPages={numOfPages}
+        onChange={handlePageChange}
+      />
+    </div>
+  );
 };
 
 export default UserFeed;

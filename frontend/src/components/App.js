@@ -19,13 +19,18 @@ import { getUser } from "./accounts/authAxios";
 
 export const App = () => {
   // auth states
-  const [{ token, isAuth, username }, dispatch] = useStateValue();
+  const [{ isAuth }, dispatch] = useStateValue();
   const { mutateAsync } = useMutation("getUser", getUser, {
     onSuccess: (data) => {
       dispatch({
         type: actionTypes.SET_TOKEN,
         token: localStorage.getItem("token"),
         username: data.username,
+      });
+    },
+    onError: () => {
+      dispatch({
+        type: actionTypes.SET_LOADED,
       });
     },
   });
@@ -35,6 +40,10 @@ export const App = () => {
     let token = localStorage.getItem("token");
     if (token && !isAuth) {
       mutateAsync({ token });
+    } else {
+      dispatch({
+        type: actionTypes.SET_LOADED,
+      });
     }
   }, []);
 
@@ -53,10 +62,7 @@ export const App = () => {
             {/* AUTH AND FEED */}
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
-            <Route
-              path="/feed"
-              component={() => <UserFeed isAuth={isAuth} token={token} />}
-            />
+            <Route path="/feed" component={UserFeed} />
           </Switch>
         </div>
       </Router>

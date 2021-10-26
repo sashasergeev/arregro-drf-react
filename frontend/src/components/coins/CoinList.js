@@ -31,14 +31,16 @@ export const CoinList = () => {
   const [coinSubmitModal, setCoinSubmitModal] = useState(false);
 
   // get auth data
-  const [{ token, isAuth }] = useStateValue();
+  const [{ token, isAuth, isLoaded }] = useStateValue();
 
   // HANDLE DATA FETCH AND CHANGE OF PAGE
   useEffect(() => {
-    setCoins([]);
-    getCoinData();
-    window.scrollTo(0, 0);
-  }, [page, token]);
+    if (isLoaded) {
+      setCoins([]);
+      getCoinData();
+      window.scrollTo(0, 0);
+    }
+  }, [page, isLoaded]);
   const getCoinData = () => {
     FetchCoinData(`api/coins/?page=${page}`, isAuth, token).then((res) => {
       setCoins(res.coins);
