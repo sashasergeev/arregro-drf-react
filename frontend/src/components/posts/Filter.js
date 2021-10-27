@@ -10,9 +10,9 @@ import {
   MenuItem,
   Button,
   Box,
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import ClearIcon from "@material-ui/icons/Clear";
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import { useFilterStyles } from "./styles";
 

@@ -4,14 +4,14 @@ import {
   Button,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useHeaderStyles } from "./styles";
 
 const NavNotAuth = (props) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('xl'));
   const classes = useHeaderStyles();
 
   return (

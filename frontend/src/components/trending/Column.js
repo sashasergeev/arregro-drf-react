@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Typography } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
+import { Box, Typography } from "@mui/material";
+import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
 import { useColumnStyles } from "./styles";
 
@@ -40,7 +40,7 @@ const Column = (props) => {
         : trendData.map((e, inx) => (
             <Box key={inx} className={classes.row}>
               <Skeleton
-                variant="rect"
+                variant="rectangular"
                 className={classes.skeleton}
                 height={45}
               />

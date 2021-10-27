@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography } from "@mui/material";
 import Column from "./Column";
 import axios from "axios";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
-import { useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { useMoversStyles } from "./styles";
 
@@ -25,7 +25,7 @@ const Movers = () => {
 
   // styles
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+  const matches = useMediaQuery(theme.breakpoints.down('xl'));
   const classes = useMoversStyles();
   return (
     <>

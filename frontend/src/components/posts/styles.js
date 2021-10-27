@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 
 export const useCardStyles = makeStyles({
   bdy: {
@@ -72,7 +72,8 @@ export const useFilterStyles = makeStyles((theme) => ({
   },
 }));
 
-import { withStyles, TableCell } from "@material-ui/core";
+import { TableCell } from "@mui/material";
+import withStyles from "@mui/styles/withStyles";
 // POST MODAL
 // overriding classic TableCell component
 export const StyledTableCell = withStyles(() => ({

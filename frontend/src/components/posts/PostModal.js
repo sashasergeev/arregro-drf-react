@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import {
-  withStyles,
   Box,
   Typography,
   TableContainer,
   Table,
   TableHead,
   TableRow,
-  TableCell,
   TableBody,
-} from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
-import CancelIcon from "@material-ui/icons/Cancel";
+} from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
+import CancelIcon from "@mui/icons-material/Cancel";
 import axios from "axios";
 import PropTypes from "prop-types";
 
@@ -58,13 +56,13 @@ export const PostModal = (props) => {
                 <Box>
                   <Typography variant="h4" className={classes.text}>
                     {data.coin?.name || (
-                      <Skeleton variant="rect" width={225} height={25} />
+                      <Skeleton variant="rectangular" width={225} height={25} />
                     )}
                   </Typography>
                   <div className={classes.ticker}>
                     {data.coin?.ticker || (
                       <Skeleton
-                        variant="rect"
+                        variant="rectangular"
                         style={{ marginTop: "5px" }}
                         width={50}
                         height={20}
@@ -76,7 +74,7 @@ export const PostModal = (props) => {
                   {data.coin?.img_link ? (
                     <img src={data.coin.img_link} alt={data.coin.name} />
                   ) : (
-                    <Skeleton variant="circle" width={50} height={50} />
+                    <Skeleton variant="circular" width={50} height={50} />
                   )}
                 </Box>
               </Box>
@@ -91,7 +89,7 @@ export const PostModal = (props) => {
                     />
                   </a>
                 ) : (
-                  <Skeleton variant="circle" width={40} height={40} />
+                  <Skeleton variant="circular" width={40} height={40} />
                 )}
                 {data.coin?.tg_link ? (
                   <a href={data.coin.tg_link}>
@@ -102,7 +100,7 @@ export const PostModal = (props) => {
                     />
                   </a>
                 ) : (
-                  <Skeleton variant="circle" width={40} height={40} />
+                  <Skeleton variant="circular" width={40} height={40} />
                 )}
               </Box>
               {/* price table */}
@@ -185,7 +183,7 @@ export const PostModal = (props) => {
                       </TableBody>
                     </Table>
                   ) : (
-                    <Skeleton variant="rect" width={340} height={110} />
+                    <Skeleton variant="rectangular" width={340} height={110} />
                   )}
                 </TableContainer>
               </Box>

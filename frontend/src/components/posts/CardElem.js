@@ -7,11 +7,11 @@ import {
   Box,
   Grid,
   Paper,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useCardStyles } from "./styles";
 
-import Skeleton from "@material-ui/lab/Skeleton";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import Skeleton from '@mui/material/Skeleton';
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PropTypes from "prop-types";
 
 const CardElem = (props) => {
@@ -26,14 +26,14 @@ const CardElem = (props) => {
               {isLoaded ? (
                 data.coinName
               ) : (
-                <Skeleton variant="rect" width={100} height={31} />
+                <Skeleton variant="rectangular" width={100} height={31} />
               )}
             </Typography>
             <div className={classes.ticker}>
               {isLoaded ? (
                 data.ticker
               ) : (
-                <Skeleton mt="5px" variant="rect" width={50} height={16} />
+                <Skeleton mt="5px" variant="rectangular" width={50} height={16} />
               )}
             </div>
           </Box>
@@ -41,7 +41,7 @@ const CardElem = (props) => {
             {isLoaded ? (
               <img src={data.img_link} alt={data.name} />
             ) : (
-              <Skeleton variant="circle" width={50} height={50} />
+              <Skeleton variant="circular" width={50} height={50} />
             )}
           </Box>
         </Box>
@@ -63,7 +63,7 @@ const CardElem = (props) => {
               {isLoaded ? (
                 <>before: {data.price}$</>
               ) : (
-                <Skeleton variant="rect" width={110} height={24} />
+                <Skeleton variant="rectangular" width={110} height={24} />
               )}
             </Paper>
           </Grid>
@@ -81,7 +81,7 @@ const CardElem = (props) => {
               {isLoaded ? (
                 <>{data.change}%</>
               ) : (
-                <Skeleton variant="rect" width={110} height={24} />
+                <Skeleton variant="rectangular" width={110} height={24} />
               )}
             </Paper>
           </Grid>
@@ -90,7 +90,7 @@ const CardElem = (props) => {
               {isLoaded ? (
                 <>after: {data.currPrice || data.coin.currPrice}$</>
               ) : (
-                <Skeleton variant="rect" width={110} height={24} />
+                <Skeleton variant="rectangular" width={110} height={24} />
               )}
             </Paper>
           </Grid>
@@ -121,9 +121,9 @@ const CardElem = (props) => {
             </>
           ) : (
             <>
-              <Skeleton variant="circle" width={40} height={40} />
-              <Skeleton variant="circle" width={40} height={40} />
-              <Skeleton variant="circle" width={40} height={40} />
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton variant="circular" width={40} height={40} />
             </>
           )}
         </CardActions>

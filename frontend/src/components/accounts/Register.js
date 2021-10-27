@@ -1,5 +1,5 @@
 import React from "react";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Redirect } from "react-router-dom";
 import { useMutation } from "react-query";
 import { registerUser } from "./authAxios";
@@ -13,7 +13,7 @@ import {
   TextField,
   Button,
   Avatar,
-} from "@material-ui/core";
+} from "@mui/material";
 import { actionTypes, useStateValue } from "../../context";
 import useSnackbarAlert from "../other/useSnackbarAlert";
 

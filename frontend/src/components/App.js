@@ -12,8 +12,6 @@ import Posts from "./posts/Posts";
 import UserFeed from "./posts/UserFeed";
 import Movers from "./trending/Movers";
 
-import { createTheme } from "@material-ui/core";
-import { ThemeProvider } from "@material-ui/core/styles";
 import { actionTypes, useStateValue } from "../context";
 import { getUser } from "./accounts/authAxios";
 
@@ -81,36 +79,43 @@ import SnackbarAlert from "./other/SnackbarAlert";
 
 const queryClient = new QueryClient();
 
-const theme = createTheme({
-  typography: {
-    fontFamily: "Quicksand, sans-serif",
-  },
-  overrides: {
-    MuiSkeleton: {
-      root: {
-        backgroundColor: "#ffeddb14",
+// styles
+import { createTheme, adaptV4Theme } from "@mui/material";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
+const theme = createTheme(
+  adaptV4Theme({
+    typography: {
+      fontFamily: "Quicksand, sans-serif",
+    },
+    overrides: {
+      MuiSkeleton: {
+        root: {
+          backgroundColor: "#ffeddb14",
+        },
       },
     },
-  },
-});
+  })
+);
 
 render(
-  // overriding global styles
-  <ThemeProvider theme={theme}>
-    // alerts
-    <SnackbarProvider
-      SnackbarProps={{ autoHideDuration: 4000 }}
-      SnackbarComponent={SnackbarAlert}
-    >
-      // context data
-      <StateProvider initialState={initialState} reducer={reducer}>
-        // React query
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </StateProvider>
-    </SnackbarProvider>
-  </ThemeProvider>,
+  <StyledEngineProvider injectFirst>
+    // overriding global styles
+    <ThemeProvider theme={theme}>
+      // alerts
+      <SnackbarProvider
+        SnackbarProps={{ autoHideDuration: 4000 }}
+        SnackbarComponent={SnackbarAlert}
+      >
+        // context data
+        <StateProvider initialState={initialState} reducer={reducer}>
+          // React query
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
+        </StateProvider>
+      </SnackbarProvider>
+    </ThemeProvider>
+  </StyledEngineProvider>,
   document.getElementById("app")
 );
 // TODO

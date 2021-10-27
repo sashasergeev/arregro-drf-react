@@ -4,9 +4,9 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 import { motion } from "framer-motion";
-import { Card, Typography, Grid, Box, Button } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
-import AddIcon from "@material-ui/icons/Add";
+import { Card, Typography, Grid, Box, Button } from "@mui/material";
+import Skeleton from '@mui/material/Skeleton';
+import AddIcon from "@mui/icons-material/Add";
 import { useCoinStyles, containerVariants } from "./styles";
 
 import CoinSubmitModal from "./CoinSubmitModal";
@@ -138,11 +138,11 @@ export const CoinList = () => {
                     >
                       <Box component="div" display="inline">
                         <Typography variant="h6" display="inline">
-                          <Skeleton variant="rect" width={120} height={32} />
+                          <Skeleton variant="rectangular" width={120} height={32} />
                         </Typography>
                         <div className={classes.secondaryDetails}>
                           <Skeleton
-                            variant="rect"
+                            variant="rectangular"
                             width={70}
                             height={20}
                             mt="5px"
@@ -151,7 +151,7 @@ export const CoinList = () => {
                       </Box>
 
                       <Box component="div" display="inline">
-                        <Skeleton variant="circle" width={50} height={50} />
+                        <Skeleton variant="circular" width={50} height={50} />
                       </Box>
                     </Grid>
                   </Card>

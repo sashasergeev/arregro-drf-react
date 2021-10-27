@@ -6,7 +6,7 @@ import useSnackbarAlert from "../other/useSnackbarAlert";
 
 // style related
 import { motion } from "framer-motion";
-import { Box, Typography, Button } from "@material-ui/core";
+import { Box, Typography, Button } from "@mui/material";
 import { useCoinStyles, containerVariants } from "./styles";
 
 import Cards from "../posts/Cards";

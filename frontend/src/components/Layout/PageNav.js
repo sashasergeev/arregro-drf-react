@@ -1,7 +1,7 @@
 import React from "react";
-import Pagination from "@material-ui/lab/Pagination";
-import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import Pagination from "@mui/material/Pagination";
+import { Grid } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles(() => ({

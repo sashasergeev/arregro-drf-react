@@ -5,16 +5,16 @@ import {
   Box,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useHeaderStyles } from "./styles";
 import { NavLink } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
 import NavIsAuth from "./NavIsAuth";
 import NavNotAuth from "./NavNotAuth";
 import PropTypes from "prop-types";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import MoneyIcon from "@material-ui/icons/Money";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import MoneyIcon from "@mui/icons-material/Money";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { actionTypes, useStateValue } from "../../context";
 import { logoutUser } from "../accounts/authAxios";
 import { useMutation } from "react-query";
@@ -24,7 +24,7 @@ const Header = (props) => {
   // styles
   const classes = useHeaderStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('xl'));
   // alert
   const snackbar = useSnackbarAlert();
   // auth

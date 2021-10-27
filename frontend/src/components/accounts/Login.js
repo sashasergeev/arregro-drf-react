@@ -12,10 +12,10 @@ import {
   Grid,
   Typography,
   Container,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useAuthStyles } from "../accounts/styles";
 
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { loginUser } from "./authAxios";
 import { actionTypes, useStateValue } from "../../context";
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Grid, Typography, Card, Box } from "@material-ui/core";
+import { Grid, Typography, Card, Box } from "@mui/material";
 import PostsByTag from "./PostsByTag";
 
 function truncate(str, max = 50) {

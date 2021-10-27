@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 import { useSearchStyles } from "./styles";
 
 const Search = () => {

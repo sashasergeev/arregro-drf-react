@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { TextField, Button, Typography } from "@material-ui/core";
+import { TextField, Button, Typography } from "@mui/material";
 Modal.setAppElement("#app");
 import axios from "axios";
 import { modalStyles } from "./styles";
