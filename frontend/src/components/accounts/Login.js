@@ -72,6 +72,7 @@ const Login = () => {
             name="username"
             autoComplete="username"
             autoFocus
+            className={classes.field}
           />
           <TextField
             variant="outlined"
@@ -83,6 +84,7 @@ const Login = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            className={classes.field}
           />
           <Button
             type="submit"

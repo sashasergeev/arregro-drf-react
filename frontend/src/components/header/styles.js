@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 
 export const useHeaderStyles = makeStyles((theme) => ({
   header: {
@@ -52,6 +52,19 @@ export const useHeaderStyles = makeStyles((theme) => ({
     color: "gray",
     paddingLeft: 20,
     paddingRight: 20,
+  },
+  authBtn: {
+    border: "1px solid #15181d",
+    background: "none",
+    "&:hover": {
+      backgroundColor: "#8980f529",
+    },
+  },
+  authBtns: {
+    display: "flex",
+    gap: "5px",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
 }));
 

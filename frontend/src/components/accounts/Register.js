@@ -76,6 +76,7 @@ export const Register = () => {
                 id="username"
                 label="Username"
                 name="username"
+                className={classes.field}
               />
             </Grid>
             <Grid item xs={12}>
@@ -86,6 +87,7 @@ export const Register = () => {
                 id="email"
                 label="Email Address"
                 name="email"
+                className={classes.field}
               />
             </Grid>
             <Grid item xs={12}>
@@ -98,6 +100,7 @@ export const Register = () => {
                 label="Password"
                 name="password"
                 autoComplete="off"
+                className={classes.field}
               />
             </Grid>
             <Grid item xs={12}>
@@ -110,6 +113,7 @@ export const Register = () => {
                 label="Confirm Password"
                 name="password2"
                 autoComplete="off"
+                className={classes.field}
               />
             </Grid>
           </Grid>

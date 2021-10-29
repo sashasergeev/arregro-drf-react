@@ -10,7 +10,11 @@ export default function SnackbarAlert({
   customParameters,
 }) {
   return (
-    <Snackbar autoHideDuration={4000} {...SnackbarProps}>
+    <Snackbar
+      autoHideDuration={4000}
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      {...SnackbarProps}
+    >
       <Alert
         severity={customParameters?.type}
         action={

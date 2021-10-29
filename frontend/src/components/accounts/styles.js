@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import makeStyles from "@mui/styles/makeStyles";
 
 export const useAuthStyles = makeStyles((theme) => ({
   paper: {
@@ -19,8 +19,18 @@ export const useAuthStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    background: "#673ab7",
+    "&:hover": {
+      backgroundColor: "#9c27b096",
+    },
   },
   window: {
-    backgroundColor: "#a2a2a2",
+    backgroundColor: "#673ab73d",
+    borderRadius: "10px",
+  },
+  field: {
+    "& .MuiInputLabel-root": {
+      color: "rgb(255 255 255 / 60%)",
+    },
   },
 }));

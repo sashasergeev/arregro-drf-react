@@ -30,6 +30,7 @@ export const App = () => {
       dispatch({
         type: actionTypes.SET_LOADED,
       });
+      localStorage.removeItem("token");
     },
   });
 
@@ -80,22 +81,29 @@ import SnackbarAlert from "./other/SnackbarAlert";
 const queryClient = new QueryClient();
 
 // styles
-import { createTheme, adaptV4Theme } from "@mui/material";
+import { createTheme } from "@mui/material";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
-const theme = createTheme(
-  adaptV4Theme({
-    typography: {
-      fontFamily: "Quicksand, sans-serif",
-    },
-    overrides: {
-      MuiSkeleton: {
+const theme = createTheme({
+  typography: {
+    fontFamily: "Quicksand, sans-serif",
+  },
+  components: {
+    MuiSkeleton: {
+      styleOverrides: {
         root: {
           backgroundColor: "#ffeddb14",
         },
       },
     },
-  })
-);
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "white",
+        },
+      },
+    },
+  },
+});
 
 render(
   <StyledEngineProvider injectFirst>
