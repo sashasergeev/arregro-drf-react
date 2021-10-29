@@ -10,40 +10,72 @@ import {
   MenuItem,
   Button,
   Box,
+  TextField,
+  Typography,
+  Alert,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import { useFilterStyles } from "./styles";
+import { LocalizationProvider, MobileDatePicker } from "@mui/lab";
+import DateAdapter from "@mui/lab/AdapterDayjs";
 
 const Filter = (props) => {
   const classes = useFilterStyles();
-  const [isOpen, setIsOpen] = useState(false);
-  const [filter, setFilter] = useState(false);
-  const [tags, setTags] = useState(null);
-  const [clear, setClear] = useState(false);
 
+  // window states
+  const [isOpen, setIsOpen] = useState(false); // modal status
+  const [clear, setClear] = useState(false); // true when results are filtered
+
+  // tags states
+  const [tags, setTags] = useState(null);
+  const [tag, setTag] = useState(false);
+
+  // date picker states
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [errDate, setErrDate] = useState(false);
+
+  // fetching tags
   useEffect(() => {
     axios.get("api/tags/").then((res) => setTags(res.data));
   }, []);
 
   const openDialog = () => setIsOpen(true);
+
   const closeDialog = () => {
     setIsOpen(false);
-    props.handleFilter(filter);
-    if (filter !== false) {
+    props.handleFilter(tag, fromDate, toDate);
+    if (tag || toDate || fromDate) {
       setClear(true);
     }
   };
-  const handleFilterChange = (e) => setFilter(e.target.value);
+
+  const handleFilterChange = (e) => setTag(e.target.value);
   const clearFilter = () => {
-    setFilter(false);
+    setIsOpen(false);
+    setTag(false);
     setClear(false);
-    props.handleFilter(false);
+    setFromDate(null);
+    setToDate(null);
+    props.handleFilter(false, null, null);
+  };
+
+  // date filter related objs
+  const handleDateChange = (e, type) => {
+    const date = new Date(e.valueOf());
+    if (type === "to") {
+      setToDate(date);
+      setErrDate(date < fromDate ? true : false);
+    } else {
+      setFromDate(date);
+      setErrDate(toDate && date > toDate ? true : false);
+    }
   };
 
   return (
-    <>
+    <LocalizationProvider dateAdapter={DateAdapter}>
       <Box className={classes.filterBtns}>
         <Fab
           variant="extended"
@@ -67,15 +99,13 @@ const Filter = (props) => {
         fullWidth={true}
         maxWidth="sm"
         open={isOpen}
-        onClose={closeDialog}
+        onClose={clearFilter}
         className={classes.main}
       >
-        <DialogTitle>Filter posts by tag</DialogTitle>
+        <DialogTitle>Filter posts</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            In the menu below choose filter by which you want to filter posts.
-          </DialogContentText>
-          <Select autoFocus value={filter} onChange={handleFilterChange}>
+          <DialogContentText>By tag.</DialogContentText>
+          <Select autoFocus value={tag} onChange={handleFilterChange}>
             <MenuItem value={false}>Choose Tag</MenuItem>
             {tags &&
               tags.map((e) => (
@@ -84,14 +114,48 @@ const Filter = (props) => {
                 </MenuItem>
               ))}
           </Select>
+          <DialogContentText>By date.</DialogContentText>
+
+          <Box className={classes.filterDatesBox}>
+            {errDate && (
+              <Alert severity="error">
+                Error! from date is greater than to. Please change filters.
+              </Alert>
+            )}
+            <Box className={classes.filterDateBox}>
+              <Typography>From</Typography>
+              <MobileDatePicker
+                inputFormat="DD/MM/YYYY"
+                value={fromDate}
+                onChange={(e) => handleDateChange(e, "from")}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </Box>
+            <Box className={classes.filterDateBox}>
+              <Typography>To</Typography>
+              <MobileDatePicker
+                inputFormat="DD/MM/YYYY"
+                value={toDate}
+                onChange={(e) => handleDateChange(e, "to")}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </Box>
+          </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDialog} color="primary">
+          <Button onClick={clearFilter} color="primary">
+            Reset
+          </Button>
+          <Button
+            disabled={errDate ? true : false}
+            onClick={closeDialog}
+            color="primary"
+          >
             Filter
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </LocalizationProvider>
   );
 };
 

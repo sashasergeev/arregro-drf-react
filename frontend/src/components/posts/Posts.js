@@ -17,18 +17,21 @@ export class Posts extends Component {
       posts: new Array(8).fill("skelet"),
       page: 1,
       numOfPages: 1,
+      // filter related states
       filter: false,
+      fromDate: null,
+      toDate: null,
     };
   }
   componentDidMount() {
     this.getCardsData();
   }
   getCardsData() {
-    FetchDataForCards(
-      `api/posts/?page=${this.state.page}${
-        this.state.filter ? "&tag=" + this.state.filter : ""
-      }`
-    ).then((res) =>
+    const { filter, page, fromDate, toDate } = this.state;
+    let url = `api/posts/?page=${page}${filter ? "&tag=" + filter : ""}${
+      fromDate ? "&from=" + fromDate : ""
+    }${toDate ? "&to=" + toDate : ""}`;
+    FetchDataForCards(url).then((res) =>
       this.setState({
         posts: res.cards,
         numOfPages: res.numOfPages,
@@ -47,12 +50,20 @@ export class Posts extends Component {
       }
     );
   }
-  handleFilter(filter) {
-    if (this.state.filter !== filter) {
+  handleFilter(parfilter, parFromDate, parToDate) {
+    const { filter, fromDate, toDate } = this.state;
+    if (
+      filter !== parfilter ||
+      fromDate !== parFromDate ||
+      toDate !== parToDate
+    ) {
       this.skeletRender();
       this.setState(
         {
-          filter: filter,
+          filter: parfilter,
+          // .toJSON() converts time to UTC
+          fromDate: parFromDate ? parFromDate.toJSON().split("T")[0] : null,
+          toDate: parToDate ? parToDate.toJSON().split("T")[0] : null,
           page: 1,
         },
         () => {

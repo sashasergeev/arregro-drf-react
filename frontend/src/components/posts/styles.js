@@ -53,6 +53,7 @@ export const useFilterStyles = makeStyles((theme) => ({
   filterBtns: {
     position: "sticky",
     bottom: "10px",
+    width: "fit-content",
     "& .MuiFab-root": {
       background: "#e6e5e6",
       color: "#0c1018",
@@ -62,12 +63,27 @@ export const useFilterStyles = makeStyles((theme) => ({
     "& .MuiInputBase-root": {
       width: "50%",
       display: "block",
-      margin: "0 auto",
+      margin: "10px auto",
     },
 
     "& .MuiButtonBase-root": {
       background: "#9ea5d0",
       color: "#0c1018",
+    },
+  },
+  filterDatesBox: {
+    marginTop: "10px",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: "5px",
+  },
+  filterDateBox: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    "& .MuiTypography-root": {
+      textAlign: "center",
     },
   },
 }));

@@ -31,9 +31,21 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         queryset = Post.objects.all()
-        filter_value = self.request.query_params.get("tag", None)
-        if filter_value is not None:
-            queryset = queryset.filter(tag__tag=filter_value)
+
+        # tag filter
+        filter_tag = self.request.query_params.get("tag", None)
+        if filter_tag:
+            queryset = queryset.filter(tag__tag=filter_tag)
+
+        # date filter
+        filter_from = self.request.query_params.get("from", None)
+        filter_to = self.request.query_params.get("to", None)
+        if filter_from and filter_to:
+            queryset = queryset.filter(date_added__range=(filter_from, filter_to))
+        elif filter_from:
+            queryset = queryset.filter(date_added__gte=filter_from)
+        elif filter_to:
+            queryset = queryset.filter(date_added__lte=filter_to)
         return queryset
 
 
