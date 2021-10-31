@@ -6,7 +6,6 @@ import useSnackbarAlert from "../other/useSnackbarAlert";
 import { Redirect } from "react-router-dom";
 import {
   Avatar,
-  Button,
   TextField,
   Link,
   Grid,
@@ -14,10 +13,11 @@ import {
   Container,
 } from "@mui/material";
 import { useAuthStyles } from "../accounts/styles";
+import { LoadingButton } from "@mui/lab";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { loginUser } from "./authAxios";
-import { actionTypes, useStateValue } from "../../context";
+import { actionTypes, useStateValue } from "../../contextAuth";
 
 const Login = () => {
   // styles
@@ -86,15 +86,19 @@ const Login = () => {
             autoComplete="current-password"
             className={classes.field}
           />
-          <Button
+          <LoadingButton
             type="submit"
             fullWidth
-            variant="contained"
-            color="primary"
+            variant="text"
+            color="inherit"
             className={classes.submit}
+            loading={loginMutate.isLoading}
+            style={
+              loginMutate.isLoading ? { backgroundColor: "#9c27b096" } : {}
+            }
           >
             Sign In
-          </Button>
+          </LoadingButton>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

@@ -11,7 +11,7 @@ import { useCoinStyles, containerVariants } from "./styles";
 
 import Cards from "../posts/Cards";
 import { FetchCoinData } from "../other/FetchCoinData";
-import { useStateValue } from "../../context";
+import { useStateValue } from "../../contextAuth";
 
 export const CoinDetail = () => {
   // style

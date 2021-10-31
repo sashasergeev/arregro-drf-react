@@ -23,6 +23,9 @@ export const useAuthStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#9c27b096",
     },
+    "& .MuiLoadingButton-loadingIndicator": {
+      color: "#ffffffb8",
+    },
   },
   window: {
     backgroundColor: "#673ab73d",
@@ -30,7 +33,8 @@ export const useAuthStyles = makeStyles((theme) => ({
   },
   field: {
     "& .MuiInputLabel-root": {
-      color: "rgb(255 255 255 / 60%)",
+      color: "white",
     },
+    "& .MuiOutlinedInput-input": { color: "#ceb3ff" },
   },
 }));

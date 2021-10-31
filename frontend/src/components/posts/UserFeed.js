@@ -4,7 +4,7 @@ import { FetchDataForCards } from "../other/FetchDataForCards";
 import { Redirect } from "react-router-dom";
 import PageNav from "../Layout/PageNav";
 import Cards from "./Cards";
-import { useStateValue } from "../../context";
+import { useStateValue } from "../../contextAuth";
 
 const skelet = new Array(8).fill("skelet");
 

@@ -10,13 +10,15 @@ import {
 } from "@mui/material";
 import { useCardStyles } from "./styles";
 
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from "@mui/material/Skeleton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PropTypes from "prop-types";
 
 const CardElem = (props) => {
   const classes = useCardStyles();
   const { data, openModal, isLoaded } = props;
+  const change =
+    isLoaded && ((data.coin.currPrice / data.price - 1) * 100).toFixed(2);
   return (
     <Grid item className={classes.huo}>
       <Card className={classes.root}>
@@ -24,22 +26,27 @@ const CardElem = (props) => {
           <Box component="div" display="inline" p={1} m={1}>
             <Typography variant="h6">
               {isLoaded ? (
-                data.coinName
+                data.coin.name
               ) : (
                 <Skeleton variant="rectangular" width={100} height={31} />
               )}
             </Typography>
             <div className={classes.ticker}>
               {isLoaded ? (
-                data.ticker
+                data.coin.ticker
               ) : (
-                <Skeleton mt="5px" variant="rectangular" width={50} height={16} />
+                <Skeleton
+                  mt="5px"
+                  variant="rectangular"
+                  width={50}
+                  height={16}
+                />
               )}
             </div>
           </Box>
           <Box component="div" display="inline" p={1} m={1}>
             {isLoaded ? (
-              <img src={data.img_link} alt={data.name} />
+              <img src={data.coin.img_link} alt={data.coin.name} />
             ) : (
               <Skeleton variant="circular" width={50} height={50} />
             )}
@@ -48,7 +55,7 @@ const CardElem = (props) => {
         <CardContent>
           <Typography variant="body1" component="p">
             {isLoaded ? (
-              data.message
+              data.message.substr(0, 50 - 1) + "…"
             ) : (
               <>
                 <Skeleton variant="text" />
@@ -71,7 +78,7 @@ const CardElem = (props) => {
             <Paper
               className={classes.paper}
               style={
-                data.change && data.change > 0
+                change && change > 0
                   ? { color: "#27d030" }
                   : { color: "#f50057" }
               }
@@ -79,7 +86,7 @@ const CardElem = (props) => {
               square
             >
               {isLoaded ? (
-                <>{data.change}%</>
+                <>{change}%</>
               ) : (
                 <Skeleton variant="rectangular" width={110} height={24} />
               )}
@@ -88,7 +95,7 @@ const CardElem = (props) => {
           <Grid item xs={4}>
             <Paper className={classes.paper} elevation={0} square>
               {isLoaded ? (
-                <>after: {data.currPrice || data.coin.currPrice}$</>
+                <>after: {data.coin.currPrice}$</>
               ) : (
                 <Skeleton variant="rectangular" width={110} height={24} />
               )}
@@ -105,7 +112,7 @@ const CardElem = (props) => {
                   src="https://static.coingecko.com/s/thumbnail-007177f3eca19695592f0b8b0eabbdae282b54154e1be912285c9034ea6cbaf2.png"
                 />
               </a>
-              <a href={data.tg_link}>
+              <a href={data.coin.tg_link}>
                 <img
                   className={classes.actionIcons}
                   alt="Qries"
@@ -130,14 +137,14 @@ const CardElem = (props) => {
         <Box className={classes.bdy} p="10px">
           <Typography>
             {isLoaded ? (
-              data.date || data.date_added
+              data.date_added
             ) : (
               <Skeleton variant="text" width={50} />
             )}
           </Typography>
           <Typography>
             {isLoaded ? (
-              data.tags || data.tag.join(", ")
+              data.tag.join(", ")
             ) : (
               <Skeleton variant="text" width={50} />
             )}

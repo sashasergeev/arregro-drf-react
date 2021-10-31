@@ -12,7 +12,7 @@ import Posts from "./posts/Posts";
 import UserFeed from "./posts/UserFeed";
 import Movers from "./trending/Movers";
 
-import { actionTypes, useStateValue } from "../context";
+import { actionTypes, useStateValue } from "../contextAuth";
 import { getUser } from "./accounts/authAxios";
 
 export const App = () => {
@@ -71,8 +71,8 @@ export const App = () => {
 
 // auth context related import
 import { QueryClient, QueryClientProvider } from "react-query";
-import { StateProvider } from "../context/StateProvider";
-import reducer, { initialState } from "../context/reducer";
+import { StateProvider } from "../contextAuth/StateProvider";
+import reducer, { initialState } from "../contextAuth/reducer";
 
 // alert related imports
 import { SnackbarProvider } from "material-ui-snackbar-provider";

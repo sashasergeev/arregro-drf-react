@@ -14,7 +14,9 @@ import {
   Button,
   Avatar,
 } from "@mui/material";
-import { actionTypes, useStateValue } from "../../context";
+import { LoadingButton } from "@mui/lab";
+
+import { actionTypes, useStateValue } from "../../contextAuth";
 import useSnackbarAlert from "../other/useSnackbarAlert";
 
 import PropTypes from "prop-types";
@@ -27,7 +29,7 @@ export const Register = () => {
   const snackbar = useSnackbarAlert();
 
   // signing up
-  const { mutateAsync } = useMutation("register", registerUser, {
+  const { mutateAsync, isLoading } = useMutation("register", registerUser, {
     onSuccess: (data) => {
       dispatch({
         type: actionTypes.SET_TOKEN,
@@ -117,15 +119,17 @@ export const Register = () => {
               />
             </Grid>
           </Grid>
-          <Button
+          <LoadingButton
             type="submit"
             fullWidth
-            variant="contained"
-            color="primary"
+            variant="text"
+            color="inherit"
             className={classes.submit}
+            loading={isLoading}
+            style={isLoading ? { backgroundColor: "#9c27b096" } : {}}
           >
             Sign Up
-          </Button>
+          </LoadingButton>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#/login" variant="body2">

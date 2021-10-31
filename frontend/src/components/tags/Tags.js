@@ -37,22 +37,8 @@ export class Tags extends Component {
     }
     let cardData;
     axios.get(`api/tags/${id}`).then((res) => {
-      cardData = res.data.post_set.map((e) => ({
-        id: e.id,
-        ticker: e.coin.ticker,
-        coinName: e.coin.name,
-        tg_link: e.coin.tg_link,
-        cg_link: e.coin.cg_link,
-        img_link: e.coin.img_link,
-        date: e.date_added,
-        message: truncate(e.message),
-        currPrice: e.coin.currPrice,
-        price: e.price,
-        change: ((e.coin.currPrice / e.price - 1) * 100).toFixed(2),
-        tags: e.tag.join(", "),
-      }));
       this.setState({
-        posts: cardData,
+        posts: res.data.post_set,
         currentTag: this.state.tags.filter((e) => e.id === id),
       });
     });

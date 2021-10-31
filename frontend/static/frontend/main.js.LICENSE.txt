@@ -85,8 +85,6 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../../components/AnimatePresence/use-presence.js */
 
-/*! ../../context */
-
 /*! ../../context/LayoutGroupContext.js */
 
 /*! ../../context/LazyContext.js */
@@ -98,6 +96,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ../../context/PresenceContext.js */
 
 /*! ../../context/SharedLayoutContext.js */
+
+/*! ../../contextAuth */
 
 /*! ../../dom/projection/scale-correction.js */
 
@@ -369,17 +369,17 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ../constants/dimensions */
 
-/*! ../context */
-
 /*! ../context/MotionConfigContext.js */
 
 /*! ../context/MotionContext/create.js */
 
 /*! ../context/MotionContext/index.js */
 
-/*! ../context/StateProvider */
+/*! ../contextAuth */
 
-/*! ../context/reducer */
+/*! ../contextAuth/StateProvider */
+
+/*! ../contextAuth/reducer */
 
 /*! ../core */
 
@@ -1697,6 +1697,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./checkPropTypes */
 
+/*! ./circularProgressClasses */
+
 /*! ./cjs/react-dom.development.js */
 
 /*! ./cjs/react-is.development.js */
@@ -1908,6 +1910,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ./listItemSecondaryActionClasses */
 
 /*! ./listItemTextClasses */
+
+/*! ./loadingButtonClasses */
 
 /*! ./logger */
 
@@ -2301,6 +2305,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @mui/material/ButtonBase */
 
+/*! @mui/material/CircularProgress */
+
 /*! @mui/material/Dialog */
 
 /*! @mui/material/DialogActions */
@@ -2459,17 +2465,17 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./src/index.js ***!
   \**********************/
 
-/*!******************************!*\
-  !*** ./src/context/index.js ***!
-  \******************************/
-
 /*!*******************************!*\
   !*** ./src/components/App.js ***!
   \*******************************/
 
-/*!********************************!*\
-  !*** ./src/context/reducer.js ***!
-  \********************************/
+/*!**********************************!*\
+  !*** ./src/contextAuth/index.js ***!
+  \**********************************/
+
+/*!************************************!*\
+  !*** ./src/contextAuth/reducer.js ***!
+  \************************************/
 
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -2486,10 +2492,6 @@ PERFORMANCE OF THIS SOFTWARE.
 /*!*************************************!*\
   !*** ./src/components/tags/Tags.js ***!
   \*************************************/
-
-/*!**************************************!*\
-  !*** ./src/context/StateProvider.js ***!
-  \**************************************/
 
 /*!***************************************!*\
   !*** ./node_modules/isarray/index.js ***!
@@ -2597,6 +2599,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!******************************************!*\
   !*** ./src/components/posts/UserFeed.js ***!
+  \******************************************/
+
+/*!******************************************!*\
+  !*** ./src/contextAuth/StateProvider.js ***!
   \******************************************/
 
 /*!*******************************************!*\
@@ -4912,6 +4918,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \**************************************************************/
 
 /*!**************************************************************!*\
+  !*** ./node_modules/@mui/lab/LoadingButton/LoadingButton.js ***!
+  \**************************************************************/
+
+/*!**************************************************************!*\
   !*** ./node_modules/@mui/lab/internal/pickers/date-utils.js ***!
   \**************************************************************/
 
@@ -5936,6 +5946,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \*********************************************************************/
 
 /*!*********************************************************************!*\
+  !*** ./node_modules/@mui/lab/LoadingButton/loadingButtonClasses.js ***!
+  \*********************************************************************/
+
+/*!*********************************************************************!*\
   !*** ./node_modules/@mui/lab/internal/pickers/KeyboardDateInput.js ***!
   \*********************************************************************/
 
@@ -6376,6 +6390,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \*************************************************************************/
 
 /*!*************************************************************************!*\
+  !*** ./node_modules/@mui/material/CircularProgress/CircularProgress.js ***!
+  \*************************************************************************/
+
+/*!*************************************************************************!*\
   !*** ./node_modules/@mui/material/internal/svg-icons/NavigateBefore.js ***!
   \*************************************************************************/
 
@@ -6774,6 +6792,10 @@ PERFORMANCE OF THIS SOFTWARE.
 /*!*******************************************************************************!*\
   !*** ./node_modules/framer-motion/dist/es/render/dom/value-types/type-int.js ***!
   \*******************************************************************************/
+
+/*!********************************************************************************!*\
+  !*** ./node_modules/@mui/material/CircularProgress/circularProgressClasses.js ***!
+  \********************************************************************************/
 
 /*!********************************************************************************!*\
   !*** ./node_modules/@mui/material/internal/svg-icons/ReportProblemOutlined.js ***!

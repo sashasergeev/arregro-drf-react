@@ -30,7 +30,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        queryset = Post.objects.all()
+        queryset = Post.objects.select_related("coin").prefetch_related("tag").all()
 
         # tag filter
         filter_tag = self.request.query_params.get("tag", None)

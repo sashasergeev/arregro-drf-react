@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { AppBar, Toolbar, Box, useMediaQuery, useTheme } from "@mui/material";
 import { useHeaderStyles } from "./styles";
 import { NavLink } from "react-router-dom";
 import NavDrawer from "./NavDrawer";
@@ -15,7 +9,7 @@ import PropTypes from "prop-types";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import MoneyIcon from "@mui/icons-material/Money";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import { actionTypes, useStateValue } from "../../context";
+import { actionTypes, useStateValue } from "../../contextAuth";
 import { logoutUser } from "../accounts/authAxios";
 import { useMutation } from "react-query";
 import useSnackbarAlert from "../other/useSnackbarAlert";
@@ -24,7 +18,7 @@ const Header = (props) => {
   // styles
   const classes = useHeaderStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('xl'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("xl"));
   // alert
   const snackbar = useSnackbarAlert();
   // auth

@@ -15,7 +15,7 @@ import Search from "./Search";
 
 import useSnackbarAlert from "../other/useSnackbarAlert";
 import { FetchCoinData } from "../other/FetchCoinData";
-import { useStateValue } from "../../context";
+import { useStateValue } from "../../contextAuth";
 
 const skeletonArr = new Array(8).fill("skelet");
 
