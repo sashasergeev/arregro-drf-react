@@ -57,6 +57,12 @@ class PostSerializer(serializers.ModelSerializer):
         )
 
 
+class PostCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ("id", "coin", "message", "price", "tag")
+
+
 class CoinDetailSerializer(serializers.ModelSerializer):
     posts = PostSerializer(many=True)
     currPrice = serializers.SlugRelatedField(

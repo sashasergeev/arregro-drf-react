@@ -105,7 +105,7 @@ const CardElem = (props) => {
         <CardActions className={classes.bdy}>
           {isLoaded ? (
             <>
-              <a href={data.cg_link}>
+              <a href={data.coin.cg_link}>
                 <img
                   className={classes.actionIcons}
                   alt="Qries"

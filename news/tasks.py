@@ -3,7 +3,7 @@ from django.forms.models import model_to_dict
 import requests
 from celery import shared_task
 from channels.layers import get_channel_layer
-from .models import Coin, PriceDynamic
+from .models import Coin, PriceDynamic, Post
 
 channel_layer = get_channel_layer()
 
@@ -37,3 +37,14 @@ def get_coins_price():
     async_to_sync(channel_layer.group_send)(
         "prices", {"type": "send_new_data", "text": prices}
     )
+
+
+@shared_task
+def update_post_price(post_id):
+    post = Post.objects.get(pk=post_id)
+    if not post.price1hr:
+        post.price1hr = post.coin.prices.price
+    else:
+        post.price2hr = post.coin.prices.price
+
+    post.save()

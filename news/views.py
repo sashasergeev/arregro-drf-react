@@ -2,17 +2,20 @@ from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 
-from rest_framework import viewsets, mixins, permissions, generics
+from datetime import datetime, timedelta
 
+from rest_framework import status, viewsets, mixins, permissions, generics
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 
+from .tasks import update_post_price
 from .serializers import (
     CoinDetailSerializer,
     CoinSerializer,
     CoinSubmitSerializer,
     CoinTrendingSerializer,
+    PostCreateSerializer,
     PostSerializer,
     PostsByTagSerializer,
     TagSerializer,
@@ -25,7 +28,7 @@ class CustomPagination(PageNumberPagination):
     page_size = 8
 
 
-class PostViewSet(viewsets.ReadOnlyModelViewSet):
+class PostViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     serializer_class = PostSerializer
 
@@ -47,6 +50,35 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
         elif filter_to:
             queryset = queryset.filter(date_added__lte=filter_to)
         return queryset
+
+    def create(self, request, *args, **kwargs):
+        coin = Coin.objects.get(tg_pure_id=request.data["chat_id"])
+        data = {
+            "coin": coin.pk,
+            "tag": Tag.objects.filter(tag__in=request.data.getlist("tags")).values_list(
+                "pk", flat=True
+            ),
+            "price": coin.prices.price,
+            "message": request.data["message"],
+        }
+        serializer = PostCreateSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        # scheduling tasks to be done 1h and 2hrs later
+        # this can be moved to signals or overwriting Post model
+        update_post_price.apply_async(
+            (serializer.data["id"],),
+            eta=datetime.utcnow() + timedelta(hours=1),
+        )
+        update_post_price.apply_async(
+            (serializer.data["id"],),
+            eta=datetime.utcnow() + timedelta(hours=2),
+        )
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
 
 class CoinViewSet(viewsets.ReadOnlyModelViewSet):

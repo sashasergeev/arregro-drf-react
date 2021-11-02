@@ -3,11 +3,11 @@
 This project idea is a copy of my [another project](https://github.com/sashasergeev/arregro-django) made with just Django.
 
 Description from my other version of this project:
->On the news page users can see cards with info of the last posts and prices before and after news. Also they can press info button to open modal where they can see how price has changed aftter a news in a 1h 2h and change with the current price. On the coins page they can find the coin they want, follow them and go to the coin detail page, where they can see all the news that are in a db.
+>On the news page users can see cards with info of the last posts and prices before and after news. Also they can press info button to open modal where they can see how price has changed after a news in a 1h 2h and change with the current price. On the coins page they can find the coin they want, follow them and go to the coin detail page, where they can see all the news that are in a db.
 >
 >Users can login/signup, follow/unfollow coins so they will have personal feed. Also user can submit the coin they want to see in the project.
 
-On the main page user can filter posts by tags.
+On the main page user can filter posts by tags and date.
 
 ### Keypoints
 - In this project i didn't install react app as a separate project, instead i have installed it via django app (frontend app).
@@ -57,4 +57,4 @@ celery -A arregro worker --loglevel=INFO --concurrency 1 -P solo
 2. Type in shell ```npm install``` so all packages you need will be installed.
 3. After you make changes, you need to run ```npm run dev``` command in the shell to compile main.js file.
 
-Need to notice, the script, that look up the news is separeted from the site. It runs and writes data to the db (MySQL). [Link to the repository](https://github.com/sashasergeev/telegram-realtime-crawler)
+Need to notice, the script, that look up the news is separeted from the site. It runs and sends data to the api. [Link to the repository](https://github.com/sashasergeev/telegram-realtime-crawler/tree/api)
