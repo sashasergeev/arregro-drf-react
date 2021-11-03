@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 
+from accounts.signals import notify
 from .tasks import update_post_price
 from .serializers import (
     CoinDetailSerializer,
@@ -26,7 +27,9 @@ from .models import Coin, Post, Tag
 # WEB SOCKETS RELATED IMPORT
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+
 channel_layer = get_channel_layer()
+
 
 class CustomPagination(PageNumberPagination):
     page_size = 8
@@ -69,15 +72,16 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-
-
-        # msg to websohat new post has been created
-        async_to_sync(channel_layer.group_send("new_posts", {
-            "type": "notify",
-            "message": data
-        }))
+        # create notifications to all followers
+        notify.send(sender=None, coin=coin, to_users=list(coin.followers.all()))
+        # msg to channels that new post has been created
+        async_to_sync(
+            channel_layer.group_send(
+                "new_posts", {"type": "new_post_notify", "message": "new post"}
+            )
+        )
         async_to_sync(channel_layer.group_send)(
-        "new_posts", {"type": "new_post_notify", "text": "new post"}
+            "new_posts", {"type": "new_post_notify", "text": "new post"}
         )
         # scheduling tasks to be done 1h and 2hrs later
         # this can be moved to signals or overwriting Post model
