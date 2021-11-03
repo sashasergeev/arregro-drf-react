@@ -23,6 +23,10 @@ from .serializers import (
 )
 from .models import Coin, Post, Tag
 
+# WEB SOCKETS RELATED IMPORT
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+channel_layer = get_channel_layer()
 
 class CustomPagination(PageNumberPagination):
     page_size = 8
@@ -66,6 +70,15 @@ class PostViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
+
+        # msg to websohat new post has been created
+        async_to_sync(channel_layer.group_send("new_posts", {
+            "type": "notify",
+            "message": data
+        }))
+        async_to_sync(channel_layer.group_send)(
+        "new_posts", {"type": "new_post_notify", "text": "new post"}
+        )
         # scheduling tasks to be done 1h and 2hrs later
         # this can be moved to signals or overwriting Post model
         update_post_price.apply_async(
@@ -76,6 +89,7 @@ class PostViewSet(viewsets.ModelViewSet):
             (serializer.data["id"],),
             eta=datetime.utcnow() + timedelta(hours=2),
         )
+
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
@@ -167,8 +181,6 @@ class CoinSubmitCreate(generics.GenericAPIView):
 class TrendingViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
     def list(self, request):
         queryset = Coin.objects.order_by("-prices__price_change24h")
-
         gainers = CoinTrendingSerializer(queryset[:10], many=True)
-
         losers = CoinTrendingSerializer(queryset.reverse()[:10], many=True)
         return Response({"gainers": gainers.data, "losers": losers.data})

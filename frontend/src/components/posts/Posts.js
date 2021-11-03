@@ -3,6 +3,7 @@ import Cards from "../posts/Cards";
 import PageNav from "../Layout/PageNav";
 import { FetchDataForCards } from "../other/FetchDataForCards";
 import Filter from "./Filter";
+import { NewPostAlert } from "./styles";
 
 export class Posts extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export class Posts extends Component {
     this.skeletRender = this.skeletRender.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
+    this.refresh = this.refresh.bind(this);
 
     this.state = {
       posts: new Array(8).fill("skelet"),
@@ -21,9 +23,18 @@ export class Posts extends Component {
       filter: false,
       fromDate: null,
       toDate: null,
+      newPost: 0,
     };
   }
   componentDidMount() {
+    // sockets
+    const socket = new WebSocket(
+      "ws://" + window.location.host + "/ws/new-post/"
+    );
+    socket.onmessage = (e) => {
+      this.setState({ newPost: this.state.newPost + 1 });
+    };
+    // data
     this.getCardsData();
   }
   getCardsData() {
@@ -78,10 +89,31 @@ export class Posts extends Component {
     });
   }
 
+  refresh() {
+    this.setState(
+      {
+        posts: new Array(8).fill("skelet"),
+        page: 1,
+        filter: false,
+        fromDate: null,
+        toDate: null,
+        newPost: 0,
+      },
+      () => {
+        this.getCardsData();
+      }
+    );
+  }
+
   render() {
-    const { posts, page, numOfPages } = this.state;
+    const { posts, page, numOfPages, newPost } = this.state;
     return (
       <div>
+        {newPost > 0 && (
+          <NewPostAlert onClick={this.refresh}>
+            New post. Tap to refresh.
+          </NewPostAlert>
+        )}
         <Cards cards={posts} />
         <PageNav
           page={page}

@@ -1,4 +1,21 @@
 import makeStyles from "@mui/styles/makeStyles";
+import { styled } from "@mui/system";
+
+export const NewPostAlert = styled("div")({
+  backgroundColor: "#252a34",
+  border: "5px solid #0c1018",
+  color: "#bbbbbb",
+  margin: "0 auto",
+  padding: "8px 15px",
+  fontWeight: "600",
+  textAlign: "center",
+  borderRadius: "10px",
+  cursor: "pointer",
+  width: "fit-content",
+  "&:hover": {
+    backgroundColor: "#3f588b1a",
+  },
+});
 
 export const useCardStyles = makeStyles({
   bdy: {

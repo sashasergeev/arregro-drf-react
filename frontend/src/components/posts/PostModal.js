@@ -28,7 +28,7 @@ export const PostModal = (props) => {
   const classes = usePostModalStyles();
   useEffect(() => {
     if (props.postId) {
-      axios.get(`api/posts/${props.postId}`).then((res) => {
+      axios.get(`api/posts/${props.postId}/`).then((res) => {
         setData(res.data);
       });
     }

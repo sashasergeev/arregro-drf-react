@@ -1753,6 +1753,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./createSpacing */
 
+/*! ./createStyled */
+
 /*! ./createSvgIcon */
 
 /*! ./createTheme */
@@ -2771,6 +2773,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!************************************************!*\
   !*** ./node_modules/@mui/system/esm/sizing.js ***!
+  \************************************************/
+
+/*!************************************************!*\
+  !*** ./node_modules/@mui/system/esm/styled.js ***!
   \************************************************/
 
 /*!************************************************!*\
@@ -7139,7 +7145,7 @@ PERFORMANCE OF THIS SOFTWARE.
  * @license Modernizr 3.0.0pre (Custom Build) | MIT
  */
 
-/** @license MUI v5.0.1
+/** @license MUI v5.0.2
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
