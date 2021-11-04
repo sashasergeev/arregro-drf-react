@@ -26,6 +26,7 @@ export const useHeaderStyles = makeStyles((theme) => ({
   },
   MenuButtonDrawer: {
     fontSize: "15px",
+    display: "flex",
   },
   toolbar: {
     display: "flex",
@@ -65,6 +66,25 @@ export const useHeaderStyles = makeStyles((theme) => ({
     gap: "5px",
     flexWrap: "wrap",
     justifyContent: "center",
+  },
+  notifMenuItem: {
+    display: "flex",
+    alignItems: "center",
+    textDecoration: "none",
+    color: "#15181d",
+    justifyContent: "space-between",
+    gap: "10px",
+  },
+  notifMenuItemLogo: { width: "32px", height: "32px" },
+  notifMenuTitle: {
+    padding: "6px 16px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  notifMenuItemUnread: {
+    background: "#4caf5057",
+    "&:hover": { background: "#7cdf7f", boxShadow: "0px 3px 5px #a79b9b6b" },
   },
 }));
 

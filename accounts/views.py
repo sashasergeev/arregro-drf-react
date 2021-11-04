@@ -1,7 +1,19 @@
-from rest_framework import generics, permissions
+import re
+from rest_framework import generics, mixins, permissions, views, viewsets
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import LoginSerializer, UserSerializer, RegisterSerializer
+from rest_framework.renderers import JSONRenderer
+from rest_framework.decorators import action
+
+from accounts.models import Notification
+
+
+from .serializers import (
+    LoginSerializer,
+    NotificationSerializer,
+    UserSerializer,
+    RegisterSerializer,
+)
 
 # REGISTER API
 class RegisterApi(generics.GenericAPIView):
@@ -46,3 +58,47 @@ class UserApi(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+# NOTIFICATIONS
+class NotificationListView(mixins.ListModelMixin, viewsets.GenericViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request):
+        queryset = self.request.user.notifications
+        serializer = NotificationSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @action(
+        methods=["get"],
+        detail=False,
+        permission_classes=[permissions.IsAuthenticated],
+        url_path="clear",
+        url_name="clear",
+    )
+    def clearNotifications(self, request):
+        pk = request.GET.get("pk", None)
+        if pk:
+            # clear one notification by pk
+            notification = Notification.objects.get(pk=pk)
+            notification.read = True
+            notification.save()
+            return Response({"status": "one"})
+        else:
+            # clear all notifications
+            notifications = request.user.notifications.filter(read=False)
+            for n in notifications:
+                n.read = True
+                n.save()
+            return Response({"status": "all"})
+
+    @action(
+        methods=["get"],
+        detail=False,
+        permission_classes=[permissions.IsAuthenticated],
+        url_path="count",
+        url_name="count",
+    )
+    def countNotifications(self, request):
+        content = {"not_count": request.user.notifications.filter(read=False).count()}
+        return Response(content)

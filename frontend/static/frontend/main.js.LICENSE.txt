@@ -1577,6 +1577,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./NotchedOutline */
 
+/*! ./Notifications */
+
 /*! ./PanSession.js */
 
 /*! ./PickerView */
@@ -1666,6 +1668,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! ./avatarClasses */
 
 /*! ./backdropUnstyledClasses */
+
+/*! ./badgeUnstyledClasses */
 
 /*! ./borders */
 
@@ -2269,6 +2273,8 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @mui/core/BackdropUnstyled */
 
+/*! @mui/core/BadgeUnstyled */
+
 /*! @mui/core/ClickAwayListener */
 
 /*! @mui/core/ModalUnstyled */
@@ -2281,6 +2287,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! @mui/icons-material/Clear */
 
+/*! @mui/icons-material/ClearAll */
+
+/*! @mui/icons-material/ExitToApp */
+
 /*! @mui/icons-material/InfoOutlined */
 
 /*! @mui/icons-material/LocalOffer */
@@ -2290,6 +2300,8 @@ PERFORMANCE OF THIS SOFTWARE.
 /*! @mui/icons-material/Menu */
 
 /*! @mui/icons-material/Money */
+
+/*! @mui/icons-material/NotificationsNone */
 
 /*! @mui/icons-material/Search */
 
@@ -2815,6 +2827,10 @@ PERFORMANCE OF THIS SOFTWARE.
   !*** ./node_modules/dayjs/plugin/isBetween.js ***!
   \************************************************/
 
+/*!************************************************!*\
+  !*** ./src/components/header/Notifications.js ***!
+  \************************************************/
+
 /*!*************************************************!*\
   !*** ./node_modules/@mui/core/Portal/Portal.js ***!
   \*************************************************/
@@ -2969,6 +2985,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!***************************************************!*\
   !*** ./node_modules/@mui/material/Alert/Alert.js ***!
+  \***************************************************/
+
+/*!***************************************************!*\
+  !*** ./node_modules/@mui/material/Badge/Badge.js ***!
   \***************************************************/
 
 /*!***************************************************!*\
@@ -3352,6 +3372,10 @@ PERFORMANCE OF THIS SOFTWARE.
   \*****************************************************/
 
 /*!******************************************************!*\
+  !*** ./node_modules/@mui/icons-material/ClearAll.js ***!
+  \******************************************************/
+
+/*!******************************************************!*\
   !*** ./node_modules/@mui/material/Fab/fabClasses.js ***!
   \******************************************************/
 
@@ -3510,6 +3534,10 @@ PERFORMANCE OF THIS SOFTWARE.
 /*!******************************************************!*\
   !*** ./node_modules/react-query/es/react/Hydrate.js ***!
   \******************************************************/
+
+/*!*******************************************************!*\
+  !*** ./node_modules/@mui/icons-material/ExitToApp.js ***!
+  \*******************************************************/
 
 /*!*******************************************************!*\
   !*** ./node_modules/@mui/material/InputBase/utils.js ***!
@@ -3981,6 +4009,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!*********************************************************!*\
   !*** ./node_modules/@mui/utils/esm/useEventCallback.js ***!
+  \*********************************************************/
+
+/*!*********************************************************!*\
+  !*** ./node_modules/@mui/utils/esm/usePreviousProps.js ***!
   \*********************************************************/
 
 /*!*********************************************************!*\
@@ -5068,7 +5100,15 @@ PERFORMANCE OF THIS SOFTWARE.
   \**************************************************************/
 
 /*!***************************************************************!*\
+  !*** ./node_modules/@mui/core/BadgeUnstyled/BadgeUnstyled.js ***!
+  \***************************************************************/
+
+/*!***************************************************************!*\
   !*** ./node_modules/@mui/core/ModalUnstyled/ModalUnstyled.js ***!
+  \***************************************************************/
+
+/*!***************************************************************!*\
+  !*** ./node_modules/@mui/icons-material/NotificationsNone.js ***!
   \***************************************************************/
 
 /*!***************************************************************!*\
@@ -6085,6 +6125,10 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
+  \**********************************************************************/
+
+/*!**********************************************************************!*\
+  !*** ./node_modules/@mui/core/BadgeUnstyled/badgeUnstyledClasses.js ***!
   \**********************************************************************/
 
 /*!**********************************************************************!*\

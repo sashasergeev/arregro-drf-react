@@ -13,12 +13,13 @@ import { actionTypes, useStateValue } from "../../contextAuth";
 import { logoutUser } from "../accounts/authAxios";
 import { useMutation } from "react-query";
 import useSnackbarAlert from "../other/useSnackbarAlert";
+import Notifications from "./Notifications";
 
 const Header = (props) => {
   // styles
   const classes = useHeaderStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xl"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   // alert
   const snackbar = useSnackbarAlert();
   // auth
@@ -64,7 +65,10 @@ const Header = (props) => {
             )}
           </Box>
           {isMobile ? (
-            <NavDrawer logout={logout} isAuth={isAuth} user={username} />
+            <>
+              <Notifications />
+              <NavDrawer logout={logout} isAuth={isAuth} user={username} />
+            </>
           ) : (
             <>
               <NavLink
@@ -100,11 +104,14 @@ const Header = (props) => {
                 </Box>
               </NavLink>
               {isAuth ? (
-                <NavIsAuth
-                  isMobile={isMobile}
-                  logout={logout}
-                  user={username}
-                />
+                <>
+                  <Notifications />
+                  <NavIsAuth
+                    isMobile={isMobile}
+                    logout={logout}
+                    user={username}
+                  />
+                </>
               ) : (
                 <NavNotAuth />
               )}

@@ -1,8 +1,9 @@
 import React from "react";
-import { Box, Button } from "@mui/material";
 import { useHeaderStyles } from "./styles";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { Box, Button } from "@mui/material";
 
 const NavIsAuth = (props) => {
   const classes = useHeaderStyles();
@@ -27,7 +28,7 @@ const NavIsAuth = (props) => {
         </Button>
         <Button className={classes.authBtn} onClick={() => props.logout()}>
           <span className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}>
-            Logout
+            <ExitToAppIcon />
           </span>
         </Button>
       </Box>

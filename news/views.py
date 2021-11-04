@@ -72,6 +72,7 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
+        
         # create notifications to all followers
         notify.send(sender=None, coin=coin, to_users=list(coin.followers.all()))
         # msg to channels that new post has been created
@@ -79,9 +80,6 @@ class PostViewSet(viewsets.ModelViewSet):
             channel_layer.group_send(
                 "new_posts", {"type": "new_post_notify", "message": "new post"}
             )
-        )
-        async_to_sync(channel_layer.group_send)(
-            "new_posts", {"type": "new_post_notify", "text": "new post"}
         )
         # scheduling tasks to be done 1h and 2hrs later
         # this can be moved to signals or overwriting Post model

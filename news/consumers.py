@@ -24,5 +24,5 @@ class NewPostCunsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard('new_posts', self.channel_name)
 
     async def new_post_notify(self, event):
-        new_data = event['text']
+        new_data = event['message']
         await self.send(json.dumps(new_data))
