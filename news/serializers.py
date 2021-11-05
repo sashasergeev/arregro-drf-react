@@ -105,14 +105,6 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ("id", "tag", "tag_count")
 
 
-class PostsByTagSerializer(serializers.ModelSerializer):
-    post_set = PostSerializer(many=True)
-
-    class Meta:
-        model = Tag
-        fields = ("id", "tag", "post_set")
-
-
 class CoinSubmitSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoinSubmit

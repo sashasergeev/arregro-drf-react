@@ -1,106 +1,73 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Grid, Typography, Card, Box } from "@mui/material";
-import PostsByTag from "./PostsByTag";
+import { Grid, Typography, Box, Button } from "@mui/material";
+import {
+  FilterBox,
+  TagBox,
+  TagTitleBox,
+  TagDataBox,
+  DateButton,
+} from "./styles";
 
-function truncate(str, max = 50) {
-  return str.length > max ? str.substr(0, max - 1) + "…" : str;
-}
+export const Tags = () => {
+  const [tags, setTags] = useState([]);
+  const [dateFilter, setDateFilter] = useState("ALL TIME");
 
-export class Tags extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tags: [],
-      currentTag: null,
-      posts: [],
-    };
-  }
+  useEffect(() => {
+    let url =
+      dateFilter !== "ALL TIME"
+        ? `api/tags/stat/?date=${dateFilter}`
+        : "api/tags/stat/";
+    axios.get(url).then((res) => setTags(res.data));
+  }, [dateFilter]);
 
-  componentDidMount() {
-    axios.get("api/tags").then((res) => this.setState({ tags: res.data }));
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.tags.length > this.state.tags
-      ? true
-      : nextState.currentTag != this.state.currentTag
-      ? true
-      : false;
-  }
-  displayPosts(id) {
-    if (this.state.currentTag && this.state.currentTag[0].id === id) {
-      this.setState({
-        posts: [],
-        currentTag: null,
-      });
-      return;
-    }
-    let cardData;
-    axios.get(`api/tags/${id}`).then((res) => {
-      this.setState({
-        posts: res.data.post_set,
-        currentTag: this.state.tags.filter((e) => e.id === id),
-      });
-    });
-  }
+  const changeFilter = (e) => setDateFilter(e.target.outerText);
 
-  render() {
-    const { tags, posts } = this.state;
-    const currentTag = this.state.currentTag && this.state.currentTag[0].tag;
-    return (
-      <div style={{ padding: 15 }}>
-        <Grid container justifyContent="center" spacing={2}>
-          {tags.map((e) => {
-            return (
-              <Grid
-                key={e.id}
-                style={{ cursor: "pointer" }}
-                item
-                onClick={this.displayPosts.bind(this, e.id)}
-              >
-                <Card
-                  style={{
-                    width: 350,
-                    backgroundColor:
-                      currentTag == e.tag ? "white" : "#040d1b6b",
-                  }}
-                  elevation={0}
-                >
-                  <Grid
-                    container
-                    justifyContent="space-between"
-                    direction="row"
-                    alignItems="center"
-                    style={{ color: "gray" }}
-                  >
-                    <Box component="div" display="inline" p={1} m={1}>
-                      <Typography variant="body1" display="inline">
-                        {e.tag}
-                      </Typography>
-                    </Box>
-                    <Box
-                      component="div"
-                      display="inline"
-                      p={1}
-                      m={1}
-                      style={{ fontSize: 20, padding: "5px" }}
-                    >
-                      {e.tag_count}
-                    </Box>
-                  </Grid>
-                </Card>
-              </Grid>
-            );
-          })}
-        </Grid>
-        {currentTag && (
-          <div style={{ paddingTop: 30 }}>
-            <PostsByTag cards={posts} />
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div style={{ padding: 15 }}>
+      <FilterBox>
+        {/* <Typography>FILTER</Typography> */}
+        <DateButton
+          onClick={changeFilter}
+          iscurr={dateFilter === "TODAY" ? "true" : "false"}
+        >
+          TODAY
+        </DateButton>
+        <DateButton
+          onClick={changeFilter}
+          iscurr={dateFilter === "MONTH" ? "true" : "false"}
+        >
+          MONTH
+        </DateButton>
+        <DateButton
+          onClick={changeFilter}
+          iscurr={dateFilter === "YEAR" ? "true" : "false"}
+        >
+          YEAR
+        </DateButton>
+        <DateButton
+          onClick={changeFilter}
+          iscurr={dateFilter === "ALL TIME" ? "true" : "false"}
+        >
+          ALL TIME
+        </DateButton>
+      </FilterBox>
+      <Grid container justifyContent="center" spacing={2}>
+        {tags.map((e) => {
+          return (
+            <TagBox key={e.tag}>
+              <TagTitleBox>{e.tag}</TagTitleBox>
+              <TagDataBox>
+                <Box>Post count: {e.count}</Box>
+                <Box>1 Hour Average: {e.oneHrChangeAvg?.toFixed(2)}%</Box>
+                <Box>2 Hours Average: {e.twoHrChangeAvg?.toFixed(2)}%</Box>
+              </TagDataBox>
+            </TagBox>
+          );
+        })}
+      </Grid>
+    </div>
+  );
+};
 
 export default Tags;

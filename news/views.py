@@ -1,6 +1,5 @@
 from django.http.response import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.db.models import Count
+from django.db.models import Count, Avg, FloatField, Case, When, F
 
 from datetime import datetime, timedelta
 
@@ -18,7 +17,6 @@ from .serializers import (
     CoinTrendingSerializer,
     PostCreateSerializer,
     PostSerializer,
-    PostsByTagSerializer,
     TagSerializer,
     CoinSearchSerializer,
 )
@@ -72,7 +70,7 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        
+
         # create notifications to all followers
         notify.send(sender=None, coin=coin, to_users=list(coin.followers.all()))
         # msg to channels that new post has been created
@@ -143,11 +141,56 @@ class TagViewSet(viewsets.ViewSet):
         serializer = TagSerializer(queryset, many=True)
         return Response(serializer.data)
 
-    def retrieve(self, request, pk=None):
-        queryset = Tag.objects.all()
-        tag = get_object_or_404(queryset, pk=pk)
-        serializer = PostsByTagSerializer(tag)
-        return Response(serializer.data)
+    @action(
+        methods=["get"],
+        detail=False,
+        url_path="stat",
+        url_name="stat",
+    )
+    def tagStatistic(self, request):
+        print(request.GET.get("date", None))
+        date = request.GET.get("date", None)
+
+        if date == "TODAY":
+            tags = Tag.objects.filter(
+                post__date_added__gte=datetime.today() - timedelta(days=1)
+            )
+        elif date == "MONTH":
+            tags = Tag.objects.filter(
+                post__date_added__gte=datetime.today() - timedelta(days=30)
+            )
+        elif date == "YEAR":
+            tags = Tag.objects.filter(
+                post__date_added__gte=datetime.today() - timedelta(days=365)
+            )
+        else:
+            tags = Tag.objects.all()
+
+        tags = tags.annotate(tag_count=Count("post")).order_by("-tag_count")
+        content = []
+        for tag in tags:
+            onehr = tag.post_set.annotate(
+                oneHrCh=Case(
+                    When(price1hr="", then=0),
+                    default=((F("price1hr") / F("price") - 1) * 100),
+                    output_field=FloatField(),
+                )
+            ).aggregate(oneHr=Avg("oneHrCh"))
+            twohr = tag.post_set.annotate(
+                twoHrCh=Case(
+                    When(price2hr="", then=0),
+                    default=((F("price2hr") / F("price") - 1) * 100),
+                    output_field=FloatField(),
+                )
+            ).aggregate(twoHr=Avg("twoHrCh"))
+            tagContent = {
+                "tag": tag.tag,
+                "count": tag.tag_count,
+                "oneHrChangeAvg": onehr["oneHr"],
+                "twoHrChangeAvg": twohr["twoHr"],
+            }
+            content.append(tagContent)
+        return Response(content)
 
 
 class PostFeedViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
