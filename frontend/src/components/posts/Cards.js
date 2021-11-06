@@ -18,7 +18,7 @@ const Cards = (props) => {
     setIdForModal(null);
   };
   // endModal
-  const isLoaded = cards[0].id ? true : false;
+  const isLoaded = cards[0]?.id ? true : false;
 
   return (
     <Grid container justifyContent="center">

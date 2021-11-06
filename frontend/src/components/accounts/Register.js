@@ -1,48 +1,31 @@
 import React from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Redirect } from "react-router-dom";
-import { useMutation } from "react-query";
-import { registerUser } from "./authAxios";
-import { useAuthStyles } from "../accounts/styles";
-
 import {
   Container,
   Typography,
   Grid,
   Link,
   TextField,
-  Button,
   Avatar,
 } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { LoadingButton } from "@mui/lab";
+import { useAuthStyles } from "../accounts/styles";
 
-import { actionTypes, useStateValue } from "../../contextAuth";
 import useSnackbarAlert from "../other/useSnackbarAlert";
+import { useStateValue } from "../../contextAuth";
+import { useRegisterUser } from "./authMutations";
 
 import PropTypes from "prop-types";
 
 export const Register = () => {
   const classes = useAuthStyles();
-  const [{ isAuth }, dispatch] = useStateValue();
-
+  const [{ isAuth }] = useStateValue();
   // alert
   const snackbar = useSnackbarAlert();
-
   // signing up
-  const { mutateAsync, isLoading } = useMutation("register", registerUser, {
-    onSuccess: (data) => {
-      dispatch({
-        type: actionTypes.SET_TOKEN,
-        token: data.token,
-        username: data.user.username,
-      });
-      snackbar.showSuccess("Account has been created.");
-      localStorage.setItem("token", data.token);
-    },
-    onError: (err) => {
-      snackbar.showError("Somthing is wrong.");
-    },
-  });
+  const registerUserMutation = useRegisterUser();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const elements = e.target.elements;
@@ -54,7 +37,7 @@ export const Register = () => {
       snackbar.showWarning("Passwords does not match. Please try again.");
       return null;
     }
-    await mutateAsync({ username, email, password });
+    await registerUserMutation.mutateAsync({ username, email, password });
   };
 
   return (
@@ -125,8 +108,12 @@ export const Register = () => {
             variant="text"
             color="inherit"
             className={classes.submit}
-            loading={isLoading}
-            style={isLoading ? { backgroundColor: "#9c27b096" } : {}}
+            loading={registerUserMutation.isLoading}
+            style={
+              registerUserMutation.isLoading
+                ? { backgroundColor: "#9c27b096" }
+                : {}
+            }
           >
             Sign Up
           </LoadingButton>

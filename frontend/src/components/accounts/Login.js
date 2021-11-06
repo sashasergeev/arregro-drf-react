@@ -1,8 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useMutation } from "react-query";
-import useSnackbarAlert from "../other/useSnackbarAlert";
-
 import { Redirect } from "react-router-dom";
 import {
   Avatar,
@@ -14,41 +11,23 @@ import {
 } from "@mui/material";
 import { useAuthStyles } from "../accounts/styles";
 import { LoadingButton } from "@mui/lab";
-
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { loginUser } from "./authAxios";
-import { actionTypes, useStateValue } from "../../contextAuth";
+import { useStateValue } from "../../contextAuth";
+import { useLoginUser } from "./authMutations";
 
 const Login = () => {
   // styles
   const classes = useAuthStyles();
 
-  // alert
-  const snackbar = useSnackbarAlert();
-
   // auth
-  const [{ isAuth }, dispatch] = useStateValue();
-  const loginMutate = useMutation("login", loginUser, {
-    onSuccess: (data) => {
-      dispatch({
-        type: actionTypes.SET_TOKEN,
-        token: data.token,
-        username: data.user.username,
-      });
-      localStorage.setItem("token", data.token);
-      snackbar.showSuccess("You've logged in successfuly.");
-    },
-    onError: (data) => {
-      console.log(data);
-      snackbar.showError("Sorry, login or password is incorrect.");
-    },
-  });
+  const [{ isAuth }] = useStateValue();
+  const loginUserMutation = useLoginUser();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     let username = e.target.elements.username.value;
     let password = e.target.elements.password.value;
-    await loginMutate.mutateAsync({ username, password });
+    await loginUserMutation.mutateAsync({ username, password });
   };
 
   return (
@@ -92,9 +71,11 @@ const Login = () => {
             variant="text"
             color="inherit"
             className={classes.submit}
-            loading={loginMutate.isLoading}
+            loading={loginUserMutation.isLoading}
             style={
-              loginMutate.isLoading ? { backgroundColor: "#9c27b096" } : {}
+              loginUserMutation.isLoading
+                ? { backgroundColor: "#9c27b096" }
+                : {}
             }
           >
             Sign In
