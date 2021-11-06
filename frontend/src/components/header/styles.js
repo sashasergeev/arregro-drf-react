@@ -45,7 +45,7 @@ export const useHeaderStyles = makeStyles((theme) => ({
   },
   menuItemIcon: {
     padding: "4px",
-    background: "#8980f5",
+    background: "#31324c",
     borderRadius: "50%",
   },
   menuBtnSecondary: {

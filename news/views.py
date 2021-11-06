@@ -1,5 +1,6 @@
+from django.db.models.expressions import ExpressionWrapper
 from django.http.response import JsonResponse
-from django.db.models import Count, Avg, FloatField, Case, When, F
+from django.db.models import Count, Avg, FloatField, F
 
 from datetime import datetime, timedelta
 
@@ -148,7 +149,6 @@ class TagViewSet(viewsets.ViewSet):
         url_name="stat",
     )
     def tagStatistic(self, request):
-        print(request.GET.get("date", None))
         date = request.GET.get("date", None)
 
         if date == "TODAY":
@@ -169,20 +169,26 @@ class TagViewSet(viewsets.ViewSet):
         tags = tags.annotate(tag_count=Count("post")).order_by("-tag_count")
         content = []
         for tag in tags:
-            onehr = tag.post_set.annotate(
-                oneHrCh=Case(
-                    When(price1hr="", then=0),
-                    default=((F("price1hr") / F("price") - 1) * 100),
-                    output_field=FloatField(),
+            onehr = (
+                tag.post_set.exclude(price1hr="")
+                .annotate(
+                    oneHrCh=ExpressionWrapper(
+                        ((F("price1hr") / F("price") - 1) * 100),
+                        output_field=FloatField(),
+                    )
                 )
-            ).aggregate(oneHr=Avg("oneHrCh"))
-            twohr = tag.post_set.annotate(
-                twoHrCh=Case(
-                    When(price2hr="", then=0),
-                    default=((F("price2hr") / F("price") - 1) * 100),
-                    output_field=FloatField(),
+                .aggregate(oneHr=Avg("oneHrCh"))
+            )
+            twohr = (
+                tag.post_set.exclude(price2hr="")
+                .annotate(
+                    twoHrCh=ExpressionWrapper(
+                        ((F("price2hr") / F("price") - 1) * 100),
+                        output_field=FloatField(),
+                    )
                 )
-            ).aggregate(twoHr=Avg("twoHrCh"))
+                .aggregate(twoHr=Avg("twoHrCh"))
+            )
             tagContent = {
                 "tag": tag.tag,
                 "count": tag.tag_count,

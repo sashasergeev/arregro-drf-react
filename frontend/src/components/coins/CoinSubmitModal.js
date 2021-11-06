@@ -3,10 +3,11 @@ import Modal from "react-modal";
 import { TextField, Button, Typography } from "@mui/material";
 Modal.setAppElement("#app");
 import axios from "axios";
-import { modalStyles } from "./styles";
 import useSnackbarAlert from "../other/useSnackbarAlert";
+import { modalStyles, useCoinModalStyles } from "./styles";
 
 const CoinSubmitModal = (props) => {
+  const classes = useCoinModalStyles();
   const [coin, setCoin] = useState("");
   const [cgLink, setCgLink] = useState("");
   const snackbar = useSnackbarAlert();
@@ -29,11 +30,10 @@ const CoinSubmitModal = (props) => {
       isOpen={props.isOpen}
       onRequestClose={props.handleModal}
     >
-      <form noValidate onSubmit={handleSubmit}>
+      <form noValidate onSubmit={handleSubmit} className={classes.submitForm}>
         <Typography variant="h4">Which coin do you want to see?</Typography>
         <TextField
           variant="outlined"
-          mt="10px"
           required
           fullWidth
           id="coin"
@@ -44,7 +44,6 @@ const CoinSubmitModal = (props) => {
         />
         <TextField
           variant="outlined"
-          mt="10px"
           required
           fullWidth
           id="cg_link"
@@ -56,9 +55,8 @@ const CoinSubmitModal = (props) => {
         <Button
           type="submit"
           fullWidth
-          mt="10px"
           variant="contained"
-          color="primary"
+          className={classes.submitBtn}
         >
           Submit
         </Button>

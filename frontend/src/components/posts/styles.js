@@ -22,7 +22,7 @@ export const useCardStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    background: "#06070a40",
+    background: "#2a2b44",
   },
   huo: {
     padding: "10px 8px",
@@ -30,14 +30,14 @@ export const useCardStyles = makeStyles({
   root: {
     minWidth: 340,
     maxWidth: 350,
-    backgroundColor: "#040d1b6b",
+    backgroundColor: "#2a2b44",
     color: "white",
   },
   paper: {
     textAlign: "center",
     fontWeight: 500,
     color: "white",
-    background: "#181b22",
+    background: "#181b2259",
     padding: 2,
     borderRadius: 5,
   },
@@ -111,16 +111,19 @@ import withStyles from "@mui/styles/withStyles";
 // overriding classic TableCell component
 export const StyledTableCell = withStyles(() => ({
   head: {
-    backgroundColor: "#6547a1",
+    backgroundColor: "#222138",
     color: "#fff",
   },
   body: {
-    backgroundColor: "#6547a1",
+    backgroundColor: "#0f091eb5",
     fontSize: 16,
     color: "#fff",
   },
   sizeSmall: {
     padding: "6px 6px 6px 6px",
+  },
+  root: {
+    borderBottom: "1px solid #222138",
   },
 }))(TableCell);
 
@@ -129,13 +132,13 @@ export const usePostModalStyles = makeStyles((theme) => ({
     color: "#e6e6e6",
   },
   titleField: {
-    backgroundColor: "#3f51b5",
+    backgroundColor: "#323462ad",
     borderRadius: "10px 10px 0px 0px",
     fontSize: "18px",
     padding: "7px",
   },
   textField: {
-    backgroundColor: "#0096885e",
+    backgroundColor: "#1211245e",
     borderRadius: "0px 0px 10px 10px",
     padding: "7px",
     fontSize: "18px",
@@ -147,18 +150,18 @@ export const usePostModalStyles = makeStyles((theme) => ({
   mainBlock: {
     display: "flex",
     gap: "20px",
-    flexWrap: "wrap",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
   nameLogoBlock: {
-    backgroundColor: "#683bc1",
+    backgroundColor: "#222138",
     padding: "5px 10px",
     borderRadius: "10px",
     boxShadow: "7px 7px 11px 5px #181b2247",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     gap: "20px",
     marginBottom: "20px",
   },
@@ -183,11 +186,11 @@ export const modalStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "#8d77b7",
+    backgroundColor: "#2a2b44",
     border: "none",
     borderRadius: "7px",
   },
   overlay: {
-    backgroundColor: "#6d4cadeb",
+    backgroundColor: "#0f071eed",
   },
 };

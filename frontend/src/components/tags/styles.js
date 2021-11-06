@@ -12,6 +12,19 @@ export const DateButton = styled(Button)(({ iscurr }) => ({
   },
 }));
 
+export const TagContainer = styled(Box)({
+  padding: 5,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+});
+export const TagListBox = styled(Box)({
+  display: "flex",
+  justifyContent: "center",
+  flexWrap: "wrap",
+  maxWidth: "1150px",
+});
+
 export const FilterBox = styled(Box)({
   display: "flex",
   justifyContent: "center",
@@ -23,18 +36,34 @@ export const FilterBox = styled(Box)({
 export const TagBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
-  backgroundColor: "#5d58a2",
+  width: "250px",
+  backgroundColor: "#5d58a263",
   borderRadius: "10px",
-  margin: "10px",
+  margin: "15px",
 });
 
 export const TagDataBox = styled(Box)({
-  padding: "10px",
-  backgroundColor: "#0000ff40",
+  padding: "5px",
+  backgroundColor: "#2a2b44db",
   borderRadius: "10px",
 });
+export const TagDataRow = styled(Box)({
+  display: "flex",
+  justifyContent: "space-between",
+  padding: "5px 5px",
+  backgroundColor: "#15181d54",
+  borderRadius: "10px",
+  margin: "7px 0px",
+  color: "#dbdbda",
+});
+
+export const TagChangeBox = styled(Box)(({ side }) => ({
+  fontWeight: "600",
+  color: side === "+" ? "limegreen" : "rgb(245, 0, 87)",
+}));
 
 export const TagTitleBox = styled(Box)({
   textAlign: "center",
   margin: "10px",
+  color: "#dbdbda",
 });

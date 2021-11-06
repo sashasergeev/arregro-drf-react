@@ -125,11 +125,37 @@ export const modalStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    backgroundColor: "#c8bae2c2",
+    backgroundColor: "rgb(42, 43, 68)",
     border: "none",
     borderRadius: "7px",
   },
   overlay: {
-    backgroundColor: "#6d4cadeb",
+    backgroundColor: "rgba(15, 7, 30, 0.93)",
   },
 };
+
+export const useCoinModalStyles = makeStyles((theme) => ({
+  submitForm: {
+    "& > *": {
+      margin: "10px 0px",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#fffefe",
+      },
+      "&:hover fieldset": {
+        borderColor: "#a8bdb4",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#7cd6ffb8",
+      },
+    },
+    "& .MuiInputLabel-root": {
+      color: "#ffffff",
+    },
+  },
+  submitBtn: {
+    backgroundColor: "#ffffff17",
+    "&:hover": { backgroundColor: "#ffffff17" },
+  },
+}));

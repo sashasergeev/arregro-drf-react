@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Grid, Typography, Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   FilterBox,
+  TagListBox,
+  TagContainer,
   TagBox,
   TagTitleBox,
   TagDataBox,
+  TagDataRow,
+  TagChangeBox,
   DateButton,
 } from "./styles";
 
@@ -24,9 +28,8 @@ export const Tags = () => {
   const changeFilter = (e) => setDateFilter(e.target.outerText);
 
   return (
-    <div style={{ padding: 15 }}>
+    <TagContainer>
       <FilterBox>
-        {/* <Typography>FILTER</Typography> */}
         <DateButton
           onClick={changeFilter}
           iscurr={dateFilter === "TODAY" ? "true" : "false"}
@@ -52,21 +55,34 @@ export const Tags = () => {
           ALL TIME
         </DateButton>
       </FilterBox>
-      <Grid container justifyContent="center" spacing={2}>
+      <TagListBox>
         {tags.map((e) => {
           return (
             <TagBox key={e.tag}>
               <TagTitleBox>{e.tag}</TagTitleBox>
               <TagDataBox>
-                <Box>Post count: {e.count}</Box>
-                <Box>1 Hour Average: {e.oneHrChangeAvg?.toFixed(2)}%</Box>
-                <Box>2 Hours Average: {e.twoHrChangeAvg?.toFixed(2)}%</Box>
+                <TagDataRow>
+                  <Box>Post count</Box>
+                  <Box>{e.count}</Box>
+                </TagDataRow>
+                <TagDataRow>
+                  <Box>1 Hour Average</Box>
+                  <TagChangeBox side={e.oneHrChangeAvg > 0 ? "+" : "-"}>
+                    {e.oneHrChangeAvg?.toFixed(2)}%
+                  </TagChangeBox>
+                </TagDataRow>
+                <TagDataRow>
+                  <Box>2 Hours Average</Box>
+                  <TagChangeBox side={e.twoHrChangeAvg > 0 ? "+" : "-"}>
+                    {e.twoHrChangeAvg?.toFixed(2)}%
+                  </TagChangeBox>
+                </TagDataRow>
               </TagDataBox>
             </TagBox>
           );
         })}
-      </Grid>
-    </div>
+      </TagListBox>
+    </TagContainer>
   );
 };
 

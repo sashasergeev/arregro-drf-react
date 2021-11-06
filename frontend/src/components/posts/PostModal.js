@@ -50,7 +50,7 @@ export const PostModal = (props) => {
         <div className={classes.text}>
           <Box className={classes.mainBlock}>
             {/* Container for general info */}
-            <Box style={{ maxWidth: "400px" }}>
+            <Box style={{ width: "-webkit-fill-available" }}>
               {/* coin name and logo */}
               <Box className={classes.nameLogoBlock}>
                 <Box>
