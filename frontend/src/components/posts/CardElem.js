@@ -70,7 +70,7 @@ const CardElem = (props) => {
               {isLoaded ? (
                 <>before: {data.price}$</>
               ) : (
-                <Skeleton variant="rectangular" width={110} height={24} />
+                <Skeleton variant="rectangular" width={103} height={24} />
               )}
             </Paper>
           </Grid>
@@ -88,7 +88,7 @@ const CardElem = (props) => {
               {isLoaded ? (
                 <>{change}%</>
               ) : (
-                <Skeleton variant="rectangular" width={110} height={24} />
+                <Skeleton variant="rectangular" width={103} height={24} />
               )}
             </Paper>
           </Grid>
@@ -97,7 +97,7 @@ const CardElem = (props) => {
               {isLoaded ? (
                 <>after: {data.coin.currPrice}$</>
               ) : (
-                <Skeleton variant="rectangular" width={110} height={24} />
+                <Skeleton variant="rectangular" width={103} height={24} />
               )}
             </Paper>
           </Grid>

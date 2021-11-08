@@ -18,7 +18,6 @@ const NavIsAuth = (props) => {
           }}
         >
           <NavLink
-            key="3"
             to="/user"
             className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}
             activeClassName={classes.active}

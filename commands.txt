@@ -1,0 +1,2 @@
+celery -A arregro beat -l INFO
+celery -A arregro worker --loglevel=INFO --concurrency 1 -P solo

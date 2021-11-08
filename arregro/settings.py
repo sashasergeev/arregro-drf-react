@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = "p()xr9r+k3a4nz@7yhu#13km1vfeu+3coz154sfmydk+(u41xx"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "knox",
     "channels",
+    # default apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -81,7 +83,8 @@ WSGI_APPLICATION = "arregro.wsgi.application"
 ASGI_APPLICATION = "arregro.asgi.application"
 
 
-CELERY_BROKER_URL = "redis://localhost:6379"
+# CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_BROKER_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
 
 
 DATABASES = {
@@ -98,7 +101,7 @@ DATABASES = {
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {"hosts": [("127.0.0.1", 6379)]},
+        "CONFIG": {"hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")]},
     }
 }
 
@@ -137,3 +140,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
+
+
+import django_heroku
+
+django_heroku.settings(locals())

@@ -4,7 +4,7 @@ import PostModal from "./PostModal";
 import CardElem from "./CardElem";
 import PropTypes from "prop-types";
 
-const Cards = (props) => {
+const Cards = ({ cards }) => {
   const cards = props.cards;
   // modal
   const [isModal, setIsModal] = useState(false);

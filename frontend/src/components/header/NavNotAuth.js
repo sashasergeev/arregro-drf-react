@@ -11,7 +11,6 @@ const NavNotAuth = (props) => {
     <Box className={classes.authBtns}>
       <Button className={classes.authBtn}>
         <NavLink
-          key="3"
           to="/login"
           className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}
           activeClassName={classes.active}
@@ -21,7 +20,6 @@ const NavNotAuth = (props) => {
       </Button>
       <Button className={classes.authBtn}>
         <NavLink
-          key="4"
           to="/register"
           className={`${classes.menuButton} ${classes.MenuButtonDrawer}`}
           activeClassName={classes.active}
