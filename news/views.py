@@ -199,7 +199,9 @@ class CoinSubmitCreate(generics.GenericAPIView):
 
 class TrendingViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
     def list(self, request):
-        queryset = Coin.objects.order_by("-prices__price_change24h")
+        queryset = Coin.objects.exclude(prices__price_change24h__isnull=True).order_by(
+            "-prices__price_change24h"
+        )
         gainers = CoinTrendingSerializer(queryset[:10], many=True)
         losers = CoinTrendingSerializer(queryset.reverse()[:10], many=True)
         return Response({"gainers": gainers.data, "losers": losers.data})

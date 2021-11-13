@@ -1,0 +1,3 @@
+web: daphne arregro.asgi:application --port $PORT --bind 0.0.0.0 -v2
+celeryworker: celery -A arregro.celery worker --concurrency 1 -P solo
+celerybeat: celery -A arregro.celery beat -l INFO
