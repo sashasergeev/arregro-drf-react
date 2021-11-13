@@ -5,7 +5,6 @@ import CardElem from "./CardElem";
 import PropTypes from "prop-types";
 
 const Cards = ({ cards }) => {
-  const cards = props.cards;
   // modal
   const [isModal, setIsModal] = useState(false);
   const [idForModal, setIdForModal] = useState(null);

@@ -26,13 +26,16 @@ export class Posts extends Component {
       newPost: 0,
     };
   }
+  newPostWS = new WebSocket("ws://" + window.location.host + "/ws/new-post/");
   componentDidMount() {
     // sockets
-    const socket = new WebSocket(
-      "ws://" + window.location.host + "/ws/new-post/"
-    );
-    socket.onmessage = (e) => {
+    // const socket = new WebSocket(
+    //   "ws://" + window.location.host + "/ws/new-post/"
+    // );
+    this.newPostWS.onmessage = (e) => {
+      console.log("hello");
       this.setState({ newPost: this.state.newPost + 1 });
+      console.log(e);
     };
     // data
     this.getCardsData();

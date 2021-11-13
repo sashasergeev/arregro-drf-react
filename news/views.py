@@ -9,8 +9,6 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import action
 
-from accounts.signals import notify
-from .tasks import update_post_price
 from .serializers import (
     CoinDetailSerializer,
     CoinSerializer,
@@ -22,12 +20,6 @@ from .serializers import (
     CoinSearchSerializer,
 )
 from .models import Coin, Post, Tag
-
-# WEB SOCKETS RELATED IMPORT
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
-
-channel_layer = get_channel_layer()
 
 
 class CustomPagination(PageNumberPagination):
@@ -71,26 +63,6 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-
-        # create notifications to all followers
-        notify.send(sender=None, coin=coin, to_users=list(coin.followers.all()))
-        # msg to channels that new post has been created
-        async_to_sync(
-            channel_layer.group_send(
-                "new_posts", {"type": "new_post_notify", "message": "new post"}
-            )
-        )
-        # scheduling tasks to be done 1h and 2hrs later
-        # this can be moved to signals or overwriting Post model
-        update_post_price.apply_async(
-            (serializer.data["id"],),
-            eta=datetime.utcnow() + timedelta(hours=1),
-        )
-        update_post_price.apply_async(
-            (serializer.data["id"],),
-            eta=datetime.utcnow() + timedelta(hours=2),
-        )
-
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
@@ -150,21 +122,17 @@ class TagViewSet(viewsets.ViewSet):
     )
     def tagStatistic(self, request):
         date = request.GET.get("date", None)
-
-        if date == "TODAY":
-            tags = Tag.objects.filter(
-                post__date_added__gte=datetime.today() - timedelta(days=1)
-            )
-        elif date == "MONTH":
-            tags = Tag.objects.filter(
-                post__date_added__gte=datetime.today() - timedelta(days=30)
-            )
-        elif date == "YEAR":
-            tags = Tag.objects.filter(
-                post__date_added__gte=datetime.today() - timedelta(days=365)
-            )
-        else:
+        dates = {
+            "TODAY": 1,
+            "MONTH": 30,
+            "YEAR": 365,
+        }
+        if date is None or date == "":
             tags = Tag.objects.all()
+        else:
+            tags = Tag.objects.filter(
+                post__date_added__gte=datetime.today() - timedelta(days=dates[date])
+            )
 
         tags = tags.annotate(tag_count=Count("post")).order_by("-tag_count")
         content = []
