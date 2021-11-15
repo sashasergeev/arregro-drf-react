@@ -104,6 +104,10 @@ class Post(models.Model):
             else:
                 return str(years) + " years ago"
 
+    # def save(self, *args, **kwargs):
+    #     print(self.pk)
+    #     super().save(*args, **kwargs)
+
 
 class PriceDynamic(models.Model):
     coin = models.OneToOneField(Coin, related_name="prices", on_delete=models.CASCADE)

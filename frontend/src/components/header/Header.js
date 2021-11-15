@@ -66,7 +66,7 @@ const Header = (props) => {
           </Box>
           {isMobile ? (
             <>
-              <Notifications />
+              {isAuth && <Notifications />}
               <NavDrawer logout={logout} isAuth={isAuth} user={username} />
             </>
           ) : (
@@ -85,7 +85,6 @@ const Header = (props) => {
               <NavLink
                 to="/trending"
                 className={classes.menuButton}
-                style={{}}
                 activeClassName={classes.active}
               >
                 <Box className={classes.menuContainer}>
