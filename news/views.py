@@ -1,6 +1,6 @@
-from django.db.models.expressions import ExpressionWrapper
 from django.http.response import JsonResponse
-from django.db.models import Count, Avg, FloatField, F
+from django.db.models import Count, Avg, FloatField
+from django.db.models.functions import Cast
 
 from datetime import datetime, timedelta
 
@@ -138,22 +138,24 @@ class TagViewSet(viewsets.ViewSet):
         content = []
         for tag in tags:
             onehr = (
-                tag.post_set.exclude(price1hr="")
+                tag.post_set.exclude(price1hr__isnull=True)
+                .exclude(price1hr="")
                 .annotate(
-                    oneHrCh=ExpressionWrapper(
-                        ((F("price1hr") / F("price") - 1) * 100),
-                        output_field=FloatField(),
+                    oneHrCh=(
+                        Cast("price1hr", FloatField()) / Cast("price", FloatField()) - 1
                     )
+                    * 100
                 )
                 .aggregate(oneHr=Avg("oneHrCh"))
             )
             twohr = (
-                tag.post_set.exclude(price2hr="")
+                tag.post_set.exclude(price2hr__isnull=True)
+                .exclude(price1hr="")
                 .annotate(
-                    twoHrCh=ExpressionWrapper(
-                        ((F("price2hr") / F("price") - 1) * 100),
-                        output_field=FloatField(),
+                    twoHrCh=(
+                        Cast("price2hr", FloatField()) / Cast("price", FloatField()) - 1
                     )
+                    * 100
                 )
                 .aggregate(twoHr=Avg("twoHrCh"))
             )
