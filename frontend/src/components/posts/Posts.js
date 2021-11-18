@@ -1,131 +1,87 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Cards from "../posts/Cards";
 import PageNav from "../Layout/PageNav";
 import { FetchDataForCards } from "../other/FetchDataForCards";
 import Filter from "./Filter";
 import { NewPostAlert } from "./styles";
 
-export class Posts extends Component {
-  constructor(props) {
-    super(props);
+const Posts = () => {
+  const [posts, setPosts] = useState(new Array(8).fill("skelet"));
+  const [page, setPage] = useState(1);
+  const [numOfPages, setNumOfPages] = useState(1);
+  // filter states
+  const [filter, setFilter] = useState(false);
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [newPost, setNewPost] = useState(0);
 
-    this.getCardsData = this.getCardsData.bind(this);
-    this.skeletRender = this.skeletRender.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
-    this.refresh = this.refresh.bind(this);
+  useEffect(() => {
+    getCardsData();
+    return () => {
+      skeletRender();
+      window.scroll(0, 0);
+    };
+  }, [page, filter, toDate, fromDate]);
+  useEffect(() => {
+    const newPostWS = new WebSocket(
+      (window.location.protocol === "http:" ? "ws://" : "wss://") +
+        window.location.host +
+        "/ws/new-post/"
+    );
+    newPostWS.onmessage = (e) => setNewPost(setNewPost + 1);
+    return () => newPostWS.close();
+  }, []);
 
-    this.state = {
-      posts: new Array(8).fill("skelet"),
-      page: 1,
-      numOfPages: 1,
-      // filter related states
-      filter: false,
-      fromDate: null,
-      toDate: null,
-      newPost: 0,
-    };
-  }
-  newPostWS = new WebSocket(
-    (window.location.protocol === "http:" ? "ws://" : "wss://") +
-      window.location.host +
-      "/ws/new-post/"
-  );
-  componentDidMount() {
-    // sockets
-    this.newPostWS.onmessage = (e) => {
-      this.setState({ newPost: this.state.newPost + 1 });
-    };
-    // data
-    this.getCardsData();
-  }
-  getCardsData() {
-    const { filter, page, fromDate, toDate } = this.state;
+  const getCardsData = () => {
     let url = `api/posts/?page=${page}${filter ? "&tag=" + filter : ""}${
       fromDate ? "&from=" + fromDate : ""
     }${toDate ? "&to=" + toDate : ""}`;
-    FetchDataForCards(url).then((res) =>
-      this.setState({
-        posts: res.cards,
-        numOfPages: res.numOfPages,
-      })
-    );
-  }
-  handlePageChange(event, value) {
-    this.setState(
-      {
-        page: value,
-      },
-      () => {
-        this.getCardsData();
-        this.skeletRender();
-        window.scrollTo(0, 0);
-      }
-    );
-  }
-  handleFilter(parfilter, parFromDate, parToDate) {
-    const { filter, fromDate, toDate } = this.state;
+    FetchDataForCards(url).then((res) => {
+      setPosts(res.cards);
+      setNumOfPages(res.numOfPages);
+    });
+  };
+  const handlePageChange = (e, val) => setPage(val);
+
+  const handleFilter = (parfilter, parFromDate, parToDate) => {
     if (
       filter !== parfilter ||
       fromDate !== parFromDate ||
       toDate !== parToDate
     ) {
-      this.skeletRender();
-      this.setState(
-        {
-          filter: parfilter,
-          // .toJSON() converts time to UTC
-          fromDate: parFromDate ? parFromDate.toJSON().split("T")[0] : null,
-          toDate: parToDate ? parToDate.toJSON().split("T")[0] : null,
-          page: 1,
-        },
-        () => {
-          this.getCardsData();
-        }
-      );
+      skeletRender();
+      setFilter(parfilter);
+      setFromDate(parFromDate ? parFromDate.toJSON().split("T")[0] : null);
+      setToDate(parToDate ? parToDate.toJSON().split("T")[0] : null);
+      setPage(1);
     }
-  }
-  skeletRender() {
-    this.setState({
-      posts: new Array(8).fill("skelet"),
-    });
-  }
+  };
+  const skeletRender = () => setPosts(new Array(8).fill("skelet"));
 
-  refresh() {
-    this.setState(
-      {
-        posts: new Array(8).fill("skelet"),
-        page: 1,
-        filter: false,
-        fromDate: null,
-        toDate: null,
-        newPost: 0,
-      },
-      () => {
-        this.getCardsData();
-      }
-    );
-  }
+  const refresh = () => {
+    skeletRender();
+    setFilter(false);
+    setFromDate(null);
+    setToDate(null);
+    setNewPost(0);
+    setPage(1);
+  };
 
-  render() {
-    const { posts, page, numOfPages, newPost } = this.state;
-    return (
-      <div>
-        {newPost > 0 && (
-          <NewPostAlert onClick={this.refresh}>
-            New post. Tap to refresh.
-          </NewPostAlert>
-        )}
-        <Cards cards={posts} />
-        <PageNav
-          page={page}
-          numOfPages={numOfPages}
-          onChange={this.handlePageChange}
-        />
-        <Filter handleFilter={this.handleFilter} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {newPost > 0 && (
+        <NewPostAlert onClick={refresh}>New post. Tap to refresh.</NewPostAlert>
+      )}
+
+      <Cards cards={posts} />
+      <PageNav
+        page={page}
+        numOfPages={numOfPages}
+        onChange={handlePageChange}
+      />
+      <Filter handleFilter={handleFilter} />
+    </div>
+  );
+};
 
 export default Posts;
