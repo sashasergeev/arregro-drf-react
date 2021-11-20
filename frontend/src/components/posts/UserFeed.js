@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import PageNav from "../Layout/PageNav";
 import Cards from "./Cards";
 import { useStateValue } from "../../contextAuth";
+import useChangePage from "../../hooks/useChangePage";
 
 const skelet = new Array(8).fill("skelet");
 
@@ -16,22 +17,24 @@ const UserFeed = () => {
   // get auth data
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
-  useEffect(() => {
-    console.log("mount");
-    if (isLoaded) {
-      setPosts(skelet);
-      getCardsData();
-      window.scrollTo(0, 0);
-    }
-  }, [page, isLoaded]);
+  const skeletRender = () => setPosts(skelet);
   const getCardsData = () => {
     FetchDataForCards(`api/feed/?page=${page}`, token).then((res) => {
       setPosts(res.cards);
       setNumOfPages(res.numOfPages);
     });
   };
-  const handlePageChange = (e, val) => setPage(val);
 
+  // HANDLE DATA FETCH AND CHANGE OF PAGE
+  const { handlePageChange } = useChangePage(
+    getCardsData,
+    skeletRender,
+    setPage,
+    {
+      page,
+      isLoaded,
+    }
+  );
   return (
     <div>
       {!isAuth && isLoaded && <Redirect to="/" />}

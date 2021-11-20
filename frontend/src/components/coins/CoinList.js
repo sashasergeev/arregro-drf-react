@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import PropTypes from "prop-types";
 
 import { motion } from "framer-motion";
 import { Card, Typography, Grid, Box, Button } from "@mui/material";
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from "@mui/material/Skeleton";
 import AddIcon from "@mui/icons-material/Add";
 import { useCoinStyles, containerVariants } from "./styles";
 
@@ -16,6 +16,7 @@ import Search from "./Search";
 import useSnackbarAlert from "../other/useSnackbarAlert";
 import { FetchCoinData } from "../other/FetchCoinData";
 import { useStateValue } from "../../contextAuth";
+import useChangePage from "../../hooks/useChangePage";
 
 const skeletonArr = new Array(8).fill("skelet");
 
@@ -33,21 +34,24 @@ export const CoinList = () => {
   // get auth data
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
-  // HANDLE DATA FETCH AND CHANGE OF PAGE
-  useEffect(() => {
-    if (isLoaded) {
-      setCoins([]);
-      getCoinData();
-      window.scrollTo(0, 0);
-    }
-  }, [page, isLoaded]);
   const getCoinData = () => {
     FetchCoinData(`api/coins/?page=${page}`, isAuth, token).then((res) => {
       setCoins(res.coins);
       setNumOfPages(res.numOfPages);
     });
   };
-  const handlePageChange = (e, val) => setPage(val);
+  const skeletRender = () => setCoins([]);
+
+  // HANDLE DATA FETCH AND CHANGE OF PAGE
+  const { handlePageChange } = useChangePage(
+    getCoinData,
+    skeletRender,
+    setPage,
+    {
+      page,
+      isLoaded,
+    }
+  );
 
   const followUnfollowMain = (coin_id, e) => {
     let items = [...coins];
@@ -138,7 +142,11 @@ export const CoinList = () => {
                     >
                       <Box component="div" display="inline">
                         <Typography variant="h6" display="inline">
-                          <Skeleton variant="rectangular" width={120} height={32} />
+                          <Skeleton
+                            variant="rectangular"
+                            width={120}
+                            height={32}
+                          />
                         </Typography>
                         <div className={classes.secondaryDetails}>
                           <Skeleton

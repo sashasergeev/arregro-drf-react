@@ -4,6 +4,7 @@ import PageNav from "../Layout/PageNav";
 import { FetchDataForCards } from "../other/FetchDataForCards";
 import Filter from "./Filter";
 import { NewPostAlert } from "./styles";
+import useChangePage from "../../hooks/useChangePage";
 
 const Posts = () => {
   const [posts, setPosts] = useState(new Array(8).fill("skelet"));
@@ -15,13 +16,6 @@ const Posts = () => {
   const [toDate, setToDate] = useState(null);
   const [newPost, setNewPost] = useState(0);
 
-  useEffect(() => {
-    getCardsData();
-    return () => {
-      skeletRender();
-      window.scroll(0, 0);
-    };
-  }, [page, filter, toDate, fromDate]);
   useEffect(() => {
     const newPostWS = new WebSocket(
       (window.location.protocol === "http:" ? "ws://" : "wss://") +
@@ -41,7 +35,6 @@ const Posts = () => {
       setNumOfPages(res.numOfPages);
     });
   };
-  const handlePageChange = (e, val) => setPage(val);
 
   const handleFilter = (parfilter, parFromDate, parToDate) => {
     if (
@@ -66,6 +59,19 @@ const Posts = () => {
     setNewPost(0);
     setPage(1);
   };
+
+  // handle page change
+  const { handlePageChange } = useChangePage(
+    getCardsData,
+    skeletRender,
+    setPage,
+    {
+      page,
+      filter,
+      toDate,
+      fromDate,
+    }
+  );
 
   return (
     <div>
