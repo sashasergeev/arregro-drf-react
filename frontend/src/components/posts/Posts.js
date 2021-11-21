@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Cards from "../posts/Cards";
 import PageNav from "../Layout/PageNav";
-import { FetchDataForCards } from "../other/FetchDataForCards";
 import Filter from "./Filter";
 import { NewPostAlert } from "./styles";
 import useChangePage from "../../hooks/useChangePage";
+
+import useFetchData from "../../hooks/useFetchData";
 
 const Posts = () => {
   const [posts, setPosts] = useState(new Array(8).fill("skelet"));
@@ -26,16 +27,14 @@ const Posts = () => {
     return () => newPostWS.close();
   }, []);
 
-  const getCardsData = () => {
-    let url = `api/posts/?page=${page}${filter ? "&tag=" + filter : ""}${
+  const getCardsData = useFetchData(
+    `api/posts/?page=${page}${filter ? "&tag=" + filter : ""}${
       fromDate ? "&from=" + fromDate : ""
-    }${toDate ? "&to=" + toDate : ""}`;
-    FetchDataForCards(url).then((res) => {
-      setPosts(res.cards);
-      setNumOfPages(res.numOfPages);
-    });
-  };
-
+    }${toDate ? "&to=" + toDate : ""}`,
+    "post",
+    setPosts,
+    setNumOfPages
+  );
   const handleFilter = (parfilter, parFromDate, parToDate) => {
     if (
       filter !== parfilter ||

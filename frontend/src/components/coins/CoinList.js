@@ -7,16 +7,16 @@ import { motion } from "framer-motion";
 import { Card, Typography, Grid, Box, Button } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import AddIcon from "@mui/icons-material/Add";
-import { useCoinStyles, containerVariants } from "./styles";
 
 import CoinSubmitModal from "./CoinSubmitModal";
 import PageNav from "../Layout/PageNav";
 import Search from "./Search";
 
 import useSnackbarAlert from "../other/useSnackbarAlert";
-import { FetchCoinData } from "../other/FetchCoinData";
 import { useStateValue } from "../../contextAuth";
 import useChangePage from "../../hooks/useChangePage";
+import useFetchData from "../../hooks/useFetchData";
+import { useCoinStyles, containerVariants } from "./styles";
 
 const skeletonArr = new Array(8).fill("skelet");
 
@@ -33,15 +33,14 @@ export const CoinList = () => {
 
   // get auth data
   const [{ token, isAuth, isLoaded }] = useStateValue();
-
-  const getCoinData = () => {
-    FetchCoinData(`api/coins/?page=${page}`, isAuth, token).then((res) => {
-      setCoins(res.coins);
-      setNumOfPages(res.numOfPages);
-    });
-  };
   const skeletRender = () => setCoins([]);
-
+  const getCoinData = useFetchData(
+    `api/coins/?page=${page}`,
+    "coin",
+    setCoins,
+    setNumOfPages,
+    { isAuth, token }
+  );
   // HANDLE DATA FETCH AND CHANGE OF PAGE
   const { handlePageChange } = useChangePage(
     getCoinData,

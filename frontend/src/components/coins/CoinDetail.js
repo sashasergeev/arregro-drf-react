@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import axios from "axios";
-import useSnackbarAlert from "../other/useSnackbarAlert";
 
 // style related
 import { motion } from "framer-motion";
 import { Box, Typography, Button } from "@mui/material";
-import { useCoinStyles, containerVariants } from "./styles";
 
 import Cards from "../posts/Cards";
-import { FetchCoinData } from "../other/FetchCoinData";
+
+import useSnackbarAlert from "../other/useSnackbarAlert";
+import { useCoinStyles, containerVariants } from "./styles";
 import { useStateValue } from "../../contextAuth";
+import useFetchData from "../../hooks/useFetchData";
 
 export const CoinDetail = () => {
   // style
@@ -37,14 +38,15 @@ export const CoinDetail = () => {
       fetchData();
     }
   }, [isLoaded]);
-  const fetchData = () => {
-    FetchCoinData(`api/coins/${idOfCoin}`, isAuth, token, idOfCoin).then(
-      (res) => {
-        setCoinInfo(res.coinInfo);
-        setFollow(isAuth ? res.follow : undefined);
-      }
-    );
-  };
+
+  const fetchData = useFetchData(
+    `api/coins/${idOfCoin}`,
+    "coin",
+    setCoinInfo,
+    null,
+    { isAuth, token, idOfCoin },
+    setFollow
+  );
 
   // follow functionality
   const followUnfollow = () => {

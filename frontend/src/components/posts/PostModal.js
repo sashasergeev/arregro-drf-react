@@ -11,14 +11,12 @@ import {
 } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import CancelIcon from "@mui/icons-material/Cancel";
-import axios from "axios";
 import PropTypes from "prop-types";
 
 import { StyledTableCell, usePostModalStyles, modalStyles } from "./styles";
+import useFetchData from "../../hooks/useFetchData";
 
 Modal.setAppElement("#app");
-
-// styles
 
 // function to calculate changes in price
 const calculateChange = (prev, curr) => ((curr / prev - 1) * 100).toFixed(2);
@@ -26,18 +24,22 @@ const calculateChange = (prev, curr) => ((curr / prev - 1) * 100).toFixed(2);
 export const PostModal = (props) => {
   const [data, setData] = useState({});
   const classes = usePostModalStyles();
+  const fetchPostData = useFetchData(
+    `api/posts/${props.postId}/`,
+    "postModal",
+    setData
+  );
+
   useEffect(() => {
     if (props.postId) {
-      axios.get(`api/posts/${props.postId}/`).then((res) => {
-        setData(res.data);
-      });
+      fetchPostData();
     }
+    return () => {
+      setData({});
+    };
   }, [props.postId]);
 
-  const closeModal = () => {
-    setData({});
-    props.close();
-  };
+  const closeModal = () => props.close();
 
   return (
     <div>

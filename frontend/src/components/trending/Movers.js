@@ -17,7 +17,7 @@ const Movers = () => {
     fetchMovers();
   }, []);
   const fetchMovers = () => {
-    axios.get(`api/trending`).then((res) => {
+    axios.get(`api/trending/`).then((res) => {
       setGainers(res.data.gainers);
       setLosers(res.data.losers);
     });
@@ -25,7 +25,7 @@ const Movers = () => {
 
   // styles
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('xl'));
+  const matches = useMediaQuery(theme.breakpoints.down("xl"));
   const classes = useMoversStyles();
   return (
     <>

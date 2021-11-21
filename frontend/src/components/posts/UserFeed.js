@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { FetchDataForCards } from "../other/FetchDataForCards";
-
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+
 import PageNav from "../Layout/PageNav";
 import Cards from "./Cards";
+
 import { useStateValue } from "../../contextAuth";
 import useChangePage from "../../hooks/useChangePage";
+import useFetchData from "../../hooks/useFetchData";
 
 const skelet = new Array(8).fill("skelet");
 
@@ -18,13 +19,13 @@ const UserFeed = () => {
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
   const skeletRender = () => setPosts(skelet);
-  const getCardsData = () => {
-    FetchDataForCards(`api/feed/?page=${page}`, token).then((res) => {
-      setPosts(res.cards);
-      setNumOfPages(res.numOfPages);
-    });
-  };
-
+  const getCardsData = useFetchData(
+    `api/feed/?page=${page}`,
+    "post",
+    setPosts,
+    setNumOfPages,
+    { token }
+  );
   // HANDLE DATA FETCH AND CHANGE OF PAGE
   const { handlePageChange } = useChangePage(
     getCardsData,
