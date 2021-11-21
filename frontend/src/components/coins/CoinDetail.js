@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import axios from "axios";
 
 // style related
 import { motion } from "framer-motion";
@@ -9,16 +8,14 @@ import { Box, Typography, Button } from "@mui/material";
 
 import Cards from "../posts/Cards";
 
-import useSnackbarAlert from "../other/useSnackbarAlert";
 import { useCoinStyles, containerVariants } from "./styles";
 import { useStateValue } from "../../contextAuth";
 import useFetchData from "../../hooks/useFetchData";
+import useFollowCoin from "../../hooks/useFollowCoin";
 
 export const CoinDetail = () => {
   // style
   const classes = useCoinStyles();
-  // alert
-  const snackbar = useSnackbarAlert();
   // getting param from url
   const search = useLocation().search;
 
@@ -27,7 +24,7 @@ export const CoinDetail = () => {
     new URLSearchParams(search).get("id")
   );
   const [coinInfo, setCoinInfo] = useState(null);
-  const [follow, setFollow] = useState(false);
+  const [followed, setFollowed] = useState(false);
 
   // auth context
   const [{ token, isAuth, isLoaded }] = useStateValue();
@@ -45,27 +42,11 @@ export const CoinDetail = () => {
     setCoinInfo,
     null,
     { isAuth, token, idOfCoin },
-    setFollow
+    setFollowed
   );
 
   // follow functionality
-  const followUnfollow = () => {
-    let data = {
-      coin_id: idOfCoin,
-      action: follow ? "unfollow" : "follow",
-    };
-    axios
-      .post("api/coins/following/", data, {
-        headers: { Authorization: `Token ${token}` },
-      })
-      .then((res) => {
-        setFollow(!follow);
-        snackbar.showSuccess(`You've ${res.data.status} the coin!`);
-      })
-      .catch((err) =>
-        snackbar.showError("Some error has happend. Reload the page!")
-      );
-  };
+  const { follow } = useFollowCoin();
 
   // BACK BTN FUNCTIONALITY
   let history = useHistory();
@@ -119,10 +100,12 @@ export const CoinDetail = () => {
             {isAuth && (
               <Button
                 variant="outlined"
-                className={follow ? classes.unFollow : classes.follow}
-                onClick={followUnfollow}
+                className={followed ? classes.unFollow : classes.follow}
+                onClick={() =>
+                  follow(token, idOfCoin, followed, setFollowed, null)
+                }
               >
-                {follow ? "Unfollow" : "Follow"}
+                {followed ? "Unfollow" : "Follow"}
               </Button>
             )}
             <a href={coinInfo.tg_link}>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import PropTypes from "prop-types";
 
 import { motion } from "framer-motion";
@@ -12,10 +11,10 @@ import CoinSubmitModal from "./CoinSubmitModal";
 import PageNav from "../Layout/PageNav";
 import Search from "./Search";
 
-import useSnackbarAlert from "../other/useSnackbarAlert";
 import { useStateValue } from "../../contextAuth";
 import useChangePage from "../../hooks/useChangePage";
 import useFetchData from "../../hooks/useFetchData";
+import useFollowCoin from "../../hooks/useFollowCoin";
 import { useCoinStyles, containerVariants } from "./styles";
 
 const skeletonArr = new Array(8).fill("skelet");
@@ -23,7 +22,6 @@ const skeletonArr = new Array(8).fill("skelet");
 export const CoinList = () => {
   // styles
   const classes = useCoinStyles();
-  const snackbar = useSnackbarAlert();
 
   // states
   const [coins, setCoins] = useState([]);
@@ -51,28 +49,7 @@ export const CoinList = () => {
       isLoaded,
     }
   );
-
-  const followUnfollowMain = (coin_id, e) => {
-    let items = [...coins];
-    let item = { ...items[e] };
-    let data = {
-      coin_id: coin_id,
-      action: item.doesUserFollow ? "unfollow" : "follow",
-    };
-    item.doesUserFollow = !item.doesUserFollow;
-    items[e] = item;
-    axios
-      .post("api/coins/following/", data, {
-        headers: { Authorization: `Token ${token}` },
-      })
-      .then((res) => {
-        setCoins(items);
-        snackbar.showSuccess(`You've ${res.data.status} the coin!`);
-      })
-      .catch((err) =>
-        snackbar.showError("Some error has happend. Reload the page!")
-      );
-  };
+  const { follow } = useFollowCoin();
   const handleModal = () => setCoinSubmitModal(!coinSubmitModal);
 
   return (
@@ -117,7 +94,9 @@ export const CoinList = () => {
                           className={
                             e.doesUserFollow ? classes.unFollow : classes.follow
                           }
-                          onClick={() => followUnfollowMain(e.id, inx)}
+                          onClick={() =>
+                            follow(token, e.id, coins, setCoins, inx)
+                          }
                         >
                           {e.doesUserFollow ? "Unfollow" : "Follow"}
                         </Button>

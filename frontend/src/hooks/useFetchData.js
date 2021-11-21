@@ -1,6 +1,7 @@
-import { FetchCoinData } from "../components/other/FetchCoinData";
-import { FetchDataForCards } from "../components/other/FetchDataForCards";
 import axios from "axios";
+
+import useFetchPosts from "./useFetchPosts";
+import useFetchCoins from "./useFetchCoins";
 
 const useFetchData = (
   url,
@@ -10,11 +11,14 @@ const useFetchData = (
   argsObj,
   setFollow
 ) => {
+  const fetchPosts = useFetchPosts();
+  const fetchCoins = useFetchCoins();
+
   const fetchData = async () => {
     let res;
     switch (dataType) {
       case "coin":
-        res = await FetchCoinData(url, ...Object.values(argsObj));
+        res = await fetchCoins(url, ...Object.values(argsObj));
         setData(res.coins ? res.coins : res.coinInfo);
         if (setNumOfPages) {
           // case when paginated
@@ -25,7 +29,7 @@ const useFetchData = (
         }
         break;
       case "post":
-        res = await FetchDataForCards(url, argsObj && argsObj.token);
+        res = await fetchPosts(url, argsObj && argsObj.token);
         setData(res.cards);
         if (setNumOfPages) {
           setNumOfPages(res.numOfPages);
