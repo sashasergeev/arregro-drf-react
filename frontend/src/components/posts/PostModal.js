@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+
+import { useQuery } from "react-query";
+import axios from "axios";
 import Modal from "react-modal";
+
 import {
   Box,
   Typography,
@@ -11,40 +16,31 @@ import {
 } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
 import CancelIcon from "@mui/icons-material/Cancel";
-import PropTypes from "prop-types";
-
 import { StyledTableCell, usePostModalStyles, modalStyles } from "./styles";
-import useFetchData from "../../hooks/useFetchData";
 
 Modal.setAppElement("#app");
 
 // function to calculate changes in price
 const calculateChange = (prev, curr) => ((curr / prev - 1) * 100).toFixed(2);
 
-export const PostModal = (props) => {
-  const [data, setData] = useState({});
+export const PostModal = ({ postId, isOpen, close }) => {
   const classes = usePostModalStyles();
-  const fetchPostData = useFetchData(
-    `api/posts/${props.postId}/`,
-    "postModal",
-    setData
-  );
 
-  useEffect(() => {
-    if (props.postId) {
-      fetchPostData();
-    }
-    return () => {
-      setData({});
-    };
-  }, [props.postId]);
-
-  const closeModal = () => props.close();
+  const fetchPostModal = async () => {
+    const url = `api/posts/${postId}/`;
+    const data = await axios.get(url);
+    return data;
+  };
+  const { data } = useQuery(["postModal", postId], fetchPostModal, {
+    enabled: Number.isInteger(postId),
+    select: (data) => data.data,
+  });
+  const closeModal = () => close();
 
   return (
     <div>
       <Modal
-        isOpen={props.isOpen}
+        isOpen={isOpen}
         onRequestClose={closeModal}
         style={modalStyles}
         contentLabel="Post Information"
@@ -57,12 +53,12 @@ export const PostModal = (props) => {
               <Box className={classes.nameLogoBlock}>
                 <Box>
                   <Typography variant="h4" className={classes.text}>
-                    {data.coin?.name || (
+                    {data?.coin?.name || (
                       <Skeleton variant="rectangular" width={225} height={25} />
                     )}
                   </Typography>
                   <div className={classes.ticker}>
-                    {data.coin?.ticker || (
+                    {data?.coin?.ticker || (
                       <Skeleton
                         variant="rectangular"
                         style={{ marginTop: "5px" }}
@@ -73,8 +69,8 @@ export const PostModal = (props) => {
                   </div>
                 </Box>
                 <Box sx={{ display: "flex" }}>
-                  {data.coin?.img_link ? (
-                    <img src={data.coin.img_link} alt={data.coin.name} />
+                  {data?.coin?.img_link ? (
+                    <img src={data?.coin.img_link} alt={data?.coin.name} />
                   ) : (
                     <Skeleton variant="circular" width={50} height={50} />
                   )}
@@ -82,8 +78,8 @@ export const PostModal = (props) => {
               </Box>
               {/* link to socials */}
               <Box className={classes.linksBlock}>
-                {data.coin?.cg_link ? (
-                  <a href={data.coin.cg_link}>
+                {data?.coin?.cg_link ? (
+                  <a href={data?.coin.cg_link}>
                     <img
                       style={{ width: 40 }}
                       alt="Coingecko"
@@ -93,8 +89,8 @@ export const PostModal = (props) => {
                 ) : (
                   <Skeleton variant="circular" width={40} height={40} />
                 )}
-                {data.coin?.tg_link ? (
-                  <a href={data.coin.tg_link}>
+                {data?.coin?.tg_link ? (
+                  <a href={data?.coin.tg_link}>
                     <img
                       style={{ width: 40 }}
                       alt="Telegram"
@@ -108,7 +104,7 @@ export const PostModal = (props) => {
               {/* price table */}
               <Box sx={{ mb: "10px" }}>
                 <TableContainer>
-                  {data.price ? (
+                  {data?.price ? (
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -125,16 +121,16 @@ export const PostModal = (props) => {
                       <TableBody>
                         <TableRow>
                           <StyledTableCell align="center">
-                            {data.price}
+                            {data?.price}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {data.price1hr}
+                            {data?.price1hr}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {data.price2hr}
+                            {data?.price2hr}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {data.coin.currPrice}
+                            {data?.coin.currPrice}
                           </StyledTableCell>
                         </TableRow>
                         <TableRow>
@@ -142,28 +138,30 @@ export const PostModal = (props) => {
                             Change
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {data.price1hr && (
+                            {data?.price1hr && (
                               <span
                                 style={
-                                  calculateChange(data.price, data.price1hr) > 0
+                                  calculateChange(data?.price, data?.price1hr) >
+                                  0
                                     ? { color: "#27d030" }
                                     : { color: "#f50057" }
                                 }
                               >
-                                {calculateChange(data.price, data.price1hr)}
+                                {calculateChange(data?.price, data?.price1hr)}
                               </span>
                             )}
                           </StyledTableCell>
                           <StyledTableCell align="center">
-                            {data.price2hr && (
+                            {data?.price2hr && (
                               <span
                                 style={
-                                  calculateChange(data.price, data.price2hr) > 0
+                                  calculateChange(data?.price, data?.price2hr) >
+                                  0
                                     ? { color: "#27d030" }
                                     : { color: "#f50057" }
                                 }
                               >
-                                {calculateChange(data.price, data.price2hr)}
+                                {calculateChange(data?.price, data?.price2hr)}
                               </span>
                             )}
                           </StyledTableCell>
@@ -171,14 +169,17 @@ export const PostModal = (props) => {
                             <span
                               style={
                                 calculateChange(
-                                  data.price,
-                                  data.coin.currPrice
+                                  data?.price,
+                                  data?.coin.currPrice
                                 ) > 0
                                   ? { color: "#27d030" }
                                   : { color: "#f50057" }
                               }
                             >
-                              {calculateChange(data.price, data.coin.currPrice)}
+                              {calculateChange(
+                                data?.price,
+                                data?.coin.currPrice
+                              )}
                             </span>
                           </StyledTableCell>
                         </TableRow>
@@ -194,11 +195,11 @@ export const PostModal = (props) => {
             <Box style={{ maxWidth: "400px" }}>
               <Box className={classes.titleField}>Tags</Box>
               <Box className={classes.textField}>
-                {data.tag ? data.tag.join(",") : <Skeleton figure="text" />}
+                {data?.tag ? data?.tag.join(",") : <Skeleton figure="text" />}
               </Box>
               <Box className={classes.titleField}>Message</Box>
               <Box className={classes.textField}>
-                {data.message || (
+                {data?.message || (
                   <Skeleton figure="rect" width={340} height={60} />
                 )}
               </Box>

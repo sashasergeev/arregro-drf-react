@@ -4,7 +4,7 @@ import PostModal from "./PostModal";
 import CardElem from "./CardElem";
 import PropTypes from "prop-types";
 
-const Cards = ({ cards }) => {
+const Cards = ({ cards, isDataLoaded }) => {
   // modal
   const [isModal, setIsModal] = useState(false);
   const [idForModal, setIdForModal] = useState(null);
@@ -17,7 +17,6 @@ const Cards = ({ cards }) => {
     setIdForModal(null);
   };
   // endModal
-  const isLoaded = cards[0]?.id ? true : false;
 
   return (
     <Grid container justifyContent="center">
@@ -27,7 +26,7 @@ const Cards = ({ cards }) => {
             key={inx}
             data={e}
             openModal={openModal}
-            isLoaded={isLoaded}
+            isLoaded={isDataLoaded}
           />
         );
       })}

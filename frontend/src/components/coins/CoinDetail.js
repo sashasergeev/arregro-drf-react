@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useQuery } from "react-query";
 
 // style related
 import { motion } from "framer-motion";
@@ -10,40 +11,37 @@ import Cards from "../posts/Cards";
 
 import { useCoinStyles, containerVariants } from "./styles";
 import { useStateValue } from "../../contextAuth";
-import useFetchData from "../../hooks/useFetchData";
 import useFollowCoin from "../../hooks/useFollowCoin";
+import axios from "axios";
 
 export const CoinDetail = () => {
+  const idOfCoin = new URLSearchParams(search).get("id");
   // style
   const classes = useCoinStyles();
   // getting param from url
   const search = useLocation().search;
 
   // state
-  const [idOfCoin, setIdOfCoin] = useState(
-    new URLSearchParams(search).get("id")
-  );
   const [coinInfo, setCoinInfo] = useState(null);
   const [followed, setFollowed] = useState(false);
 
   // auth context
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
-  // obtaining data related functions
-  useEffect(() => {
-    if (isLoaded) {
-      fetchData();
-    }
-  }, [isLoaded]);
-
-  const fetchData = useFetchData(
-    `api/coins/${idOfCoin}`,
-    "coin",
-    setCoinInfo,
-    null,
-    { isAuth, token, idOfCoin },
-    setFollowed
-  );
+  // obtaining data
+  const fetchCoinDetail = async () => {
+    const headers = { headers: { Authorization: `Token ${token}` } };
+    const url = `api/coins/${idOfCoin}/`;
+    const data = await axios.get(url, isAuth && headers);
+    return data;
+  };
+  const { isFetched } = useQuery("coinDetail", fetchCoinDetail, {
+    enabled: isLoaded,
+    onSuccess: (data) => {
+      setCoinInfo(data.data);
+      setFollowed(data.data.doesUserFollow);
+    },
+  });
 
   // follow functionality
   const { follow } = useFollowCoin();
@@ -120,7 +118,7 @@ export const CoinDetail = () => {
           {/* POSTS */}
           {coinInfo.posts.length > 0 && (
             <Box mt="20px" bgcolor="#8894afbd">
-              <Cards cards={coinInfo.posts} />
+              <Cards isDataLoaded={isFetched} cards={coinInfo.posts} />
             </Box>
           )}
         </Box>

@@ -14,9 +14,8 @@ import Skeleton from "@mui/material/Skeleton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PropTypes from "prop-types";
 
-const CardElem = (props) => {
+const CardElem = ({ isLoaded, data, openModal }) => {
   const classes = useCardStyles();
-  const { data, openModal, isLoaded } = props;
   const change =
     isLoaded && ((data.coin.currPrice / data.price - 1) * 100).toFixed(2);
   return (

@@ -78,7 +78,9 @@ import reducer, { initialState } from "../contextAuth/reducer";
 import { SnackbarProvider } from "material-ui-snackbar-provider";
 import SnackbarAlert from "./other/SnackbarAlert";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+});
 
 // styles
 import { createTheme } from "@mui/material";

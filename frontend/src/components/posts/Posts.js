@@ -5,7 +5,8 @@ import Filter from "./Filter";
 import { NewPostAlert } from "./styles";
 import useChangePage from "../../hooks/useChangePage";
 
-import useFetchData from "../../hooks/useFetchData";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const Posts = () => {
   const [posts, setPosts] = useState(new Array(8).fill("skelet"));
@@ -27,31 +28,40 @@ const Posts = () => {
     return () => newPostWS.close();
   }, []);
 
-  const getCardsData = useFetchData(
-    `api/posts/?page=${page}${filter ? "&tag=" + filter : ""}${
+  const fetchPosts = async () => {
+    const url = `api/posts/?page=${page}${filter ? "&tag=" + filter : ""}${
       fromDate ? "&from=" + fromDate : ""
-    }${toDate ? "&to=" + toDate : ""}`,
-    "post",
-    setPosts,
-    setNumOfPages
+    }${toDate ? "&to=" + toDate : ""}`;
+    const data = await axios.get(url);
+    return data;
+  };
+
+  const { isFetching } = useQuery(
+    ["posts", page, filter, fromDate, toDate],
+    fetchPosts,
+    {
+      onSuccess: (data) => {
+        window.scroll(0, 0);
+        setPosts(data.data.results);
+        setNumOfPages(Math.ceil(data.data.count / 8));
+      },
+    }
   );
+
   const handleFilter = (parfilter, parFromDate, parToDate) => {
     if (
       filter !== parfilter ||
       fromDate !== parFromDate ||
       toDate !== parToDate
     ) {
-      skeletRender();
       setFilter(parfilter);
       setFromDate(parFromDate ? parFromDate.toJSON().split("T")[0] : null);
       setToDate(parToDate ? parToDate.toJSON().split("T")[0] : null);
       setPage(1);
     }
   };
-  const skeletRender = () => setPosts(new Array(8).fill("skelet"));
 
   const refresh = () => {
-    skeletRender();
     setFilter(false);
     setFromDate(null);
     setToDate(null);
@@ -60,25 +70,14 @@ const Posts = () => {
   };
 
   // handle page change
-  const { handlePageChange } = useChangePage(
-    getCardsData,
-    skeletRender,
-    setPage,
-    {
-      page,
-      filter,
-      toDate,
-      fromDate,
-    }
-  );
-
+  const { handlePageChange } = useChangePage(setPage);
   return (
     <div>
       {newPost > 0 && (
         <NewPostAlert onClick={refresh}>New post. Tap to refresh.</NewPostAlert>
       )}
 
-      <Cards cards={posts} />
+      <Cards isDataLoaded={!isFetching} cards={posts} />
       <PageNav
         page={page}
         numOfPages={numOfPages}
