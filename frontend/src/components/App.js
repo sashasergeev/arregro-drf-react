@@ -13,7 +13,7 @@ import UserFeed from "./posts/UserFeed";
 import Movers from "./trending/Movers";
 
 import { actionTypes, useStateValue } from "../contextAuth";
-import { getUser } from "./accounts/authAxios";
+import { getUser } from "../api/auth";
 
 export const App = () => {
   // auth states

@@ -10,7 +10,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import MoneyIcon from "@mui/icons-material/Money";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { actionTypes, useStateValue } from "../../contextAuth";
-import { logoutUser } from "../accounts/authAxios";
+import { logoutUser } from "../../api/auth";
 import { useMutation } from "react-query";
 import useSnackbarAlert from "../other/useSnackbarAlert";
 import Notifications from "./Notifications";

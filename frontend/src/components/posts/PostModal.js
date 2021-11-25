@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { useQuery } from "react-query";
-import axios from "axios";
 import Modal from "react-modal";
 
 import {
@@ -18,6 +17,8 @@ import Skeleton from "@mui/material/Skeleton";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { StyledTableCell, usePostModalStyles, modalStyles } from "./styles";
 
+import { fetchPostModal } from "../../api/posts";
+
 Modal.setAppElement("#app");
 
 // function to calculate changes in price
@@ -26,11 +27,6 @@ const calculateChange = (prev, curr) => ((curr / prev - 1) * 100).toFixed(2);
 export const PostModal = ({ postId, isOpen, close }) => {
   const classes = usePostModalStyles();
 
-  const fetchPostModal = async () => {
-    const url = `api/posts/${postId}/`;
-    const data = await axios.get(url);
-    return data;
-  };
   const { data } = useQuery(["postModal", postId], fetchPostModal, {
     enabled: Number.isInteger(postId),
     select: (data) => data.data,

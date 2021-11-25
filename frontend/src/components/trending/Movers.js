@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
+
 import Column from "./Column";
-import axios from "axios";
+import { useTheme } from "@mui/material/styles";
+import { Box, Typography } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useMoversStyles } from "./styles";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
-import { useMoversStyles } from "./styles";
+import { fetchMovers } from "../../api/trending";
 
 const Movers = () => {
+  const skelet = new Array(10).fill("skelet");
   // state and fetching data
-  const [gainers, setGainers] = useState(new Array(10).fill("skelet"));
-  const [losers, setLosers] = useState(new Array(10).fill("skelet"));
-  useEffect(() => {
-    fetchMovers();
-  }, []);
-  const fetchMovers = () => {
-    axios.get(`api/trending/`).then((res) => {
-      setGainers(res.data.gainers);
-      setLosers(res.data.losers);
-    });
-  };
+  const [gainers, setGainers] = useState();
+  const [losers, setLosers] = useState();
+
+  useQuery("trends", fetchMovers, {
+    onSuccess: ({ data }) => {
+      setGainers(data.gainers);
+      setLosers(data.losers);
+    },
+  });
 
   // styles
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("xl"));
   const classes = useMoversStyles();
+
   return (
     <>
       <Box style={matches ? { padding: "5px" } : { padding: "20px" }}>
@@ -52,7 +54,7 @@ const Movers = () => {
               </Typography>
               <TrendingUpIcon />
             </Box>
-            <Column trendData={gainers} />
+            <Column trendData={gainers ?? skelet} />
           </Box>
           <Box
             className={`${classes.column} ${classes.losersBord}`}
@@ -64,7 +66,7 @@ const Movers = () => {
               </Typography>
               <TrendingDownIcon />
             </Box>
-            <Column trendData={losers} />
+            <Column trendData={losers ?? skelet} />
           </Box>
         </Box>
       </Box>

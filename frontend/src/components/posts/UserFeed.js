@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import axios from "axios";
 
 import PageNav from "../Layout/PageNav";
 import Cards from "./Cards";
 
 import { useStateValue } from "../../contextAuth";
 import useChangePage from "../../hooks/useChangePage";
+import { fetchFeedPosts } from "../../api/posts";
 import { useQuery } from "react-query";
 
 const UserFeed = () => {
@@ -18,14 +18,7 @@ const UserFeed = () => {
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
   // HANDLE DATA FETCH AND CHANGE OF PAGE
-  const fetchFeedPosts = async () => {
-    const headers = { headers: { Authorization: `Token ${token}` } };
-    const url = `api/feed/?page=${page}`;
-    const data = await axios.get(url, token && headers);
-    return data;
-  };
-
-  const { isFetched } = useQuery(["postsFeed", page], fetchFeedPosts, {
+  const { isFetching } = useQuery(["postsFeed", page, token], fetchFeedPosts, {
     onSuccess: (data) => {
       window.scroll(0, 0);
       setPosts(data.data.results);
@@ -37,7 +30,7 @@ const UserFeed = () => {
   return (
     <div>
       {!isAuth && isLoaded && <Redirect to="/" />}
-      <Cards isDataLoaded={isFetched} cards={posts} />
+      <Cards isDataLoaded={!isFetching && isLoaded} cards={posts} />
       <PageNav
         page={page}
         numOfPages={numOfPages}

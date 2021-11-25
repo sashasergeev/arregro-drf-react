@@ -3,10 +3,11 @@ import Cards from "../posts/Cards";
 import PageNav from "../Layout/PageNav";
 import Filter from "./Filter";
 import { NewPostAlert } from "./styles";
+
 import useChangePage from "../../hooks/useChangePage";
+import { fetchPosts } from "../../api/posts";
 
 import { useQuery } from "react-query";
-import axios from "axios";
 
 const Posts = () => {
   const [posts, setPosts] = useState(new Array(8).fill("skelet"));
@@ -27,14 +28,6 @@ const Posts = () => {
     newPostWS.onmessage = (e) => setNewPost(setNewPost + 1);
     return () => newPostWS.close();
   }, []);
-
-  const fetchPosts = async () => {
-    const url = `api/posts/?page=${page}${filter ? "&tag=" + filter : ""}${
-      fromDate ? "&from=" + fromDate : ""
-    }${toDate ? "&to=" + toDate : ""}`;
-    const data = await axios.get(url);
-    return data;
-  };
 
   const { isFetching } = useQuery(
     ["posts", page, filter, fromDate, toDate],
@@ -71,6 +64,7 @@ const Posts = () => {
 
   // handle page change
   const { handlePageChange } = useChangePage(setPage);
+
   return (
     <div>
       {newPost > 0 && (

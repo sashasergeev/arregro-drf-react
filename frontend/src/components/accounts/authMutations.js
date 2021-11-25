@@ -1,4 +1,4 @@
-import { loginUser, registerUser } from "./authAxios";
+import { loginUser, registerUser } from "../../api/auth";
 import { actionTypes, useStateValue } from "../../contextAuth";
 import useSnackbarAlert from "../other/useSnackbarAlert";
 import { useMutation } from "react-query";

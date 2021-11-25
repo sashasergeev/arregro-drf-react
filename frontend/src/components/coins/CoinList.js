@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useQuery } from "react-query";
-import axios from "axios";
 
 import { motion } from "framer-motion";
 import { Card, Typography, Grid, Box, Button } from "@mui/material";
@@ -17,6 +16,7 @@ import { useStateValue } from "../../contextAuth";
 import useChangePage from "../../hooks/useChangePage";
 import useFollowCoin from "../../hooks/useFollowCoin";
 import { useCoinStyles, containerVariants } from "./styles";
+import { fetchCoinList } from "../../api/coins";
 
 export const CoinList = () => {
   const skeletonArr = new Array(8).fill("skelet");
@@ -33,23 +33,22 @@ export const CoinList = () => {
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
   // HANDLE DATA FETCH AND CHANGE OF PAGE
-  const fetchCoinList = async () => {
-    const headers = { headers: { Authorization: `Token ${token}` } };
-    const url = `api/coins/?page=${page}`;
-    const data = await axios.get(url, isAuth && headers);
-    return data;
-  };
-
-  const { isFetched } = useQuery(["coinList", page], fetchCoinList, {
-    onSuccess: (data) => {
-      window.scroll(0, 0);
-      setCoins(data.data.results);
-      setNumOfPages(Math.ceil(data.data.count / 8));
-    },
-    enabled: isLoaded,
-  });
+  const { isFetched } = useQuery(
+    ["coinList", page, token, isAuth],
+    fetchCoinList,
+    {
+      onSuccess: (data) => {
+        window.scroll(0, 0);
+        setCoins(data.data.results);
+        setNumOfPages(Math.ceil(data.data.count / 8));
+      },
+      enabled: isLoaded,
+    }
+  );
   const { handlePageChange } = useChangePage(setPage);
+
   const { follow } = useFollowCoin();
+
   const handleModal = () => setCoinSubmitModal(!coinSubmitModal);
 
   return (

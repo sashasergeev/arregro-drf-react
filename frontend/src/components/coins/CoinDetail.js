@@ -12,14 +12,16 @@ import Cards from "../posts/Cards";
 import { useCoinStyles, containerVariants } from "./styles";
 import { useStateValue } from "../../contextAuth";
 import useFollowCoin from "../../hooks/useFollowCoin";
-import axios from "axios";
+
+import { fetchCoinDetail } from "../../api/coins";
 
 export const CoinDetail = () => {
-  const idOfCoin = new URLSearchParams(search).get("id");
-  // style
-  const classes = useCoinStyles();
   // getting param from url
   const search = useLocation().search;
+  const idOfCoin = new URLSearchParams(search).get("id");
+
+  // style
+  const classes = useCoinStyles();
 
   // state
   const [coinInfo, setCoinInfo] = useState(null);
@@ -29,19 +31,17 @@ export const CoinDetail = () => {
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
   // obtaining data
-  const fetchCoinDetail = async () => {
-    const headers = { headers: { Authorization: `Token ${token}` } };
-    const url = `api/coins/${idOfCoin}/`;
-    const data = await axios.get(url, isAuth && headers);
-    return data;
-  };
-  const { isFetched } = useQuery("coinDetail", fetchCoinDetail, {
-    enabled: isLoaded,
-    onSuccess: (data) => {
-      setCoinInfo(data.data);
-      setFollowed(data.data.doesUserFollow);
-    },
-  });
+  const { isFetched } = useQuery(
+    ["coinDetail", idOfCoin, token, isAuth],
+    fetchCoinDetail,
+    {
+      enabled: isLoaded,
+      onSuccess: (data) => {
+        setCoinInfo(data.data);
+        setFollowed(data.data.doesUserFollow);
+      },
+    }
+  );
 
   // follow functionality
   const { follow } = useFollowCoin();

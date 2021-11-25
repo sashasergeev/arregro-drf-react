@@ -12,7 +12,8 @@ const CoinSubmitModal = (props) => {
   const [cgLink, setCgLink] = useState("");
   const snackbar = useSnackbarAlert();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     axios
       .post("api/submit-coin/", { coin: coin, cg_link: cgLink })
       .then(() => snackbar.showMessage("Coin has been submitted!"))
