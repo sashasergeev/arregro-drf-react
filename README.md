@@ -1,29 +1,42 @@
 # Arregro DRF-React.js
 
+## [DEPLOYED LIVE](arregro.herokuapp.com)
+
 This project idea is a copy of my [another project](https://github.com/sashasergeev/arregro-django) made with just Django.
 
-Description from my other version of this project:
+***Description from my other version of this project:***
 >On the news page users can see cards with info of the last posts and prices before and after news. Also they can press info button to open modal where they can see how price has changed after a news in a 1h 2h and change with the current price. On the coins page they can find the coin they want, follow them and go to the coin detail page, where they can see all the news that are in a db.
 >
 >Users can login/signup, follow/unfollow coins so they will have personal feed. Also user can submit the coin they want to see in the project.
 
-On the main page user can filter posts by tags and date.
 
-### Keypoints
+### **Keypoints**
 - In this project i didn't install react app as a separate project, instead i have installed it via django app (frontend app).
 - The authentication and authorization is made with the help of ***Django Rest Knox***.
 
-## Technologies used:
-### Frontend
+### **What different from [plain django version](https://github.com/sashasergeev/arregro-django)**
+- Tech stack.
+- Reworked tags page - now there are stats about tags, like avg %.
+- On the main page user can filter posts by tags and date.
+- User Notifications - whenever a coin that user is following gets new post, user receives notificaion.
+- Whenever new post is created, user can see an alert bar on main page powered by WebSockets.
+- Added alerts on user actions (follow coin, authenticaion...).
+- Skeleton Loading. 
+- ...
+#
+## **Technologies used:**
+### **Frontend**
 ```
-React.js
 HTML
 CSS
+React.js
+React-Query
 Material UI
 React Modals
 * requests from frontend is made by axios
 ```
-### Backend
+### **Backend**
+
 ```
 Django Framework
 Django Rest Framework
@@ -31,12 +44,22 @@ MySQL
 Redis (for celery)
 
 Libraries:
-- Celery - for making background tasks (api requests to CoinGecko to get actual prices)
+- Celery - for making background tasks 
 - Channels - to send actual prices through WebSockets
 - Django rest knox - Auth
+- django-heroku
 ```
+#   
 
-## Instruction to run this project
+## **Deployment on heroku**
+
+ The server that was used for deploying is [Daphne](https://github.com/django/daphne). This server is ASGI and is needed for Django  Channels to work.
+
+Heroku has some dyno limitations user can use on free plan, so in order for Celery to work i had to use [Honcho](https://honcho.readthedocs.io/en/latest/), which enabled to run multiple python processes in a single dyno. Its settings is in ```ProcfileHoncho``` file.
+
+#
+
+## **Instruction to run this project**
 
 1. You need to dl/clone this repository to your device.
 2. Activate your virtualenv.
