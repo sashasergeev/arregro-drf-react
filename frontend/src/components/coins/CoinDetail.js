@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 import { Box, Typography, Button } from "@mui/material";
 
+import Graph from "./graph/Graph";
 import Cards from "../posts/Cards";
 
 import { useCoinStyles, containerVariants } from "./styles";
@@ -51,6 +52,7 @@ export const CoinDetail = () => {
   const handleBack = () => {
     history.goBack();
   };
+
   return (
     <motion.div
       variants={containerVariants}
@@ -114,6 +116,9 @@ export const CoinDetail = () => {
               />
             </a>
           </Box>
+
+          {/* Price and activity graph */}
+          <Graph />
 
           {/* POSTS */}
           {coinInfo.posts.length > 0 && (

@@ -2,3 +2,5 @@ __pycache__/
 .vscode/
 node_modules/
 celerybeat-schedule.*
+
+frontend/static/frontend/*
