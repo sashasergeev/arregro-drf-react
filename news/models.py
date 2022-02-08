@@ -13,6 +13,7 @@ class Coin(models.Model):
     cg_link = models.URLField()
     img_link = models.URLField()
     followers = models.ManyToManyField(User)
+    github = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.name

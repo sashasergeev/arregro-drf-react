@@ -68,6 +68,9 @@ class CoinDetailSerializer(serializers.ModelSerializer):
     currPrice = serializers.SlugRelatedField(
         many=False, source="prices", slug_field="price", read_only="True"
     )
+    cg_id = serializers.SlugRelatedField(
+        many=False, source="prices", slug_field="cg_id", read_only="True"
+    )
     price_change24h = serializers.SlugRelatedField(
         many=False, source="prices", slug_field="price_change24h", read_only="True"
     )
@@ -93,6 +96,8 @@ class CoinDetailSerializer(serializers.ModelSerializer):
             "cg_link",
             "img_link",
             "posts",
+            "github",
+            "cg_id",
             "doesUserFollow",
         )
 
