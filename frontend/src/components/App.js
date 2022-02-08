@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { render } from "react-dom";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { useMutation } from "react-query";
 
 import Header from "./header/Header";
-import Login from "./accounts/Login";
-import Register from "./accounts/Register";
-import Coins from "./coins/Coins";
-import Tags from "./tags/Tags";
-import Posts from "./posts/Posts";
-import UserFeed from "./posts/UserFeed";
-import Movers from "./trending/Movers";
+
+const Login = lazy(() => import("./accounts/Login"));
+const Register = lazy(() => import("./accounts/Register"));
+const Coins = lazy(() => import("./coins/Coins"));
+const Tags = lazy(() => import("./tags/Tags"));
+const Posts = lazy(() => import("./posts/Posts"));
+const UserFeed = lazy(() => import("./posts/UserFeed"));
+const Movers = lazy(() => import("./trending/Movers"));
 
 import { actionTypes, useStateValue } from "../contextAuth";
 import { getUser } from "../api/auth";
@@ -51,18 +52,19 @@ export const App = () => {
       <Router>
         <Header />
         <div className="container">
-          <Switch>
-            {/* PAGES */}
-            <Route exact path="/" component={Posts} />
-            <Route path="/coins" component={Coins} />
-            <Route path="/trending" component={Movers} />
-            <Route path="/tags" component={Tags} />
-
-            {/* AUTH AND FEED */}
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/feed" component={UserFeed} />
-          </Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              {/* PAGES */}
+              <Route exact path="/" component={Posts} />
+              <Route path="/coins" component={Coins} />
+              <Route path="/trending" component={Movers} />
+              <Route path="/tags" component={Tags} />
+              {/* AUTH AND FEED */}
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/feed" component={UserFeed} />
+            </Switch>
+          </Suspense>
         </div>
       </Router>
     </>
