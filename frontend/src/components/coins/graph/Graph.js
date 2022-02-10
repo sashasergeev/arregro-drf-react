@@ -1,7 +1,9 @@
 import React from "react";
 import Plot from "react-plotly.js";
 import * as dayjs from "dayjs";
-import { Box } from "@mui/material";
+
+import { Box, Skeleton } from "@mui/material";
+
 import axios from "axios";
 
 import useCommitsData from "./useCommitsData";
@@ -18,7 +20,7 @@ const Graph = ({ github, cg_id }) => {
     const url = `https://api.coingecko.com/api/v3/coins/${cg_id}/market_chart?vs_currency=usd&days=365&interval=daily`;
     return await axios.get(url);
   };
-  const { data: datePriceVolume } = useQuery(
+  const { data: datePriceVolume, isLoading: isPriceLoading } = useQuery(
     ["histPrices", cg_id],
     getDatePriceVolume
   );
@@ -32,11 +34,12 @@ const Graph = ({ github, cg_id }) => {
   const layout = {
     autosize: true,
     margin: {
-      t: 50,
+      t: 20,
       b: 50,
-      r: 50,
-      l: 50,
+      r: 20,
+      l: 20,
     },
+    font: { color: "#95969a" },
     yaxis: { domain: [0.35, 1] },
     xaxis: { anchor: "y3" },
     yaxis2: { domain: [0.2, 0.35] },
@@ -97,12 +100,22 @@ const Graph = ({ github, cg_id }) => {
       alignItems={"center"}
       style={{ width: "auto" }}
     >
-      <Plot
-        data={data}
-        useResizeHandler={true}
-        style={{ width: "100%", height: "100%", maxWidth: "900px" }}
-        layout={layout}
-      />
+      {!isPriceLoading ? (
+        <Plot
+          data={data}
+          useResizeHandler={true}
+          style={{ width: "100%", height: "100%", maxWidth: "900px" }}
+          layout={layout}
+        />
+      ) : (
+        <Skeleton
+          sx={{ bgcolor: "black.200" }}
+          variant="rectangular"
+          animation="wave"
+          style={{ width: "100%", maxWidth: "900px" }}
+          height={450}
+        />
+      )}
     </Box>
   );
 };

@@ -9,7 +9,7 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, "./static/frontend"),
       filename: "[name].js",
     },
-    devtool: mode === "development" ? "source-map" : false,
+    // devtool: mode === "development" ? "source-map" : false,
     module: {
       rules: [
         {
@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
       ],
     },
     performance: {
-      hints: mode === "development",
+      // hints: mode === "development" ? "warning" : false,
       maxEntrypointSize: 512000,
       maxAssetSize: 512000,
     },

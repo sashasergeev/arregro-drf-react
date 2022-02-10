@@ -19,7 +19,10 @@ from .serializers import (
     TagSerializer,
     CoinSearchSerializer,
 )
-from .models import Coin, Post, Tag
+from .models import Coin, Github, Post, Tag
+
+from .tasks import observe_github_activity
+import os
 
 
 class CustomPagination(PageNumberPagination):
@@ -74,8 +77,7 @@ class CoinViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Coin.objects.all()
 
     def list(self, request):
-        queryset = Coin.objects.all()
-        page = self.paginate_queryset(queryset)
+        page = self.paginate_queryset(self.queryset)
         serializer = CoinSerializer(page, many=True)
         if page is not None:
             serializer.context["request"] = self.request
@@ -99,13 +101,29 @@ class CoinViewSet(viewsets.ReadOnlyModelViewSet):
         coin_id = request.data["coin_id"]
         coin = Coin.objects.get(id=coin_id)
         action = request.data["action"]
-
         if action == "follow":
             request.user.coin_set.add(coin)
         else:
             request.user.coin_set.remove(coin)
 
         return Response({"status": "followed" if action == "follow" else "unfollowed"})
+
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path=r"gh_plot_data/(?P<github>([A-Za-z0-9_-]+))",
+        url_name="gh_plot_data",
+    )
+    def get_github_activity(self, request, github=None):
+        if github is None:
+            return Response({"detail": "closed repo"})
+        ghObj = Github.objects.get(name=github)
+
+        # case when this data needs to be updated
+        # if ghObj.plotData.__contains__("default"):
+        observe_github_activity.delay(github, os.environ.get("GITHUB_API_KEY"))
+
+        return Response(ghObj.plotData)
 
 
 class TagViewSet(viewsets.ViewSet):

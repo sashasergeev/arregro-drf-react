@@ -74,6 +74,9 @@ class CoinDetailSerializer(serializers.ModelSerializer):
     price_change24h = serializers.SlugRelatedField(
         many=False, source="prices", slug_field="price_change24h", read_only="True"
     )
+    github = serializers.SlugRelatedField(
+        many=False, source="gh", slug_field="name", read_only="True"
+    )
     doesUserFollow = serializers.SerializerMethodField("_isFollow")
 
     def _isFollow(self, obj):

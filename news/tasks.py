@@ -1,9 +1,14 @@
+from functools import reduce
 from asgiref.sync import async_to_sync
 from django.forms.models import model_to_dict
-import requests
 from celery import shared_task
+
 from channels.layers import get_channel_layer
-from .models import Coin, PriceDynamic, Post
+from .models import PriceDynamic, Post, Github
+
+import os
+import requests
+from datetime import datetime, timedelta
 
 channel_layer = get_channel_layer()
 
@@ -48,3 +53,64 @@ def update_post_price(post_id):
         post.price2hr = post.coin.prices.price
 
     post.save()
+
+
+# GITHUB ACTIVITY
+def convertDataForChart(data: list) -> dict:
+    """DELETE DATE DUBLICATES AND ASSIGN ACTIVITY"""
+
+    def reduceToDict(x, y):
+        if not x.__contains__(y):
+            x[y] = 1
+        else:
+            x[y] = x[y] + 1
+        return x
+
+    return reduce(reduceToDict, data, {})
+
+
+def getRepoCommits(HEADERS, LAST_YEAR, git, repo, per_page=100):
+    """GETTING REPOS COMMITS"""
+    commits = requests.get(
+        f"https://api.github.com/repos/{git}/{repo}/commits?per_page={per_page}&since={LAST_YEAR}",
+        headers=HEADERS,
+    )
+    commits = commits.json()
+    # print(commits)
+    filtered = []
+    for commit in commits:
+        filtered.append(commit["commit"]["committer"]["date"].split("T")[0])
+    return filtered
+
+
+@shared_task
+def observe_github_activity(github, token):
+    # CONST VARIABLES
+    NOW = datetime.now()
+    LAST_YEAR_DATE = (NOW - timedelta(days=365)).strftime("%Y-%m-%d")
+    PER_PAGE = 100
+    HEADERS = {"Authorization": f"token {token}"}
+
+    # GET ORGANIZATION REPOSITORIES
+    url = f"https://api.github.com/orgs/{github}/repos?type=public&accept=application/vnd.github.v3+json&per_page={PER_PAGE}&sort=pushed"
+    repos = requests.get(url, headers=HEADERS)
+    repos = repos.json()
+    repos = list(
+        filter(lambda b: b["pushed_at"] > LAST_YEAR_DATE and not b["fork"], repos)
+    )
+
+    # GET COMMITS DATA INTO TIMELINE
+    commits = []
+    for repo in repos:
+        name = repo["name"]
+        commits.extend(getRepoCommits(HEADERS, LAST_YEAR_DATE, github, name))
+
+    # formatting data for chart
+    commits = convertDataForChart(commits)
+
+    # save data
+    ghObj = Github.objects.get(name=github)
+    ghObj.plotData = commits
+    ghObj.save()
+
+    print(commits)

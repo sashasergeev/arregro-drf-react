@@ -13,7 +13,18 @@ class Coin(models.Model):
     cg_link = models.URLField()
     img_link = models.URLField()
     followers = models.ManyToManyField(User)
-    github = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Github(models.Model):
+    name = models.CharField(max_length=50)
+    updated_at = models.DateField(auto_now=True)
+    plotData = models.JSONField()
+    coin = models.OneToOneField(
+        Coin, related_name="gh", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return self.name
