@@ -2,7 +2,7 @@ from django.http.response import JsonResponse
 from django.db.models import Count, Avg, FloatField
 from django.db.models.functions import Cast
 
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 
 from rest_framework import status, viewsets, mixins, permissions, generics
 from rest_framework.response import Response
@@ -119,9 +119,12 @@ class CoinViewSet(viewsets.ReadOnlyModelViewSet):
             return Response({"detail": "closed repo"})
         ghObj = Github.objects.get(name=github)
 
-        # case when this data needs to be updated
-        # if ghObj.plotData.__contains__("default"):
-        observe_github_activity.delay(github, os.environ.get("GITHUB_API_KEY"))
+        # case when this data needs to be updated 
+        # - data needs to be updated 3d after its been created
+        threeDaysAgo = date.today() - timedelta(days=3)
+        isOutdated = ghObj.updated_at < threeDaysAgo
+        if isOutdated:
+            observe_github_activity.delay(github, os.environ.get("GITHUB_API_KEY"))
 
         return Response(ghObj.plotData)
 

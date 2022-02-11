@@ -6,16 +6,24 @@ import { Box, Skeleton } from "@mui/material";
 
 import axios from "axios";
 
-import useCommitsData from "./useCommitsData";
-
 import { useQuery } from "react-query";
 
 const Graph = ({ github, cg_id }) => {
   // get github activity
-  const { isLoading, isError, commitsData } = useCommitsData(github);
+  const getCommitsData = async () => {
+    const url = `api/coins/gh_plot_data/${github}/`;
+    return await axios.get(url);
+  };
+  const { isSuccess, data: commitsData } = useQuery(
+    ["commits", github],
+    getCommitsData,
+    {
+      enabled: !!github,
+      retry: false,
+    }
+  );
 
   // date, price, volume
-  // testcase - fontcommunity token
   const getDatePriceVolume = async () => {
     const url = `https://api.coingecko.com/api/v3/coins/${cg_id}/market_chart?vs_currency=usd&days=365&interval=daily`;
     return await axios.get(url);
@@ -80,12 +88,12 @@ const Graph = ({ github, cg_id }) => {
     },
   ];
 
-  if (!isLoading && !isError) {
+  if (isSuccess) {
     data[2] = {
       type: "bar",
       name: "Github Activity",
-      x: Object.keys(commitsData),
-      y: Object.values(commitsData),
+      x: Object.keys(commitsData.data),
+      y: Object.values(commitsData.data),
       xaxis: "x",
       yaxis: "y3",
       marker: { color: "#31324c" },

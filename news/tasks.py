@@ -76,11 +76,14 @@ def getRepoCommits(HEADERS, LAST_YEAR, git, repo, per_page=100):
         headers=HEADERS,
     )
     commits = commits.json()
-    # print(commits)
-    filtered = []
-    for commit in commits:
-        filtered.append(commit["commit"]["committer"]["date"].split("T")[0])
-    return filtered
+    if not commits.__contains__("message"):
+        filtered = []
+        for commit in commits:
+            filtered.append(commit["commit"]["committer"]["date"].split("T")[0])
+        return filtered
+    else:
+        # case: repository is empty
+        return []
 
 
 @shared_task
@@ -95,6 +98,7 @@ def observe_github_activity(github, token):
     url = f"https://api.github.com/orgs/{github}/repos?type=public&accept=application/vnd.github.v3+json&per_page={PER_PAGE}&sort=pushed"
     repos = requests.get(url, headers=HEADERS)
     repos = repos.json()
+    # print(repos)
     repos = list(
         filter(lambda b: b["pushed_at"] > LAST_YEAR_DATE and not b["fork"], repos)
     )
