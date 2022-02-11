@@ -15,6 +15,7 @@ const Movers = lazy(() => import("./trending/Movers"));
 
 import { actionTypes, useStateValue } from "../contextAuth";
 import { getUser } from "../api/auth";
+import Loading from "./LoadingScreen";
 
 export const App = () => {
   // auth states
@@ -52,7 +53,7 @@ export const App = () => {
       <Router>
         <Header />
         <div className="container">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <Switch>
               {/* PAGES */}
               <Route exact path="/" component={Posts} />
