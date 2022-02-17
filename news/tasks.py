@@ -6,7 +6,6 @@ from celery import shared_task
 from channels.layers import get_channel_layer
 from .models import PriceDynamic, Post, Github
 
-import os
 import requests
 from datetime import datetime, timedelta
 
@@ -33,7 +32,10 @@ def get_coins_price():
 
         obj.price = str(price["usd"])
         obj.cg_id = coin
-        obj.price_change24h = price["usd_24h_change"]
+
+        if not price["usd_24h_change"] is None:
+            obj.price_change24h = round(price["usd_24h_change"], 2)
+
         obj.save()
         new_data = model_to_dict(obj)
         new_data.update({"name": obj.coin.name, "state": state})

@@ -17,7 +17,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const CardElem = ({ isLoaded, data, openModal }) => {
-  console.log(data);
   const classes = useCardStyles();
   const change =
     isLoaded && ((data.coin.currPrice / data.price - 1) * 100).toFixed(2);

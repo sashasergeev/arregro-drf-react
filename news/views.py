@@ -2,7 +2,7 @@ from django.http.response import JsonResponse
 from django.db.models import Count, Avg, FloatField
 from django.db.models.functions import Cast
 
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 from rest_framework import status, viewsets, mixins, permissions, generics
 from rest_framework.response import Response
@@ -119,7 +119,7 @@ class CoinViewSet(viewsets.ReadOnlyModelViewSet):
             return Response({"detail": "closed repo"})
         ghObj = Github.objects.get(name=github)
 
-        # case when this data needs to be updated 
+        # case when this data needs to be updated
         # - data needs to be updated 3d after its been created
         threeDaysAgo = date.today() - timedelta(days=3)
         isOutdated = ghObj.updated_at < threeDaysAgo
@@ -171,7 +171,7 @@ class TagViewSet(viewsets.ViewSet):
             )
             twohr = (
                 tag.post_set.exclude(price2hr__isnull=True)
-                .exclude(price1hr="")
+                .exclude(price2hr="")
                 .annotate(
                     twoHrCh=(
                         Cast("price2hr", FloatField()) / Cast("price", FloatField()) - 1

@@ -3,10 +3,10 @@ import axios from "axios";
 
 const useFollowCoin = () => {
   const snackbar = useSnackbarAlert();
-  const follow = (token, coin_id, coins, setData, inx) => {
+  const follow = (token, coin_id, coins, setData, inx = null) => {
     // case for list
     let items, item, data;
-    if (inx) {
+    if (inx !== null) {
       // coinlist
       items = [...coins];
       item = { ...items[inx] };
@@ -29,7 +29,7 @@ const useFollowCoin = () => {
         headers: { Authorization: `Token ${token}` },
       })
       .then((res) => {
-        if (inx) {
+        if (inx !== null) {
           setData(items);
         } else {
           setData(!coins);
