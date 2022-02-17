@@ -14,7 +14,10 @@ import Skeleton from "@mui/material/Skeleton";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PropTypes from "prop-types";
 
+import { Link } from "react-router-dom";
+
 const CardElem = ({ isLoaded, data, openModal }) => {
+  console.log(data);
   const classes = useCardStyles();
   const change =
     isLoaded && ((data.coin.currPrice / data.price - 1) * 100).toFixed(2);
@@ -22,34 +25,45 @@ const CardElem = ({ isLoaded, data, openModal }) => {
     <Grid item className={classes.huo}>
       <Card className={classes.root}>
         <Box className={classes.bdy} justifyContent="center">
-          <Box component="div" display="inline" p={1} m={1}>
-            <Typography variant="h6">
-              {isLoaded ? (
-                data.coin.name
-              ) : (
-                <Skeleton variant="rectangular" width={100} height={31} />
-              )}
-            </Typography>
-            <div className={classes.ticker}>
-              {isLoaded ? (
-                data.coin.ticker
-              ) : (
-                <Skeleton
-                  mt="5px"
-                  variant="rectangular"
-                  width={50}
-                  height={16}
-                />
-              )}
-            </div>
-          </Box>
-          <Box component="div" display="inline" p={1} m={1}>
-            {isLoaded ? (
-              <img src={data.coin.img_link} alt={data.coin.name} />
-            ) : (
-              <Skeleton variant="circular" width={50} height={50} />
-            )}
-          </Box>
+          {isLoaded ? (
+            <>
+              <Box component="div" display="inline" p={1} m={1}>
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    display: "block",
+                    color: "white",
+                  }}
+                  to={`coins/coin?id=${data.coin.id}`}
+                >
+                  <Typography variant="h6">{data.coin.name}</Typography>
+                </Link>
+                <div className={classes.ticker}>{data.coin.ticker}</div>
+              </Box>
+              <Box component="div" display="inline" p={1} m={1}>
+                <img src={data.coin.img_link} alt={data.coin.name} />
+              </Box>{" "}
+            </>
+          ) : (
+            <>
+              <Box component="div" display="inline" p={1} m={1}>
+                <Typography variant="h6">
+                  <Skeleton variant="rectangular" width={100} height={31} />
+                </Typography>
+                <div className={classes.ticker}>
+                  <Skeleton
+                    mt="5px"
+                    variant="rectangular"
+                    width={50}
+                    height={16}
+                  />
+                </div>
+              </Box>
+              <Box component="div" display="inline" p={1} m={1}>
+                <Skeleton variant="circular" width={50} height={50} />
+              </Box>
+            </>
+          )}
         </Box>
         <CardContent>
           <Typography variant="body1" component="p">

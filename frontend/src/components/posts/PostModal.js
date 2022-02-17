@@ -19,6 +19,8 @@ import { StyledTableCell, usePostModalStyles, modalStyles } from "./styles";
 
 import { fetchPostModal } from "../../api/posts";
 
+import { Link } from "react-router-dom";
+
 Modal.setAppElement("#app");
 
 // function to calculate changes in price
@@ -49,7 +51,20 @@ export const PostModal = ({ postId, isOpen, close }) => {
               <Box className={classes.nameLogoBlock}>
                 <Box>
                   <Typography variant="h4" className={classes.text}>
-                    {data?.coin?.name || (
+                    {data?.coin?.name ? (
+                      <>
+                        <Link
+                          style={{
+                            textDecoration: "none",
+                            display: "block",
+                            color: "white",
+                          }}
+                          to={`coins/coin?id=${data.coin.id}`}
+                        >
+                          {data.coin.name}
+                        </Link>
+                      </>
+                    ) : (
                       <Skeleton variant="rectangular" width={225} height={25} />
                     )}
                   </Typography>
