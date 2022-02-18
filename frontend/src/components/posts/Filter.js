@@ -21,7 +21,7 @@ import { useFilterStyles } from "./styles";
 import { LocalizationProvider, MobileDatePicker } from "@mui/lab";
 import DateAdapter from "@mui/lab/AdapterDayjs";
 
-const Filter = (props) => {
+const Filter = ({ handleFilter }) => {
   const classes = useFilterStyles();
 
   // window states
@@ -46,7 +46,7 @@ const Filter = (props) => {
 
   const closeDialog = () => {
     setIsOpen(false);
-    props.handleFilter(tag, fromDate, toDate);
+    handleFilter(tag, fromDate, toDate);
     if (tag || toDate || fromDate) {
       setClear(true);
     }
@@ -59,7 +59,7 @@ const Filter = (props) => {
     setClear(false);
     setFromDate(null);
     setToDate(null);
-    props.handleFilter(false, null, null);
+    handleFilter(false, null, null);
   };
 
   // date filter related objs

@@ -9,7 +9,7 @@ const useChangePage = () => {
 
   const handlePage = (e, val) => setPage(val);
 
-  return { page, handlePage, pageNum, setPageNum };
+  return { page, setPage, handlePage, pageNum, setPageNum };
 };
 
 export default useChangePage;

@@ -17,6 +17,7 @@ import useChangePage from "../../hooks/useChangePage";
 import useFollowCoin from "../../hooks/useFollowCoin";
 import { useCoinStyles, containerVariantsEnter } from "./styles";
 import { fetchCoinList } from "../../api/coins";
+import FollowBtn from "./FollowBtn";
 
 export const CoinList = () => {
   const skeletonArr = new Array(8).fill("skelet");
@@ -31,7 +32,7 @@ export const CoinList = () => {
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
   const { page, handlePage, pageNum, setPageNum } = useChangePage();
-  const { follow } = useFollowCoin();
+  const { follow } = useFollowCoin(setCoins, coins, token);
   const handleModal = () => setCoinSubmitModal(!coinSubmitModal);
 
   // HANDLE DATA FETCH AND CHANGE OF PAGE
@@ -89,17 +90,12 @@ export const CoinList = () => {
                         </Box>
                       </Link>
                       {isAuth && (
-                        <Button
-                          variant="outlined"
-                          className={
-                            e.doesUserFollow ? classes.unFollow : classes.follow
-                          }
-                          onClick={() =>
-                            follow(token, e.id, coins, setCoins, inx)
-                          }
-                        >
-                          {e.doesUserFollow ? "Unfollow" : "Follow"}
-                        </Button>
+                        <FollowBtn
+                          isFollow={e.doesUserFollow}
+                          follow={follow}
+                          coinID={e.id}
+                          inx={inx}
+                        />
                       )}
                       <Box component="div" display="inline">
                         <img src={e.img_link} alt={e.name} />

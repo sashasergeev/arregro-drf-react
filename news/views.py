@@ -197,6 +197,21 @@ class PostFeedViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     def list(self, request):
         queryset = Post.objects.filter(coin__in=request.user.coin_set.all())
+        # tag filter
+        filter_tag = request.query_params.get("tag", None)
+        if filter_tag:
+            queryset = queryset.filter(tag__tag=filter_tag)
+
+        # date filter
+        filter_from = request.query_params.get("from", None)
+        filter_to = request.query_params.get("to", None)
+        if filter_from and filter_to:
+            queryset = queryset.filter(date_added__range=(filter_from, filter_to))
+        elif filter_from:
+            queryset = queryset.filter(date_added__gte=filter_from)
+        elif filter_to:
+            queryset = queryset.filter(date_added__lte=filter_to)
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = PostSerializer(page, many=True)

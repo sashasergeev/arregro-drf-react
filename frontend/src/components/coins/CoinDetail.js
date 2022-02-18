@@ -15,6 +15,7 @@ import { useStateValue } from "../../contextAuth";
 import useFollowCoin from "../../hooks/useFollowCoin";
 
 import { fetchCoinDetail } from "../../api/coins";
+import FollowBtn from "./FollowBtn";
 
 export const CoinDetail = () => {
   // getting param from url
@@ -45,7 +46,7 @@ export const CoinDetail = () => {
   );
 
   // follow functionality
-  const { follow } = useFollowCoin();
+  const { follow } = useFollowCoin(setFollowed, followed, token);
 
   // BACK BTN FUNCTIONALITY
   let history = useHistory();
@@ -103,15 +104,11 @@ export const CoinDetail = () => {
               />
             </a>
             {isAuth && (
-              <Button
-                variant="outlined"
-                className={followed ? classes.unFollow : classes.follow}
-                onClick={() =>
-                  follow(token, idOfCoin, followed, setFollowed, null)
-                }
-              >
-                {followed ? "Unfollow" : "Follow"}
-              </Button>
+              <FollowBtn
+                isFollow={followed}
+                follow={follow}
+                coinID={coinInfo.id}
+              />
             )}
             <a href={`https://github.com/${coinInfo.github}`}>
               <svg

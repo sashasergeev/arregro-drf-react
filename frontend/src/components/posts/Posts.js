@@ -8,17 +8,15 @@ import useChangePage from "../../hooks/useChangePage";
 import { fetchPosts } from "../../api/posts";
 
 import { useQuery } from "react-query";
+import useFilterPosts from "../../hooks/useFilterPosts";
 
 const Posts = () => {
   const [posts, setPosts] = useState(new Array(8).fill("skelet"));
-  // filter states
-  const [filter, setFilter] = useState(false);
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
-
   const [newPost, setNewPost] = useState(0);
+  const { page, setPage, handlePage, pageNum, setPageNum } = useChangePage();
 
-  const { page, handlePage, pageNum, setPageNum } = useChangePage();
+  // filter state
+  const { filter, clearFilter, handleFilter } = useFilterPosts(setPage);
 
   useEffect(() => {
     const newPostWS = new WebSocket(
@@ -26,47 +24,32 @@ const Posts = () => {
         window.location.host +
         "/ws/new-post/"
     );
-    newPostWS.onmessage = (e) => setNewPost(setNewPost + 1);
+    newPostWS.onmessage = (e) => setNewPost(newPost + 1);
     return () => newPostWS.close();
   }, []);
 
-  const { isFetching } = useQuery(
-    ["posts", page, filter, fromDate, toDate],
-    fetchPosts,
-    {
-      onSuccess: (data) => {
-        window.scroll(0, 0);
-        setPosts(data.data.results);
-        setPageNum(Math.ceil(data.data.count / 8));
-      },
-    }
-  );
-
-  const handleFilter = (parfilter, parFromDate, parToDate) => {
-    if (
-      filter !== parfilter ||
-      fromDate !== parFromDate ||
-      toDate !== parToDate
-    ) {
-      setFilter(parfilter);
-      setFromDate(parFromDate ? parFromDate.toJSON().split("T")[0] : null);
-      setToDate(parToDate ? parToDate.toJSON().split("T")[0] : null);
-      setPage(1);
-    }
-  };
+  const { isFetching } = useQuery(["posts", page, filter], fetchPosts, {
+    onSuccess: (data) => {
+      window.scroll(0, 0);
+      setPosts(data.data.results);
+      setPageNum(Math.ceil(data.data.count / 8));
+    },
+  });
 
   const refresh = () => {
-    setFilter(false);
-    setFromDate(null);
-    setToDate(null);
+    clearFilter();
     setNewPost(0);
-    setPage(1);
+
+    if (page === 1) refetch();
+    else setPage(1);
   };
 
   return (
     <div>
       {newPost > 0 && (
-        <NewPostAlert onClick={refresh}>New post. Tap to refresh.</NewPostAlert>
+        <NewPostAlert onClick={refresh}>
+          {newPost} new {newPost > 1 ? "posts" : "post"}. Tap to refresh.
+        </NewPostAlert>
       )}
 
       <Cards isDataLoaded={!isFetching} cards={posts} page={page} />

@@ -1,9 +1,9 @@
 import useSnackbarAlert from "../components/other/useSnackbarAlert";
 import axios from "axios";
 
-const useFollowCoin = () => {
+const useFollowCoin = (setData, coins, token) => {
   const snackbar = useSnackbarAlert();
-  const follow = (token, coin_id, coins, setData, inx = null) => {
+  const follow = (coin_id, inx = null) => {
     // case for list
     let items, item, data;
     if (inx !== null) {
