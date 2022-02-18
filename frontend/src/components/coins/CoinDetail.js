@@ -50,7 +50,12 @@ export const CoinDetail = () => {
   // BACK BTN FUNCTIONALITY
   let history = useHistory();
   const handleBack = () => {
-    history.goBack();
+    const state = history.location.state;
+    // i could make process of resuming to last page through context, but this is more interesting...
+    history.push({
+      pathname: state?.from ? `${state.from}` : "/coins",
+      state: state?.page ? { page: state.page } : {},
+    });
   };
 
   return (

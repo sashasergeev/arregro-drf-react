@@ -22,6 +22,7 @@ This project idea is a copy of my [another project](https://github.com/sashaserg
 - Whenever new post is created, user can see an alert bar on main page powered by WebSockets.
 - Added alerts on user actions (follow coin, authenticaion...).
 - Skeleton Loading. 
+- Plot on coin detail page with price, volume, github activity, 1 year range.
 - ...
 #
 ## **Technologies used:**

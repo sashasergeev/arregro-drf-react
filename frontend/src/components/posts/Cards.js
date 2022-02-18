@@ -3,8 +3,9 @@ import { Grid } from "@mui/material";
 import PostModal from "./PostModal";
 import CardElem from "./CardElem";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
-const Cards = ({ cards, isDataLoaded }) => {
+const Cards = ({ cards, isDataLoaded, page }) => {
   // modal
   const [isModal, setIsModal] = useState(false);
   const [idForModal, setIdForModal] = useState(null);
@@ -18,6 +19,9 @@ const Cards = ({ cards, isDataLoaded }) => {
   };
   // endModal
 
+  const history = useHistory();
+  const from = history.location.pathname;
+
   return (
     <Grid container justifyContent="center">
       {cards.map((e, inx) => {
@@ -25,6 +29,8 @@ const Cards = ({ cards, isDataLoaded }) => {
           <CardElem
             key={inx}
             data={e}
+            page={page}
+            from={from}
             openModal={openModal}
             isLoaded={isDataLoaded}
           />

@@ -15,7 +15,7 @@ import Search from "./Search";
 import { useStateValue } from "../../contextAuth";
 import useChangePage from "../../hooks/useChangePage";
 import useFollowCoin from "../../hooks/useFollowCoin";
-import { useCoinStyles, containerVariants } from "./styles";
+import { useCoinStyles, containerVariantsEnter } from "./styles";
 import { fetchCoinList } from "../../api/coins";
 
 export const CoinList = () => {
@@ -25,12 +25,14 @@ export const CoinList = () => {
 
   // states
   const [coins, setCoins] = useState([]);
-  const [page, setPage] = useState(1);
-  const [numOfPages, setNumOfPages] = useState(1);
   const [coinSubmitModal, setCoinSubmitModal] = useState(false);
 
   // get auth data
   const [{ token, isAuth, isLoaded }] = useStateValue();
+
+  const { page, handlePage, pageNum, setPageNum } = useChangePage();
+  const { follow } = useFollowCoin();
+  const handleModal = () => setCoinSubmitModal(!coinSubmitModal);
 
   // HANDLE DATA FETCH AND CHANGE OF PAGE
   const { isFetched } = useQuery(
@@ -40,20 +42,15 @@ export const CoinList = () => {
       onSuccess: (data) => {
         window.scroll(0, 0);
         setCoins(data.data.results);
-        setNumOfPages(Math.ceil(data.data.count / 8));
+        setPageNum(Math.ceil(data.data.count / 8));
       },
       enabled: isLoaded,
     }
   );
-  const { handlePageChange } = useChangePage(setPage);
-
-  const { follow } = useFollowCoin();
-
-  const handleModal = () => setCoinSubmitModal(!coinSubmitModal);
 
   return (
     <motion.div
-      variants={containerVariants}
+      variants={containerVariantsEnter}
       initial="hidden"
       animate="visible"
       exit="exit"
@@ -76,7 +73,11 @@ export const CoinList = () => {
                     >
                       <Link
                         className={classes.coinLink}
-                        to={`coins/coin?id=${e.id}`}
+                        to={{
+                          pathname: "/coins/coin",
+                          search: `?id=${e.id}`,
+                          state: { page, from: "/coins" },
+                        }}
                       >
                         <Box component="div" display="inline">
                           <Typography variant="h6" display="inline">
@@ -144,11 +145,7 @@ export const CoinList = () => {
               );
             })}
       </Grid>
-      <PageNav
-        page={page}
-        numOfPages={numOfPages}
-        onChange={handlePageChange}
-      />
+      <PageNav page={page} numOfPages={pageNum} onChange={handlePage} />
     </motion.div>
   );
 };

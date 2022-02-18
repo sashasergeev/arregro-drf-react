@@ -11,8 +11,8 @@ import { useQuery } from "react-query";
 
 const UserFeed = () => {
   const [posts, setPosts] = useState(new Array(8).fill("skelet"));
-  const [page, setPage] = useState(1);
-  const [numOfPages, setNumOfPages] = useState(1);
+
+  const { page, handlePage, pageNum, setPageNum } = useChangePage();
 
   // get auth data
   const [{ token, isAuth, isLoaded }] = useStateValue();
@@ -22,20 +22,15 @@ const UserFeed = () => {
     onSuccess: (data) => {
       window.scroll(0, 0);
       setPosts(data.data.results);
-      setNumOfPages(Math.ceil(data.data.count / 8));
+      setPageNum(Math.ceil(data.data.count / 8));
     },
     enabled: isLoaded,
   });
-  const { handlePageChange } = useChangePage(setPage);
   return (
     <div>
       {!isAuth && isLoaded && <Redirect to="/" />}
-      <Cards isDataLoaded={!isFetching && isLoaded} cards={posts} />
-      <PageNav
-        page={page}
-        numOfPages={numOfPages}
-        onChange={handlePageChange}
-      />
+      <Cards isDataLoaded={!isFetching && isLoaded} page={page} cards={posts} />
+      <PageNav page={page} numOfPages={pageNum} onChange={handlePage} />
     </div>
   );
 };

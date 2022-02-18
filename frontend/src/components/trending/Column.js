@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from "@mui/material/Skeleton";
 import { Link } from "react-router-dom";
 import { useColumnStyles } from "./styles";
 
@@ -13,7 +13,11 @@ const Column = (props) => {
       {trendData[0] !== "skelet"
         ? trendData.map((e) => (
             <Link
-              to={`/coins/coin?id=${e.id}`}
+              to={{
+                pathname: `/coins/coin`,
+                search: `?id=${e.id}`,
+                state: { from: "/trending" },
+              }}
               key={e.id}
               className={classes.coinLink}
             >

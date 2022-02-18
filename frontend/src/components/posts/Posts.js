@@ -11,13 +11,14 @@ import { useQuery } from "react-query";
 
 const Posts = () => {
   const [posts, setPosts] = useState(new Array(8).fill("skelet"));
-  const [page, setPage] = useState(1);
-  const [numOfPages, setNumOfPages] = useState(1);
   // filter states
   const [filter, setFilter] = useState(false);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
+
   const [newPost, setNewPost] = useState(0);
+
+  const { page, handlePage, pageNum, setPageNum } = useChangePage();
 
   useEffect(() => {
     const newPostWS = new WebSocket(
@@ -36,7 +37,7 @@ const Posts = () => {
       onSuccess: (data) => {
         window.scroll(0, 0);
         setPosts(data.data.results);
-        setNumOfPages(Math.ceil(data.data.count / 8));
+        setPageNum(Math.ceil(data.data.count / 8));
       },
     }
   );
@@ -62,21 +63,14 @@ const Posts = () => {
     setPage(1);
   };
 
-  // handle page change
-  const { handlePageChange } = useChangePage(setPage);
-
   return (
     <div>
       {newPost > 0 && (
         <NewPostAlert onClick={refresh}>New post. Tap to refresh.</NewPostAlert>
       )}
 
-      <Cards isDataLoaded={!isFetching} cards={posts} />
-      <PageNav
-        page={page}
-        numOfPages={numOfPages}
-        onChange={handlePageChange}
-      />
+      <Cards isDataLoaded={!isFetching} cards={posts} page={page} />
+      <PageNav page={page} numOfPages={pageNum} onChange={handlePage} />
       <Filter handleFilter={handleFilter} />
     </div>
   );
