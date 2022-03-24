@@ -112,16 +112,16 @@ const theme = createTheme({
 
 render(
   <StyledEngineProvider injectFirst>
-    // overriding global styles
+    {/* overriding global styles */}
     <ThemeProvider theme={theme}>
-      // alerts
+      {/* alerts */}
       <SnackbarProvider
         SnackbarProps={{ autoHideDuration: 4000 }}
         SnackbarComponent={SnackbarAlert}
       >
-        // context data
+        {/* context data */}
         <StateProvider initialState={initialState} reducer={reducer}>
-          // React query
+          {/* React query */}
           <QueryClientProvider client={queryClient}>
             <App />
           </QueryClientProvider>
@@ -131,15 +131,3 @@ render(
   </StyledEngineProvider>,
   document.getElementById("app")
 );
-// TODO
-// +++ make follow unfollow functionality (upload state for detail page and make Coins state change when i follow on detail page)
-// +++ search functionality
-// +++ modal functionality
-
-// +++ django filter (to filter by tag on main page)
-// maybe make some kind of blog
-// +++ make background tasks for updating price
-//    make it show new prices on front
-// +++ go to mysql db
-// +++ refactor components
-// +++ proptypes

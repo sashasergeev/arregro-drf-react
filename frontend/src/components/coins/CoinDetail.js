@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import { useQuery } from "react-query";
 
 // style related
@@ -46,7 +45,7 @@ export const CoinDetail = () => {
   );
 
   // follow functionality
-  const { follow } = useFollowCoin(setFollowed, followed, token);
+  const follow = useFollowCoin(setFollowed, followed, token);
 
   // BACK BTN FUNCTIONALITY
   let history = useHistory();
@@ -143,11 +142,6 @@ export const CoinDetail = () => {
       )}
     </motion.div>
   );
-};
-
-CoinDetail.propTypes = {
-  isAuth: PropTypes.bool,
-  token: PropTypes.string,
 };
 
 export default CoinDetail;

@@ -1,8 +1,30 @@
 import useSnackbarAlert from "../components/other/useSnackbarAlert";
-import axios from "axios";
+import { followRequest } from "../api/coins";
 
 const useFollowCoin = (setData, coins, token) => {
+  /*
+    Hook to allow follow/unfollow functionality on coinlist and 
+      coindetal page
+  */
+
   const snackbar = useSnackbarAlert();
+
+  // const
+
+  const makeFollow = async (data, items, inx) => {
+    try {
+      const res = await followRequest(data, token);
+      if (inx !== null) {
+        setData(items);
+      } else {
+        setData(!coins);
+      }
+      return snackbar.showSuccess(`You've ${res.data.status} the coin!`);
+    } catch {
+      return snackbar.showError("Some error has happend. Reload the page!");
+    }
+  };
+
   const follow = (coin_id, inx = null) => {
     // case for list
     let items, item, data;
@@ -24,24 +46,11 @@ const useFollowCoin = (setData, coins, token) => {
       };
     }
 
-    axios
-      .post("api/coins/following/", data, {
-        headers: { Authorization: `Token ${token}` },
-      })
-      .then((res) => {
-        if (inx !== null) {
-          setData(items);
-        } else {
-          setData(!coins);
-        }
-        return snackbar.showSuccess(`You've ${res.data.status} the coin!`);
-      })
-      .catch((err) =>
-        snackbar.showError("Some error has happend. Reload the page!")
-      );
+    // making request and set follow status of coin
+    makeFollow(data, items, inx);
   };
 
-  return { follow };
+  return follow;
 };
 
 export default useFollowCoin;

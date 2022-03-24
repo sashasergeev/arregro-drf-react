@@ -32,7 +32,7 @@ export const CoinList = () => {
   const [{ token, isAuth, isLoaded }] = useStateValue();
 
   const { page, handlePage, pageNum, setPageNum } = useChangePage();
-  const { follow } = useFollowCoin(setCoins, coins, token);
+  const follow = useFollowCoin(setCoins, coins, token);
   const handleModal = () => setCoinSubmitModal(!coinSubmitModal);
 
   // HANDLE DATA FETCH AND CHANGE OF PAGE

@@ -1,6 +1,11 @@
 import { useState } from "react";
 
 const useFilterPosts = (setPage) => {
+  /* 
+    Hook for filtering posts.
+    Now used on main and feed pages.
+  */
+
   const [filter, setFilter] = useState({
     tag: false,
     from: null,

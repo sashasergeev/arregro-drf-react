@@ -1,10 +1,10 @@
-import React from "react";
+import React, { lazy } from "react";
 
-import { CoinList } from "./CoinList";
-import { CoinDetail } from "./CoinDetail";
+const CoinList = lazy(() => import("./CoinList"));
+const CoinDetail = lazy(() => import("./CoinDetail"));
+
 import { Route, Switch } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import PropTypes from "prop-types";
 
 const Coins = (props) => {
   return (
@@ -27,11 +27,6 @@ const Coins = (props) => {
       </AnimatePresence>
     </div>
   );
-};
-
-Coins.propTypes = {
-  isAuth: PropTypes.bool,
-  token: PropTypes.string,
 };
 
 export default Coins;

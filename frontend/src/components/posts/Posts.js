@@ -28,13 +28,17 @@ const Posts = () => {
     return () => newPostWS.close();
   }, []);
 
-  const { isFetching } = useQuery(["posts", page, filter], fetchPosts, {
-    onSuccess: (data) => {
-      window.scroll(0, 0);
-      setPosts(data.data.results);
-      setPageNum(Math.ceil(data.data.count / 8));
-    },
-  });
+  const { isFetching, refetch } = useQuery(
+    ["posts", page, filter],
+    fetchPosts,
+    {
+      onSuccess: (data) => {
+        window.scroll(0, 0);
+        setPosts(data.data.results);
+        setPageNum(Math.ceil(data.data.count / 8));
+      },
+    }
+  );
 
   const refresh = () => {
     clearFilter();
