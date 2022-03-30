@@ -143,17 +143,24 @@ class TagViewSet(viewsets.ViewSet):
     )
     def tagStatistic(self, request):
         date = request.GET.get("date", None)
+        coinid = request.GET.get("coinid", None)
+
         dates = {
             "TODAY": 1,
             "MONTH": 30,
             "YEAR": 365,
         }
-        if date is None or date == "":
+
+        if not date and not coinid:
             tags = Tag.objects.all()
-        else:
-            tags = Tag.objects.filter(
-                post__date_added__gte=datetime.today() - timedelta(days=dates[date])
-            )
+        elif not date and coinid:
+            tags = Tag.objects.filter(post__coin__id=coinid)
+        elif date and not coinid:
+            tags = Tag.objects.filter(post__date_added__gte=datetime.today() - timedelta(days=dates[date]))
+        elif date and coinid:
+            tags = Tag.objects.filter(post__coin__id=coinid)
+            tags = tags.filter(post__date_added__gte=datetime.today() - timedelta(days=dates[date]))
+
 
         tags = tags.annotate(tag_count=Count("post")).order_by("-tag_count")
         content = []
