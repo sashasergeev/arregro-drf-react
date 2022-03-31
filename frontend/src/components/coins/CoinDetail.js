@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { useQuery } from "react-query";
 
 // style related
 import { motion } from "framer-motion";
 import { Box, Typography, Button } from "@mui/material";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import FilterNoneOutlinedIcon from "@mui/icons-material/FilterNoneOutlined";
+import BrowserNotSupportedIcon from "@mui/icons-material/BrowserNotSupported";
 
 import Graph from "./graph/Graph";
 import Cards from "../posts/Cards";
+import TagElem from "../tags/TagElem";
 
-import { useCoinStyles, containerVariants } from "./styles";
+import {
+  useCoinStyles,
+  containerVariants,
+  DetailTabs,
+  DetailTab,
+  NoPostBox,
+} from "./styles";
 import { useStateValue } from "../../contextAuth";
 import useFollowCoin from "../../hooks/useFollowCoin";
 
@@ -27,6 +37,11 @@ export const CoinDetail = () => {
   // state
   const [coinInfo, setCoinInfo] = useState(null);
   const [followed, setFollowed] = useState(false);
+  const [tagStat, setTagStat] = useState([]);
+  const [tab, setTab] = useState(0);
+  const handleTabChange = (event, newValue) => {
+    setTab(newValue);
+  };
 
   // auth context
   const [{ token, isAuth, isLoaded }] = useStateValue();
@@ -43,6 +58,12 @@ export const CoinDetail = () => {
       },
     }
   );
+
+  useEffect(() => {
+    fetch(`api/tags/stat?coinid=${idOfCoin}`)
+      .then((res) => res.json())
+      .then((data) => setTagStat(data));
+  }, []);
 
   // follow functionality
   const follow = useFollowCoin(setFollowed, followed, token);
@@ -132,12 +153,45 @@ export const CoinDetail = () => {
           {/* Price and activity graph */}
           <Graph github={coinInfo.github} cg_id={coinInfo.cg_id} />
 
-          {/* POSTS */}
-          {coinInfo.posts.length > 0 && (
-            <Box mt="20px" bgcolor="#8894afbd">
-              <Cards isDataLoaded={isFetched} cards={coinInfo.posts} />
-            </Box>
-          )}
+          <Box
+            mt="35px"
+            bgcolor="#8894afbd"
+            boxShadow={"inset 0px -4px 11px 1px #c21d51"}
+          >
+            {coinInfo.posts.length > 0 ? (
+              <>
+                {/* Case when there is posts - show them and its stats */}
+                <DetailTabs
+                  variant="fullWidth"
+                  value={tab}
+                  onChange={handleTabChange}
+                  centered
+                >
+                  <DetailTab icon={<FilterNoneOutlinedIcon />} label="POSTS" />
+                  <DetailTab icon={<QueryStatsIcon />} label="STATS" />
+                </DetailTabs>
+                {tab === 0 ? (
+                  <>
+                    {<Cards isDataLoaded={isFetched} cards={coinInfo.posts} />}
+                  </>
+                ) : (
+                  <div className={classes.StatsBox}>
+                    {tagStat.map((e) => (
+                      <TagElem key={e.tag} tag={e} />
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {/* Case when there is NO posts */}
+                <NoPostBox>
+                  <BrowserNotSupportedIcon />
+                  No posts. Come later...
+                </NoPostBox>
+              </>
+            )}
+          </Box>
         </Box>
       )}
     </motion.div>

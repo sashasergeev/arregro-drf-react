@@ -1,6 +1,55 @@
 import makeStyles from "@mui/styles/makeStyles";
-import { styled } from "@mui/system";
-import { Button } from "@mui/material";
+import React from "react";
+import { Button, Tabs, Tab, Box } from "@mui/material";
+
+import { styled } from "@mui/material/styles";
+
+export const DetailTabs = styled(Tabs)({
+  margin: "20px",
+  borderRadius: "0 0 10px 10px",
+  background: "#15181d",
+  boxShadow: "inset 0px 1px 0px 0px #31324c",
+  "& .MuiTabs-indicator": {
+    backgroundColor: "#9c27b0",
+    height: "3px",
+  },
+});
+export const DetailTab = styled((props) => <Tab disableRipple {...props} />)(
+  ({ theme }) => ({
+    textTransform: "none",
+    minWidth: 0,
+    [theme.breakpoints.up("sm")]: {
+      minWidth: 0,
+    },
+    fontWeight: theme.typography.fontWeightLarge,
+    marginRight: theme.spacing(5),
+    marginLeft: theme.spacing(5),
+    color: "#454c5a",
+    fontSize: "20px",
+    "&:hover": {
+      color: "#afaeae",
+      opacity: 1,
+    },
+    transition: "0.2s",
+    "&.Mui-selected": {
+      color: "#575987",
+    },
+    "&.Mui-focusVisible": {
+      backgroundColor: "#d1eaff",
+    },
+  })
+);
+
+export const NoPostBox = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "10px",
+  fontSize: "20px",
+  padding: "20px",
+  backgroundColor: "#00000094",
+  color: "#9d9d9d",
+});
 
 export const useSearchStyles = makeStyles((theme) => ({
   root: {
@@ -101,6 +150,12 @@ export const useCoinStyles = makeStyles((theme) => ({
   backBtn: {
     fontWeight: "600",
     color: "black",
+  },
+  StatsBox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
   },
 }));
 
