@@ -37,7 +37,7 @@ export const TagBox = styled(Box)({
   display: "flex",
   flexDirection: "column",
   width: "250px",
-  backgroundColor: "#5d58a263",
+  backgroundColor: "#313151",
   borderRadius: "10px",
   margin: "15px",
 });
