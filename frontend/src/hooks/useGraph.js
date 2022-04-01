@@ -54,8 +54,6 @@ const useGraph = (github, cg_id) => {
       orientation: "h",
     },
     xaxisTitle: "Date",
-    xaxisTitle: "Date",
-    xaxisTitle: "Date",
     hovermode: "x unified",
     showLegend: true,
   };

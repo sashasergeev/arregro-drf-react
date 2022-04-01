@@ -9,8 +9,6 @@ const useFollowCoin = (setData, coins, token) => {
 
   const snackbar = useSnackbarAlert();
 
-  // const
-
   const makeFollow = async (data, items, inx) => {
     try {
       const res = await followRequest(data, token);
