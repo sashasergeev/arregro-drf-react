@@ -1,11 +1,13 @@
 import axios from "axios";
 
 export const fetchTagStat = async ({ queryKey }) => {
-  const [_, dateFilter] = queryKey;
-  const url =
-    dateFilter !== "ALL TIME"
-      ? `api/tags/stat/?date=${dateFilter}`
-      : "api/tags/stat/";
+  const [key, param] = queryKey;
+  let url = "api/tags/stat/";
+  if (key === "tagStatByCoin") {
+    url += `?coinid=${param}`;
+  } else {
+    url += param !== "ALL TIME" ? `?date=${param}` : "";
+  }
   const data = await axios.get(url);
   return data;
 };

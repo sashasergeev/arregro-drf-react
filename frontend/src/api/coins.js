@@ -25,3 +25,9 @@ export const followRequest = async (data, token) => {
   const postFollow = await axios.post(url, data, getHeaders(token));
   return postFollow;
 };
+
+export const submitCoin = async (data) => {
+  const url = "api/submit-coin/";
+  const req = await axios.post(url, data);
+  return req;
+};
