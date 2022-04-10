@@ -1,41 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 import TextField from "@mui/material/TextField";
 import { useSearchStyles } from "./styles";
+import SearchStatus from "./SearchStatus";
 
 const Search = () => {
   const classes = useSearchStyles();
-  const [input, setInput] = useState("");
+
+  const searchRef = useRef("");
   const [show, setShow] = useState(false);
-
-  const [coins, setCoins] = useState([]);
   const [results, setResults] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(true);
+  const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    if (input.length === 0) {
-      setResults(coins);
-    } else {
-      const regex = new RegExp(input, "i");
-      setResults(
-        coins.filter((e) => regex.test(e.name) || regex.test(e.ticker))
-      );
-      setShow(true);
-    }
-  }, [input]);
-
-  const inputOnChange = (e) => setInput(e.target.value);
-  const inputOnFocus = () => {
-    if (coins.length === 0) {
-      axios.get("api/coinsearch/").then((res) => {
-        setCoins(res.data);
-      });
-    }
+  const debounce = (cb, d) => {
+    let timer;
+    return (...args) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        cb(args);
+      }, d);
+    };
   };
+
+  const inputOnChange = debounce(async () => {
+    const val = searchRef.current.value;
+    setIsLoaded(true);
+    try {
+      if (val !== "") {
+        const res = await axios.get(`api/coinsearch?query=${val}`);
+        setIsError(false);
+        setResults(res.data);
+      } else {
+        setResults([]);
+      }
+    } catch (error) {
+      setIsError(true);
+      console.log(error);
+    } finally {
+      setIsLoaded(true);
+    }
+  }, 1000);
+
+  const inputOnFocus = () => setShow(true);
+
   const inputOnBlur = (e) => {
     if (!e.relatedTarget) {
       setShow(false);
+      if (searchRef.current.value === "") setResults([]);
     }
   };
 
@@ -48,7 +62,7 @@ const Search = () => {
         margin="normal"
         variant="outlined"
         onChange={inputOnChange}
-        value={input}
+        inputRef={searchRef}
         onBlur={inputOnBlur}
         autoComplete="off"
       />
@@ -61,18 +75,14 @@ const Search = () => {
               </Link>
             );
           })}
-          {results.length > 20 && (
-            <div
-              style={{
-                textAlign: "center",
-                color: "gray",
-                borderTop: "1px solid",
-              }}
-            >
-              There is {results.length - 20} other coins. Type in to filter it
-              for you!!!
-            </div>
-          )}
+
+          {/* Status block */}
+          <SearchStatus
+            resultLength={results.length}
+            input={searchRef.current.value}
+            isLoaded={isLoaded}
+            isError={isError}
+          />
         </div>
       )}
     </div>
