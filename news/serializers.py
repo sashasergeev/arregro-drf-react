@@ -34,7 +34,7 @@ class CoinSerializer(serializers.ModelSerializer):
 class CoinSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coin
-        fields = ("id", "name", "ticker", "img_link")
+        fields = ("id", "name", "ticker")
 
 
 class PostSerializer(serializers.ModelSerializer):

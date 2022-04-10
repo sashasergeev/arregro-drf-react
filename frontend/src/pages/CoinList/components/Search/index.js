@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -7,35 +7,39 @@ import { useSearchStyles } from "./styles";
 
 const Search = () => {
   const classes = useSearchStyles();
-  const [input, setInput] = useState("");
-  const [show, setShow] = useState(false);
 
-  const [coins, setCoins] = useState([]);
+  const searchRef = useRef("");
+  const [show, setShow] = useState(false);
   const [results, setResults] = useState([]);
 
-  useEffect(() => {
-    if (input.length === 0) {
-      setResults(coins);
-    } else {
-      const regex = new RegExp(input, "i");
-      setResults(
-        coins.filter((e) => regex.test(e.name) || regex.test(e.ticker))
-      );
-      setShow(true);
-    }
-  }, [input]);
-
-  const inputOnChange = (e) => setInput(e.target.value);
-  const inputOnFocus = () => {
-    if (coins.length === 0) {
-      axios.get("api/coinsearch/").then((res) => {
-        setCoins(res.data);
-      });
-    }
+  const debounce = (cb, d) => {
+    let timer;
+    return (...args) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        cb(args);
+      }, d);
+    };
   };
+
+  const inputOnChange = debounce(async () => {
+    const val = searchRef.current.value;
+    try {
+      if (val !== "") {
+        const res = await axios.get(`api/coinsearch?query=${val}`);
+        setResults(res.data);
+      } else {
+        setResults([]);
+      }
+    } catch (error) {}
+  }, 1000);
+
+  const inputOnFocus = () => setShow(true);
+
   const inputOnBlur = (e) => {
     if (!e.relatedTarget) {
       setShow(false);
+      if (searchRef.current.value === "") setResults([]);
     }
   };
 
@@ -48,7 +52,7 @@ const Search = () => {
         margin="normal"
         variant="outlined"
         onChange={inputOnChange}
-        value={input}
+        inputRef={searchRef}
         onBlur={inputOnBlur}
         autoComplete="off"
       />

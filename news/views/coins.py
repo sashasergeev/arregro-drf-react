@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets, mixins, permissions, generics
 from rest_framework.decorators import action
 from django.http.response import JsonResponse
+from django.db.models import Q
 
 from . import CustomPagination
 from ..serializers import (
@@ -77,9 +78,17 @@ class CoinViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CoinSearchViewList(mixins.ListModelMixin, viewsets.GenericViewSet):
-    queryset = Coin.objects.all()
-    serializer_class = CoinSearchSerializer
 
+    def list(self, request):
+        query = request.query_params['query']
+        queryset = (
+            Coin.objects
+                .only("id", "name", "ticker")
+                .filter(Q(name__icontains=query) | Q(ticker__icontains=query))
+            )
+        results = CoinSearchSerializer(queryset ,many=True)
+        return Response(results.data)
+    
 
 class CoinSubmitCreate(generics.GenericAPIView):
     serializer_class = CoinSubmitSerializer
