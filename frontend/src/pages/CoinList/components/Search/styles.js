@@ -3,7 +3,6 @@ import makeStyles from "@mui/styles/makeStyles";
 export const useSearchStyles = makeStyles((theme) => ({
   root: {
     "& .MuiOutlinedInput-root": {
-      margin: theme.spacing(1),
       width: "250px",
     },
     "& .MuiInputBase-input": {
@@ -33,11 +32,13 @@ export const useSearchStyles = makeStyles((theme) => ({
     position: "absolute",
     width: "107%",
     maxHeight: "200px",
-    background: "#0e131c",
+    background: "#385e749e",
+    borderRadius: "5px",
     zIndex: 100,
     top: "79px",
     right: "-9px",
-    border: "1px solid rgb(139 0 239 / 33%)",
+    border: "1px solid rgb(24 27 34)",
     overflow: "auto",
+    backdropFilter: "blur(5px)",
   },
 }));

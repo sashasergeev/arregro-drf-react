@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 import TextField from "@mui/material/TextField";
 import { useSearchStyles } from "./styles";
+import SearchStatus from "./SearchStatus";
 
 const Search = () => {
   const classes = useSearchStyles();
@@ -11,6 +12,8 @@ const Search = () => {
   const searchRef = useRef("");
   const [show, setShow] = useState(false);
   const [results, setResults] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const debounce = (cb, d) => {
     let timer;
@@ -24,14 +27,21 @@ const Search = () => {
 
   const inputOnChange = debounce(async () => {
     const val = searchRef.current.value;
+    setIsLoaded(true);
     try {
       if (val !== "") {
         const res = await axios.get(`api/coinsearch?query=${val}`);
+        setIsError(false);
         setResults(res.data);
       } else {
         setResults([]);
       }
-    } catch (error) {}
+    } catch (error) {
+      setIsError(true);
+      console.log(error);
+    } finally {
+      setIsLoaded(true);
+    }
   }, 1000);
 
   const inputOnFocus = () => setShow(true);
@@ -65,18 +75,14 @@ const Search = () => {
               </Link>
             );
           })}
-          {results.length > 20 && (
-            <div
-              style={{
-                textAlign: "center",
-                color: "gray",
-                borderTop: "1px solid",
-              }}
-            >
-              There is {results.length - 20} other coins. Type in to filter it
-              for you!!!
-            </div>
-          )}
+
+          {/* Status block */}
+          <SearchStatus
+            resultLength={results.length}
+            input={searchRef.current.value}
+            isLoaded={isLoaded}
+            isError={isError}
+          />
         </div>
       )}
     </div>
